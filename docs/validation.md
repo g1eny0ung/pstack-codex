@@ -2,7 +2,7 @@
 
 Acceptance scope requested for this release: install the plugin and confirm skill invocation. No full workflow or multi-agent test campaign.
 
-Environment: macOS arm64; Codex CLI `0.158.0-alpha.2.1`; Bun `1.4.2`.
+Environment: macOS arm64; Codex CLI `0.158.0-alpha.2.1`; Bun `1.4.2`; Node.js `26.10.0`.
 
 ## Completed before upload
 
@@ -16,7 +16,15 @@ Environment: macOS arm64; Codex CLI `0.158.0-alpha.2.1`; Bun `1.4.2`.
 
 ## Installation and invocation
 
-Pending the post-upload Codex installation check.
+Passed on 2026-09-26, after publishing the source to `https://github.com/g1eny0ung/pstack-codex`.
+
+1. `codex plugin marketplace add https://github.com/g1eny0ung/pstack-codex.git` registered the Git marketplace.
+2. `codex plugin add pstack-codex@pstack-codex` installed version `0.1.0`.
+3. `codex plugin list --marketplace pstack-codex --json` reported `installed: true` and `enabled: true`.
+4. A fresh ephemeral `codex exec` call, with an empty working directory and read-only sandbox, invoked `$poteto-mode`. The test agent actually read the installed cache's `skills/poteto-mode/SKILL.md` and `config/models.defaults.json`; both reads exited 0.
+5. The agent returned `SKILL_OK`, confirmed current-task scope, all three `gpt-6-astra` reviewer defaults (`ultra`, `xhigh`, `high`), and `writing: medium`. The Codex process exited 0.
+
+The smoke-call model was GPT-6 Astra with ultra reasoning. It did not launch review workers or execute engineering workflows. Thus the test confirms installation, loading, and readable role defaults; it does not claim that each configured role was run. Raw local invocation logs are not included in the public repository.
 
 ## Not run
 
