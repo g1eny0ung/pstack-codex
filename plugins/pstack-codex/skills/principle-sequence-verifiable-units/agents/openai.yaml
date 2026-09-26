@@ -1,0 +1,6 @@
+interface:
+  display_name: "Sequence work into verifiable units"
+  short_description: "Break work into small units with checks between them."
+  default_prompt: "Use $principle-sequence-verifiable-units to break work into small units with checks between them."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Separate Before Serializing Shared State"
+  short_description: "Separate shared writes before introducing locks."
+  default_prompt: "Use $principle-separate-before-serializing-shared-state to separate shared writes before introducing locks."
+policy:
+  allow_implicit_invocation: false

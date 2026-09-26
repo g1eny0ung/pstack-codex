@@ -1,0 +1,6 @@
+interface:
+  display_name: "Redesign From First Principles"
+  short_description: "Reconsider existing design around a foundational requirement."
+  default_prompt: "Use $principle-redesign-from-first-principles to reconsider existing design around a foundational requirement."
+policy:
+  allow_implicit_invocation: false

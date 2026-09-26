@@ -1,0 +1,6 @@
+interface:
+  display_name: "Fix Root Causes"
+  short_description: "Trace observed failures to their underlying mechanism."
+  default_prompt: "Use $principle-fix-root-causes to trace observed failures to their underlying mechanism."
+policy:
+  allow_implicit_invocation: false

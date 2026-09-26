@@ -1,0 +1,6 @@
+interface:
+  display_name: "Never Block on the Human"
+  short_description: "Continue authorized work without needless approval stops."
+  default_prompt: "Use $principle-never-block-on-the-human to continue authorized work without needless approval stops."
+policy:
+  allow_implicit_invocation: false

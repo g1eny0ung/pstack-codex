@@ -1,0 +1,6 @@
+interface:
+  display_name: "Control UI"
+  short_description: "Verify browser and Electron behavior with local tools."
+  default_prompt: "Use $control-ui to verify browser and Electron behavior with local tools."
+policy:
+  allow_implicit_invocation: false

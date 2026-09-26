@@ -1,0 +1,20 @@
+{
+  "name": "pstack-codex",
+  "interface": {
+    "displayName": "Pstack Codex"
+  },
+  "plugins": [
+    {
+      "name": "pstack-codex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pstack-codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

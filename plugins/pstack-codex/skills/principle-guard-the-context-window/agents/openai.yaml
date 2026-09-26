@@ -1,0 +1,6 @@
+interface:
+  display_name: "Guard the Context Window"
+  short_description: "Delegate bulky investigation and preserve useful context."
+  default_prompt: "Use $principle-guard-the-context-window to delegate bulky investigation and preserve useful context."
+policy:
+  allow_implicit_invocation: false

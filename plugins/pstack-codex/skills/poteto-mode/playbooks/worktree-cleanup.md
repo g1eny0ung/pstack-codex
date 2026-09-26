@@ -1,0 +1,12 @@
+### Worktree and simulator cleanup
+
+**You own the disk and the preservation check.** Use this playbook when the user requests cleanup. Audit first and remove only the authorized, unused work. A merged PR alone does not prove a checkout is disposable.
+
+1. Snapshot and audit. Record filesystem usage with `df -h`, then run `bash "$POTETO_SKILL_ROOT/scripts/worktree-audit.sh" <repo-path>` using [Codex runtime](../references/codex-runtime.md). The script reads actual worktree paths from Git and reports size, age, merge, dirty, remote, and PR state. Its output is advisory; it neither deletes worktrees nor proves whether a chat or process still needs one.
+2. Check current use. When the host exposes task/worktree attachments, inspect them and identify active, pinned, primary, and shared checkouts. Prefer reusing a free checkout. Otherwise inspect the known processes and relevant task records. A missing association is unknown usage, not proof of inactivity. Do not scan unrelated chat history.
+3. Account for every candidate's work. Inspect tracked, untracked, ignored, and unpushed content that removal could affect, plus any active process or delegated work. Untracked files are not automatically disposable scratch. Preserve needed ignored artifacts separately before managed archive. Hold in-use or protected checkouts and report why.
+4. Use the correct lifecycle operation. For a Codex-managed worktree, use the host's archive tool after confirming it is eligible and unused. The tool preserves a recoverable snapshot. If the required host capability is unavailable, leave that checkout intact and report it. Never substitute shell deletion for managed archive.
+5. For an ordinary Git worktree, remove only an explicitly authorized, unused candidate after needed work is preserved. Use `git worktree remove <path>` without force, then `git worktree prune` if metadata needs cleanup. If removal refuses because content remains, inspect and report it rather than bypassing the protection. Re-list worktrees and filesystem usage to confirm the result.
+6. Optional simulator and cache cleanup stays inside the user's request. On macOS with Xcode tools, inspect `xcrun simctl list` and runtime usage before removing specific unused devices or runtimes. Do not bulk-delete simulators, developer data, application state, or package caches merely because they can reclaim space. On Linux or WSL, skip the Xcode-specific step.
+
+**Reply:** measured space before and after, worktrees archived or removed, preserved artifacts, and a reason for every candidate held back.

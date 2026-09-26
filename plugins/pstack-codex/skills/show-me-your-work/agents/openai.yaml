@@ -1,0 +1,6 @@
+interface:
+  display_name: "Show me your work"
+  short_description: "Keep and independently audit a decision trail with evidence."
+  default_prompt: "Use $show-me-your-work to keep and independently audit a decision trail with evidence."
+policy:
+  allow_implicit_invocation: false

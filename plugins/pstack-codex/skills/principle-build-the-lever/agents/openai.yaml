@@ -1,0 +1,6 @@
+interface:
+  display_name: "Build the Lever"
+  short_description: "Build a small tool that performs or proves the work."
+  default_prompt: "Use $principle-build-the-lever to build a small tool that performs or proves the work."
+policy:
+  allow_implicit_invocation: false

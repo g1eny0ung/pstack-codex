@@ -1,0 +1,6 @@
+interface:
+  display_name: "Technical writing"
+  short_description: "Write clear technical documents for their intended reader."
+  default_prompt: "Use $technical-writing to write clear technical documents for their intended reader."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Minimize Reader Load"
+  short_description: "Reduce indirection and hidden state in code."
+  default_prompt: "Use $principle-minimize-reader-load to reduce indirection and hidden state in code."
+policy:
+  allow_implicit_invocation: false

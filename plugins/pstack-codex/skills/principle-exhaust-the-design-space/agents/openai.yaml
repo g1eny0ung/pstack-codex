@@ -1,0 +1,6 @@
+interface:
+  display_name: "Exhaust the Design Space"
+  short_description: "Compare distinct prototypes before choosing a design."
+  default_prompt: "Use $principle-exhaust-the-design-space to compare distinct prototypes before choosing a design."
+policy:
+  allow_implicit_invocation: false

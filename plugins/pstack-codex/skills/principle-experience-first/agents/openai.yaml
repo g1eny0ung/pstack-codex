@@ -1,0 +1,6 @@
+interface:
+  display_name: "Experience First"
+  short_description: "Make product decisions around the user experience."
+  default_prompt: "Use $principle-experience-first to make product decisions around the user experience."
+policy:
+  allow_implicit_invocation: false

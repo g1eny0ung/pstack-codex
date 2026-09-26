@@ -1,0 +1,6 @@
+interface:
+  display_name: "Swarm"
+  short_description: "Run local workers over independent tasks or comparisons."
+  default_prompt: "Use $swarm to run local workers over independent tasks or comparisons."
+policy:
+  allow_implicit_invocation: false

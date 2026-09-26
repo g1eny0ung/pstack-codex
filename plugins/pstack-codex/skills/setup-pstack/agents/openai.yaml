@@ -1,0 +1,6 @@
+interface:
+  display_name: "Setup pstack"
+  short_description: "Configure personal GPT models and reasoning effort by role."
+  default_prompt: "Use $setup-pstack to configure personal GPT models and reasoning effort by role."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unslop"
+  short_description: "Replace vague or formulaic prose with plain language."
+  default_prompt: "Use $unslop to replace vague or formulaic prose with plain language."
+policy:
+  allow_implicit_invocation: false

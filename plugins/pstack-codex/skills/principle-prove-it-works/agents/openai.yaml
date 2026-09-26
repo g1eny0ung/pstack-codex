@@ -1,0 +1,6 @@
+interface:
+  display_name: "Prove It Works"
+  short_description: "Verify the actual result instead of trusting proxies."
+  default_prompt: "Use $principle-prove-it-works to verify the actual result instead of trusting proxies."
+policy:
+  allow_implicit_invocation: false

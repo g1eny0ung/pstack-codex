@@ -1,0 +1,6 @@
+interface:
+  display_name: "Subtract Before You Add"
+  short_description: "Remove obsolete structure before extending the system."
+  default_prompt: "Use $principle-subtract-before-you-add to remove obsolete structure before extending the system."
+policy:
+  allow_implicit_invocation: false

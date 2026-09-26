@@ -1,0 +1,6 @@
+interface:
+  display_name: "Interrogate"
+  short_description: "Review code with three independent GPT reviewers."
+  default_prompt: "Use $interrogate to review code with three independent GPT reviewers."
+policy:
+  allow_implicit_invocation: false

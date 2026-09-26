@@ -1,0 +1,6 @@
+interface:
+  display_name: "Outcome-Oriented Execution"
+  short_description: "Complete migrations against the intended final design."
+  default_prompt: "Use $principle-outcome-oriented-execution to complete migrations against the intended final design."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "TDD Bug Fix"
+  short_description: "Use a failing test to guide a focused behavior change."
+  default_prompt: "Use $tdd to use a failing test to guide a focused behavior change."
+policy:
+  allow_implicit_invocation: false

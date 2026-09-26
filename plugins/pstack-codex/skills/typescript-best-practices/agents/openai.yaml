@@ -1,0 +1,6 @@
+interface:
+  display_name: "TypeScript best practices"
+  short_description: "Apply strong TypeScript modeling and boundary validation."
+  default_prompt: "Use $typescript-best-practices to apply strong TypeScript modeling and boundary validation."
+policy:
+  allow_implicit_invocation: false

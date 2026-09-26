@@ -1,0 +1,6 @@
+interface:
+  display_name: "Boundary Discipline"
+  short_description: "Validate at boundaries and keep internal logic simple."
+  default_prompt: "Use $principle-boundary-discipline to validate at boundaries and keep internal logic simple."
+policy:
+  allow_implicit_invocation: false

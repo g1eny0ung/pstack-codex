@@ -1,0 +1,6 @@
+interface:
+  display_name: "How"
+  short_description: "Explain code structure, ownership, and execution flow."
+  default_prompt: "Use $how to explain code structure, ownership, and execution flow."
+policy:
+  allow_implicit_invocation: false

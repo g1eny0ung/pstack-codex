@@ -1,0 +1,6 @@
+interface:
+  display_name: "Model the Domain"
+  short_description: "Represent domain behavior with clear, explicit structures."
+  default_prompt: "Use $principle-model-the-domain to represent domain behavior with clear, explicit structures."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Poteto Mode"
+  short_description: "Complete local engineering work with deliberate verification."
+  default_prompt: "Use $poteto-mode to complete local engineering work with deliberate verification."
+policy:
+  allow_implicit_invocation: false

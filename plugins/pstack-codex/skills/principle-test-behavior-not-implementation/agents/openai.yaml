@@ -1,0 +1,6 @@
+interface:
+  display_name: "Test Behavior, Not Implementation"
+  short_description: "Test observable behavior through real caller interfaces."
+  default_prompt: "Use $principle-test-behavior-not-implementation to test observable behavior through real caller interfaces."
+policy:
+  allow_implicit_invocation: false

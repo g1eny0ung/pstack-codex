@@ -1,0 +1,6 @@
+interface:
+  display_name: "Figure it out"
+  short_description: "Design a rigorous workflow for a complex or unusual task."
+  default_prompt: "Use $figure-it-out to design a rigorous workflow for a complex or unusual task."
+policy:
+  allow_implicit_invocation: false

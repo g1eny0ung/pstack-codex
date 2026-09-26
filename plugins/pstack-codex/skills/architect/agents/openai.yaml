@@ -1,0 +1,6 @@
+interface:
+  display_name: "Architect"
+  short_description: "Compare designs before implementing types and boundaries."
+  default_prompt: "Use $architect to compare designs before implementing types and boundaries."
+policy:
+  allow_implicit_invocation: false

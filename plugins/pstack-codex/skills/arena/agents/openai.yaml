@@ -1,0 +1,6 @@
+interface:
+  display_name: "Arena"
+  short_description: "Compare independent candidates and combine the best parts."
+  default_prompt: "Use $arena to compare independent candidates and combine the best parts."
+policy:
+  allow_implicit_invocation: false

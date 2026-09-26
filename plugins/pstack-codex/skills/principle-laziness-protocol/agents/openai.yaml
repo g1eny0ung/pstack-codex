@@ -1,0 +1,6 @@
+interface:
+  display_name: "Laziness Protocol"
+  short_description: "Solve the problem with less code and fewer abstractions."
+  default_prompt: "Use $principle-laziness-protocol to solve the problem with less code and fewer abstractions."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Type System Discipline"
+  short_description: "Use types to rule out invalid states and unsafe assumptions."
+  default_prompt: "Use $principle-type-system-discipline to use types to rule out invalid states and unsafe assumptions."
+policy:
+  allow_implicit_invocation: false

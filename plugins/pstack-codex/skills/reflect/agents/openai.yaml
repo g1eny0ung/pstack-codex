@@ -1,0 +1,6 @@
+interface:
+  display_name: "Reflect"
+  short_description: "Review a conversation for durable improvements to skills."
+  default_prompt: "Use $reflect to review a conversation for durable improvements to skills."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Encode Lessons in Structure"
+  short_description: "Turn recurring instructions into durable structural checks."
+  default_prompt: "Use $principle-encode-lessons-in-structure to turn recurring instructions into durable structural checks."
+policy:
+  allow_implicit_invocation: false

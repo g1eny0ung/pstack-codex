@@ -1,0 +1,6 @@
+interface:
+  display_name: "Control CLI"
+  short_description: "Verify interactive command-line behavior with evidence."
+  default_prompt: "Use $control-cli to verify interactive command-line behavior with evidence."
+policy:
+  allow_implicit_invocation: false

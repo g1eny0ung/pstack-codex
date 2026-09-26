@@ -1,0 +1,6 @@
+interface:
+  display_name: "Remove AI code slop"
+  short_description: "Remove unnecessary changes and match local code style."
+  default_prompt: "Use $deslop to remove unnecessary changes and match local code style."
+policy:
+  allow_implicit_invocation: false
