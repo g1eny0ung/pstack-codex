@@ -89,4 +89,4 @@ Review changes using the mappings above, port selected fixes, check renames/dele
 
 | Date | Baseline | Result |
 |---|---|---|
-| 2026-09-26 | `ecc249f1e306fc64ddf83c7bed16cacf7c2239db` | Initial local-workflow Codex port; see `docs/validation.md` for the limited acceptance results. |
+| 2026-09-26 | `ecc249f1e306fc64ddf83c7bed16cacf7c2239db` | Initial local-workflow Codex port. |
