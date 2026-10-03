@@ -1,6 +1,6 @@
 # pstack-codex
 
-Bring [Cursor pstack](https://github.com/cursor/plugins/tree/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
+Bring [Cursor pstack](https://github.com/cursor/plugins/tree/23e4138daa01c42d4969f7a5465f82704e64f798/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
 
 ## Install
 
@@ -44,6 +44,7 @@ You can also invoke a focused skill directly:
 | Understand a design decision | `$why Explain why this module uses a queue.` |
 | Compare designs | `$architect Compare plausible designs for this module.` |
 | Review a change | `$interrogate Review this diff; report findings without changing code.` |
+| Check a performance result | `$benchmark-checklist Check whether this benchmark supports the claimed speedup.` |
 | Improve writing | `$unslop Rewrite this paragraph in plain language.` |
 | Configure models | `$setup-pstack Show the current role defaults.` |
 

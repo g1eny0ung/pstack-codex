@@ -27,6 +27,7 @@ Remaining triggers:
 - Before commit → the bundled **deslop** skill (`$deslop`).
 - Before review → the **no-comments** skill (`$no-comments`).
 - Shipping UI / IDE / CLI → the matching control skill. This plugin bundles **control-cli** for CLIs and TUIs and **control-ui** for browser, Electron, and web UIs. Use project or host tools that are actually available. For bug fixes, reproduce first on the same surface yourself. Hand to the user only under the narrow Bug fix step 1 exception.
+- Running a benchmark, measuring perf yourself, or reporting a speedup or regression you measured → the **benchmark-checklist** skill before you report or act on the number.
 - Any PR-status request → the **Babysit** playbook (`playbooks/babysit.md`). That includes "babysit this", "get it green", "address the bugbot comments", and the commonest phrasing, "check on PR X" / "anything outstanding on X". Never triggered by merely opening a PR. Declare its mode before polling. The playbook's step 1 owns the request-to-mode mapping. Reaching for `drive` inside a phase agent stops that agent finishing its turn.
 - Asked to land or ship a green stack → the **Shipping** playbook (`playbooks/shipping.md`). Green is not safe. Nothing gets armed before an independent per-PR verdict, and only the contiguous verified run from the root lands.
 - Bugbot or the agentic security review commented → skeptical posture. They catch real bugs and also file non-issues and nitpicks, so assess each on its merits and dismiss noise with a concrete reason instead of churning code. Triage fix / dismiss / ask per `references/bugbot-triage.md`.
@@ -65,6 +66,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 - **Fix Root Causes** (**principle-fix-root-causes**). Debugging. Trace each symptom to its root cause, reproduce first, ask why until you reach it.
 - **Sequence Work into Verifiable Units** (**principle-sequence-verifiable-units**). Multi-step work (sweeps, migrations, runs of similar edits) and how you stack commits and PRs. Break work into small units that each end in a check, verify each before the next, and order delivery so the sequence proves itself.
 - **Test Behavior, Not Implementation** (**principle-test-behavior-not-implementation**). Writing, changing, or keeping a test. Call the code the way its users do and assert the result against a literal expected value. If the test would still pass when every imported function returns `undefined`, rewrite the assertion or delete the test.
+- **Explain the Number** (**principle-explain-the-number**). Before you trust, report, or act on a number you measured, find what limits it and rule out that it measured something other than the intended work.
 
 **Delegation**
 
@@ -93,7 +95,9 @@ Resolve both model and reasoning effort from [`config/models.defaults.json`](../
 
 Pass explicit model and reasoning settings when the host supports them. If a requested setting is unavailable, report the missing capability; do not silently substitute another model or effort. Give each delegate the goal, exact files or SHAs, its own writable scope when needed, verification method, and expected report. Reviewers are read-only. Separate concurrent writers into disjoint files or isolated worktrees. Schedule work within available slots; task count is independent of parallelism.
 
-Own every delegate's result. Review evidence and diffs, resolve conflicting findings, and write your own synthesis. Keep independent reviewers blind to each other's findings until aggregation. Agreement is useful evidence, not a vote; a single supported defect still matters. Judge the evidence rather than the reviewer's model or effort. Persist checkpoints before ending a run, and start a fresh delegate with a consolidated brief when the prior agent cannot be resumed reliably.
+Own every delegate's result. Review evidence and diffs, resolve conflicting findings, and write your own synthesis. Keep independent reviewers blind to each other's findings until aggregation. Agreement is useful evidence, not a vote; a single supported defect still matters. Judge the evidence rather than the reviewer's model or effort. Persist checkpoints before ending a run.
+
+**Fresh subagents by default.** Give each new task, fix round, follow-up, retry, or queue item to a fresh local subagent. Consolidate the original brief, later directives, prior report, and branch or artifact paths. Resume, message, or queue work on an existing agent only when the work needs state held by that agent that is costly to move, such as its isolated checkout, uncommitted changes, or a running dev server or watcher. A stop or hold order is not reuse. A shared checkout that another agent can read does not require reusing the agent. A role can outlive its agent; a fresh agent takes its next round. Interrupted chains can lose directives, so include the complete scope in a fresh brief.
 
 ## Writing the reply
 
