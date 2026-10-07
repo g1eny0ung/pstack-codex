@@ -6,7 +6,7 @@ Branch: `main`
 
 Initial commit: `ecc249f1e306fc64ddf83c7bed16cacf7c2239db`
 
-Last synced commit: `23e4138daa01c42d4969f7a5465f82704e64f798`
+Last synced commit: `d0ef80d86795816da932a153458c5dbe192d294e`
 
 `upstream.lock.json` is the machine-readable baseline. `initial_commit` is immutable. Update `last_synced_commit` only after actually integrating and validating a chosen revision. Merely checking upstream never advances it.
 
@@ -23,7 +23,7 @@ Last synced commit: `23e4138daa01c42d4969f7a5465f82704e64f798`
 | `pstack/LICENSE` | `plugins/pstack-codex/licenses/pstack-MIT.txt` |
 | `cursor-team-kit/LICENSE` | `plugins/pstack-codex/licenses/cursor-team-kit-MIT.txt` |
 
-Selected pstack entries are `poteto-mode`, `how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `figure-it-out`, `show-me-your-work`, `reflect`, `tdd`, `no-comments`, `typescript-best-practices`, `technical-writing`, `unslop`, `setup-pstack`, `benchmark-checklist`, and the following 24 principles:
+Selected pstack entries are `poteto-mode`, `poteto-help`, `correct`, `how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `figure-it-out`, `show-me-your-work`, `reflect`, `tdd`, `no-comments`, `typescript-best-practices`, `technical-writing`, `unslop`, `setup-pstack`, `benchmark-checklist`, and the following 24 principles:
 
 - `principle-attack-the-premise`
 - `principle-boundary-discipline`
@@ -64,7 +64,7 @@ The standalone skills `automate-me`, `blast-radius`, `bro`, `create-verification
 ## Adaptation rules to preserve
 
 - Native Codex local subagents replace Cursor Task APIs. Role instructions are references, not global agent installations.
-- Explicit-only `agents/openai.yaml` metadata applies to all 44 entries.
+- Explicit-only `agents/openai.yaml` metadata applies to all 46 entries.
 - Model defaults remain GPT-6 Astra; interrogate uses `ultra/xhigh/high`, writing `medium`, normal work `high`, complex synthesis and judges `xhigh`. User overrides remain outside the cache.
 - Review findings are adjudicated by evidence, without vote counting or tier precedence.
 - The 20 retained playbooks use local execution, actual available tools, and task-specific concurrency.
@@ -94,3 +94,4 @@ Review changes using the mappings above, port selected fixes, check renames/dele
 |---|---|---|
 | 2026-09-26 | `ecc249f1e306fc64ddf83c7bed16cacf7c2239db` | Initial local-workflow Codex port. |
 | 2026-10-03 | `23e4138daa01c42d4969f7a5465f82704e64f798` | Synced pstack 0.15.6. Added the selected `benchmark-checklist` and `principle-explain-the-number` skills. Ported fresh-subagent rules, PR guidance, writing cleanup, and schema-first TypeScript examples. Preserved local plan checks and cloud exclusions. |
+| 2026-10-07 | `d0ef80d86795816da932a153458c5dbe192d294e` | Synced pstack 0.15.15. Added the selected `correct` and `poteto-help` skills with Codex instructions and examples. Ported agent-aware design checks and ordered performance strategies. Preserved Codex model roles, local execution, and cloud exclusions. |

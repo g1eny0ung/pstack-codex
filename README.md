@@ -1,6 +1,6 @@
 # pstack-codex
 
-Bring [Cursor pstack](https://github.com/cursor/plugins/tree/23e4138daa01c42d4969f7a5465f82704e64f798/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
+Bring [Cursor pstack](https://github.com/cursor/plugins/tree/d0ef80d86795816da932a153458c5dbe192d294e/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
 
 ## Install
 
@@ -40,6 +40,7 @@ You can also invoke a focused skill directly:
 
 | Goal | Example prompt |
 |---|---|
+| Find the right workflow | `$poteto-help Which skill should I use for this task?` |
 | Understand code | `$how Explain how this request moves through the codebase.` |
 | Understand a design decision | `$why Explain why this module uses a queue.` |
 | Compare designs | `$architect Compare plausible designs for this module.` |
@@ -47,6 +48,7 @@ You can also invoke a focused skill directly:
 | Check a performance result | `$benchmark-checklist Check whether this benchmark supports the claimed speedup.` |
 | Improve writing | `$unslop Rewrite this paragraph in plain language.` |
 | Configure models | `$setup-pstack Show the current role defaults.` |
+| Prevent repeated mistakes | `$correct Find repeated agent mistakes in this repo and prevent them with verified changes.` |
 
 Skills activate only when explicitly invoked. An invoked workflow can read related skills and delegate work when its instructions call for it. See the [skill directory](plugins/pstack-codex/skills/) for all available skills.
 
