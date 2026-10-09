@@ -236,6 +236,48 @@
       "source_sha256": "6a767e788a60428fa14e645ee10fe2e49896e514ff654f668b1d824deb9038e8"
     },
     {
+      "source": "pstack/skills/blast-radius/SKILL.md",
+      "target": "skills/blast-radius/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "# Blast radius\n",
+          "new": "# Blast radius\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve Codex dependencies and tool availability without changing the upstream workflow."
+        },
+        {
+          "old": "Ask more than one model the same question and merge the answers. Different models catch different real bugs.",
+          "new": "Ask multiple candidates using the Codex Arena configuration the same question and merge the answers. Independent candidates can catch different real bugs.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the existing GPT Arena configuration; cross-model-family diversity is not guaranteed by different reasoning efforts."
+        }
+      ],
+      "source_sha256": "2e10745b97f5862323dcda3b29ca60d56b5c3c98e37020085d26b48efbe0a436"
+    },
+    {
+      "source": "pstack/skills/bro/SKILL.md",
+      "target": "skills/bro/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        }
+      ],
+      "source_sha256": "aa329d0ceeeecb6822a7174ad76bb07a7826a3c52ceb6a588dec4138815084bb"
+    },
+    {
       "source": "cursor-team-kit/skills/control-cli/SKILL.md",
       "target": "skills/control-cli/SKILL.md",
       "edits": [],
@@ -843,28 +885,7 @@
           "reason": "Role is a local reference, not a native agent type."
         },
         {
-          "old": "| Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |\n",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Omit only the table route to an excluded skill."
-        },
-        {
           "old": "| Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |\n",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Omit only the table route to an excluded skill."
-        },
-        {
-          "old": "| Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |\n",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Omit only the table route to an excluded skill."
-        },
-        {
-          "old": "| Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |\n",
           "new": "",
           "count": 1,
           "kind": "scope",
@@ -911,20 +932,6 @@
           "count": 1,
           "kind": "model",
           "reason": "Review diversity maps to supported GPT configurations."
-        },
-        {
-          "old": " `/teach` runs one or both and explains the result plainly.",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Remove only the excluded teach route."
-        },
-        {
-          "old": " `/blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe.",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Remove only the excluded blast-radius route."
         },
         {
           "old": "`/recall` rebuilds context across recent chats. ",
@@ -1191,6 +1198,27 @@
           "count": 26,
           "kind": "host",
           "reason": "Keep relative file paths intact after skill invocation conversion."
+        },
+        {
+          "old": "`/teach",
+          "new": "`$teach",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "`/blast-radius",
+          "new": "`$blast-radius",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "`/bro",
+          "new": "`$bro",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
         }
       ],
       "source_sha256": "ea71bcb15c023a5d9cc70686e4812144687ffe03bf80d85cc480af3e0b181d1e"
@@ -1205,13 +1233,6 @@
           "count": 1,
           "kind": "scope",
           "reason": "Keep context-loading advice without invoking excluded recall."
-        },
-        {
-          "old": "Ask `/teach` to make the case",
-          "new": "Ask the agent to make the case",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Keep explanatory prompt without invoking excluded teach."
         },
         {
           "old": "give `/loop` that predicate.",
@@ -1247,6 +1268,13 @@
           "count": 1,
           "kind": "host",
           "reason": "Keep relative file paths intact after skill invocation conversion."
+        },
+        {
+          "old": "`/teach",
+          "new": "`$teach",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
         }
       ],
       "source_sha256": "463f450c44a60afd001a2f69fdf8a5dea174351f339369b12ec3c41515e564d3"
@@ -1261,13 +1289,6 @@
           "count": 1,
           "kind": "scope",
           "reason": "Keep historical-context example without invoking excluded recall."
-        },
-        {
-          "old": "/teach me why",
-          "new": "explain why",
-          "count": 2,
-          "kind": "scope",
-          "reason": "Keep explanation examples without invoking excluded teach."
         },
         {
           "old": "/loop until done.",
@@ -1289,13 +1310,6 @@
           "count": 1,
           "kind": "scope",
           "reason": "Remove only excluded autopilot-stack example."
-        },
-        {
-          "old": "- `/bro` restates the last reply in plain words.\n",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Remove only excluded bro invocation."
         },
         {
           "old": "/poteto-mode",
@@ -1373,6 +1387,27 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "`/teach",
+          "new": "`$teach",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "`/bro",
+          "new": "`$bro",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": " /teach me why",
+          "new": " $teach me why",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation within the restored prompt example."
         }
       ],
       "source_sha256": "1872323419a3e5c7783b1933f7a180ca26c25a6e1f4ec83bd65e091ebbfb812b"
@@ -3642,6 +3677,27 @@
       "source_sha256": "eeb868e2dfebee528d730a67d7b17498fac4bb85dec2e38bc5c5176aca4d5d2f"
     },
     {
+      "source": "pstack/skills/teach/SKILL.md",
+      "target": "skills/teach/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "# Teach\n",
+          "new": "# Teach\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n\nStep 5 requires the host's image-generation tool for spatial explanations. If unavailable, report that portion as blocked.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve Codex dependencies and tool availability without changing the upstream workflow."
+        }
+      ],
+      "source_sha256": "bd286e5a6290673be2cd28aef7af2ec7f1fb138e6bce156ea657368c7e7fc8a4"
+    },
+    {
       "source": "pstack/skills/technical-writing/SKILL.md",
       "target": "skills/technical-writing/SKILL.md",
       "edits": [
@@ -3959,6 +4015,8 @@
     "skills/architect/agents/openai.yaml": "68c29cb08921bf99c94f4e9c9f17a9ed9da2e9872d1bc7b7029856ed0df3d8d6",
     "skills/arena/agents/openai.yaml": "007a0815629c0527b09c08406706ab0f012ad0d9bbbae7ef2525c025ebbe1ea4",
     "skills/benchmark-checklist/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+    "skills/blast-radius/agents/openai.yaml": "b53ebd3602e52afbeb3c2e81e354ce63cb13d93179f75745b378e3f94f736baa",
+    "skills/bro/agents/openai.yaml": "29340ea1d0e4366eb2067341555faa79bef6b5cd4c652263c1e0abdd222c5b72",
     "skills/control-cli/agents/openai.yaml": "a926583f06ca5a91bb353f01d23056585ca66657766ebcdacc075fd11f4a16a0",
     "skills/control-ui/agents/openai.yaml": "2810348e7ced1389b0bf5c415699e709044cc490b375994fd6706bba1b9fd08e",
     "skills/correct/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
@@ -3998,6 +4056,7 @@
     "skills/show-me-your-work/agents/openai.yaml": "b07a95640bc4773f41638a3ec887ea513732e5131192fc4d75a1f7d12314f1be",
     "skills/swarm/agents/openai.yaml": "2298aff4858c7d95d413e129c54a9ba37cfa92a830405c6f0da1a623eff43499",
     "skills/tdd/agents/openai.yaml": "a20101b244ebe5f3c69a94b3951c70cdfc23e06c07880f4a0ea4c5bee04aeecc",
+    "skills/teach/agents/openai.yaml": "6d7d818564ff21f6720ab40b334d238c26f6f0d38dee81743de0b739ca731f4d",
     "skills/technical-writing/agents/openai.yaml": "21ebb06bb28933b2cb1879ead57e1dc76263a2d6760ae4ce1743abdb5a8411c5",
     "skills/typescript-best-practices/agents/openai.yaml": "4605c8c0c794cd7f673569f5602bd5a72c06b83e815fd042a9586d06350330de",
     "skills/unslop/agents/openai.yaml": "28bf202c866bc7002fa563120fb557f7ac59f3bc704ab25014ee4dc665d22054",

@@ -8,7 +8,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 - `$poteto-mode investigate why <symptom>. give me what we know, what data you used, and your best hypotheses. don't change any code yet.`
 - `use $how to understand <subsystem>. then use $why to find out why it broke recently.`
 - `read my relevant earlier chats on <topic> from last week using the host thread-history tools, then read <issue>.`
-- `explain why you implemented it this way and not <other way>. what did you trade off?`
+- `$teach me why you implemented it this way and not <other way>. what did you trade off?`
 - `$poteto-mode take over this branch. read the decision log, find what's done, and continue. don't redo finished work.`
 
 ## Build
@@ -24,7 +24,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 
 - `$poteto-mode prototype a few options for <feature>. take screenshots or videos for me to compare.`
 - `$poteto-mode we need <feature>. $architect it first, and answer open questions with prototypes. let me review before proceeding.`
-- `$poteto-mode write a tutorial for how i would use <new package> first. then explain why it beats the current one.`
+- `$poteto-mode write a tutorial for how i would use <new package> first. then $teach me why it beats the current one.`
 - `ask $arena for a second opinion on this thread and our approach.`
 - `$poteto-mode turn this design into a plan. small verifiable PRs, each with its own verification steps.`
 - `$poteto-mode plan the migration of <library> to <target>. small verifiable PRs. the result must match the original exactly, bugs included.`
@@ -42,3 +42,4 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 - `$poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. continue until done; use the host scheduler if a later wakeup is needed. if you're truly stuck after a few hours, stop and write up why.`
 - `$show-me-your-work catch me up on what you did last night.` Read its Attention section first.
 - `$reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
+- `$bro` restates the last reply in plain words.

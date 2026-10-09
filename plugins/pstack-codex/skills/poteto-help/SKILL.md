@@ -60,6 +60,8 @@ The default answer is `$poteto-mode`, which runs most of the others when its ste
 | Do any non-trivial task with rigor | [`$poteto-mode`](../poteto-mode/SKILL.md) |
 | Know how code works now, or where new code should live | [`$how`](../how/SKILL.md) |
 | Know why code is shaped this way, or where a number came from | [`$why`](../why/SKILL.md) |
+| Understand a change or subsystem, explained plainly | [`$teach`](../teach/SKILL.md) |
+| Know what a small diff could break outside itself | [`$blast-radius`](../blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`$architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`$arena`](../arena/SKILL.md) |
 | Run parallel checks over slices, or race workers, as local agents | [`$swarm`](../swarm/SKILL.md) |
@@ -69,6 +71,7 @@ The default answer is `$poteto-mode`, which runs most of the others when its ste
 | Strip comments before review, using a reviewer that didn't write them | [`$no-comments`](../no-comments/SKILL.md) |
 | Clean AI tells out of prose | [`$unslop`](../unslop/SKILL.md) |
 | Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`$technical-writing`](../technical-writing/SKILL.md) |
+| Hear the last reply again in plain words | [`$bro`](../bro/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`$benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`$figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`$show-me-your-work`](../show-me-your-work/SKILL.md) |
@@ -81,10 +84,10 @@ If a skill directory next to this one is missing from the table, read its frontm
 
 Close calls:
 
-- `$how` explains what the code does. `$why` explains the reasons.
+- `$how` explains what the code does. `$why` explains the reasons. `$teach` runs one or both and explains the result plainly.
 - `$arena` gives every worker the same brief and merges the best parts. `$swarm` splits work into slices or a race and returns one report.
 - `$architect` implements right after it settles the design. Add "with checkpoint" to review the design before it writes code.
-- `$interrogate` reviews the diff.
+- `$interrogate` reviews the diff. `$blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe.
 - Resuming one specific chat or branch is the Session pickup playbook.
 - `$figure-it-out` designs one rigorous run. The Autonomous run playbook drives one task to a finish condition.
 

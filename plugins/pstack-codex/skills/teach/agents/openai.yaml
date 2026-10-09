@@ -1,0 +1,6 @@
+interface:
+  display_name: "Teach"
+  short_description: "Explain how code works and why it was built that way."
+  default_prompt: "Use $teach to explain this change or subsystem plainly."
+policy:
+  allow_implicit_invocation: false

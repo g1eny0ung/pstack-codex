@@ -23,7 +23,7 @@ Last synced commit: `d0ef80d86795816da932a153458c5dbe192d294e`
 | `pstack/LICENSE` | `plugins/pstack-codex/licenses/pstack-MIT.txt` |
 | `cursor-team-kit/LICENSE` | `plugins/pstack-codex/licenses/cursor-team-kit-MIT.txt` |
 
-Selected pstack entries are `poteto-mode`, `poteto-help`, `correct`, `how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `figure-it-out`, `show-me-your-work`, `reflect`, `tdd`, `no-comments`, `typescript-best-practices`, `technical-writing`, `unslop`, `setup-pstack`, `benchmark-checklist`, and the following 24 principles:
+Selected pstack entries are `poteto-mode`, `poteto-help`, `correct`, `how`, `why`, `blast-radius`, `bro`, `teach`, `architect`, `arena`, `swarm`, `interrogate`, `figure-it-out`, `show-me-your-work`, `reflect`, `tdd`, `no-comments`, `typescript-best-practices`, `technical-writing`, `unslop`, `setup-pstack`, `benchmark-checklist`, and the following 24 principles:
 
 - `principle-attack-the-premise`
 - `principle-boundary-discipline`
@@ -59,14 +59,14 @@ Do not reintroduce these cloud orchestration resources:
 - `pstack/skills/poteto-mode/playbooks/autopilot-stack.md`
 - `pstack/skills/poteto-mode/scripts/orch/`
 
-The standalone skills `automate-me`, `blast-radius`, `bro`, `create-verification-skill`, `maintain-verification-skill`, `make-bot-ui`, `recall`, and `teach` are outside this port's scope. Other cursor-team-kit skills are also excluded. New upstream skills must be reported for selection, not added automatically.
+The standalone skills `automate-me`, `create-verification-skill`, `maintain-verification-skill`, `make-bot-ui`, and `recall` are outside this port's scope. Other cursor-team-kit skills are also excluded. New upstream skills must be reported for selection, not added automatically.
 
 ## Adaptation rules to preserve
 
 Within the selected port scope, copy the upstream files first. Preserve their wording, order, examples, workflow steps, role boundaries, counts, verification gates, and review responsibilities. Change only the exact text required for GPT model substitution, Codex host interfaces, explicit invocation metadata, and the exclusions above. Do not paraphrase or reorganize the remaining text. A tool limit changes scheduling, not required coverage. Do not weaken a workflow or add roles as part of model substitution.
 
 - Native Codex local subagents replace Cursor Task APIs. Role instructions are references, not global agent installations.
-- Explicit-only `agents/openai.yaml` metadata applies to all 46 entries.
+- Explicit-only `agents/openai.yaml` metadata applies to all 49 entries.
 - Preserve all 17 upstream configuration roles one-to-one. Normalize punctuation and spaces to underscores in JSON keys. Use the GPT model and effort pairs in `plugins/pstack-codex/config/models.defaults.json`; the current mapping uses Sol for exploration, explanation, cause investigation, judgment, prose, and tooling reflection, and Astra for implementation, complex synthesis, and review. Preserve the two-entry defaults for candidates, reviewers, and the cross-judge pool. Keep configurable list lengths, budgets, and `auto` / `inherit-parent`. Personal overrides remain outside the cache.
 - Preserve Arena's `arena cross-judge pool` as the `arena_cross_judge_pool` array and select one judge from it. Map upstream's different model families to different GPT-6 Astra reasoning efforts. Arena prefers a different effort from its parent. `show-me-your-work` requires a different effort from the work agent, without adding a named reviewer role or fixed effort.
 - Preserve upstream review synthesis, including its treatment of consensus and individual findings. Model substitution does not authorize a different judgment policy.

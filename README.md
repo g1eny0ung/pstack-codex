@@ -43,6 +43,9 @@ You can also invoke a focused skill directly:
 | Find the right workflow | `$poteto-help Which skill should I use for this task?` |
 | Understand code | `$how Explain how this request moves through the codebase.` |
 | Understand a design decision | `$why Explain why this module uses a queue.` |
+| Check impact beyond a diff | `$blast-radius What could this change break elsewhere?` |
+| Simplify the last answer | `$bro` |
+| Understand how and why together | `$teach Explain this subsystem plainly.` |
 | Compare designs | `$architect Compare plausible designs for this module.` |
 | Review a change | `$interrogate Review this diff; report findings without changing code.` |
 | Check a performance result | `$benchmark-checklist Check whether this benchmark supports the claimed speedup.` |
@@ -95,6 +98,7 @@ Additional tools depend on the workflow you use:
 | Git and worktree operations | Bash, Git, `jq` for the worktree audit, and standard system utilities |
 | GitHub pull requests | GitHub CLI, `gh`, authenticated with your account |
 | Browser or interactive CLI verification | Suitable tools provided by your Codex host or project |
+| Spatial explanations in `teach` | A host image-generation tool; unavailable image generation is reported as blocked |
 | Session-history workflows | A Codex CLI on `PATH` that supports the experimental App Server `thread/turns/list` API |
 
 The release includes the built PR helper and its runtime dependency. You do not need Bun or an npm dependency installation to use it.

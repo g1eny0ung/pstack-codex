@@ -1,7 +1,7 @@
 {
   "name": "pstack-codex",
   "version": "0.2.0",
-  "description": "46 explicit skills for local engineering workflows, evidence-based reviews, and upstream tracking in Codex.",
+  "description": "49 explicit skills for local engineering workflows, evidence-based reviews, and upstream tracking in Codex.",
   "author": {
     "name": "g1eny0ung",
     "url": "https://github.com/g1eny0ung"
@@ -10,7 +10,7 @@
   "interface": {
     "displayName": "pstack-codex",
     "shortDescription": "Local engineering workflows and independent reviews.",
-    "longDescription": "A Codex port of poteto-mode and its local skill dependencies. Includes 46 explicit skills and 20 playbooks; excludes cloud agent orchestration.",
+    "longDescription": "A Codex port of poteto-mode and its local skill dependencies. Includes 49 explicit skills and 20 playbooks; excludes cloud agent orchestration.",
     "developerName": "g1eny0ung",
     "category": "Productivity",
     "capabilities": [],
