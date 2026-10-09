@@ -66,11 +66,12 @@ The standalone skills `automate-me`, `create-verification-skill`, `maintain-veri
 Within the selected port scope, copy the upstream files first. Preserve their wording, order, examples, workflow steps, role boundaries, counts, verification gates, and review responsibilities. Change only the exact text required for GPT model substitution, Codex host interfaces, explicit invocation metadata, and the exclusions above. Do not paraphrase or reorganize the remaining text. A tool limit changes scheduling, not required coverage. Do not weaken a workflow or add roles as part of model substitution.
 
 - Native Codex local subagents replace Cursor Task APIs. Role instructions are references, not global agent installations.
-- Explicit-only `agents/openai.yaml` metadata applies to all 49 entries.
+- Explicit-only `agents/openai.yaml` metadata applies to all 49 entries. When a skill changes, check its display name, short description, and default prompt against the current workflow. Describe configurable reviewer or candidate counts without fixing a number in the metadata.
 - Preserve all 17 upstream configuration roles one-to-one. Normalize punctuation and spaces to underscores in JSON keys. Use the GPT model and effort pairs in `plugins/pstack-codex/config/models.defaults.json`; the current mapping uses Sol for exploration, explanation, cause investigation, judgment, prose, and tooling reflection, and Astra for implementation, complex synthesis, and review. Preserve the two-entry defaults for candidates, reviewers, and the cross-judge pool. Keep configurable list lengths, budgets, and `auto` / `inherit-parent`. Personal overrides remain outside the cache.
 - Preserve Arena's `arena cross-judge pool` as the `arena_cross_judge_pool` array and select one judge from it. Map upstream's different model families to different GPT-6 Astra reasoning efforts. Arena prefers a different effort from its parent. `show-me-your-work` requires a different effort from the work agent, without adding a named reviewer role or fixed effort.
 - Preserve upstream review synthesis, including its treatment of consensus and individual findings. Model substitution does not authorize a different judgment policy.
 - The 20 retained playbooks use local execution and actual available tools. Batch work within host concurrency limits without changing the upstream scenario count or evidence requirements.
+- Map explicitly requested `/loop until <condition>` continuation to Codex Goal tools. Map timed checks such as `/loop 1h` to native automation. Preserve completion predicates, event watchers, verification, and checkpoints. Follow the [Codex runtime](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#goals-tools-and-authorization) for authorization and lifecycle handling.
 - Read session history through `read-thread.mjs`; do not restore Cursor paths or scan unrelated conversations.
 - Keep `worktree-audit.sh` and `scripts/upstream.sh` in Bash. Preserve portable quoting and command choices.
 - Bundle watch-pr with Bun at release time for Node; do not install runtime dependencies in the plugin cache.
@@ -81,6 +82,10 @@ Within the selected port scope, copy the upstream files first. Preserve their wo
 
 `bash scripts/upstream.sh check` fetches the selected upstream branch and compares it with `last_synced_commit`. It watches all of pstack, the three selected cursor-team-kit directories, and their license. Output labels migrated content, excluded cloud content, and new/out-of-scope content; deletions and renames remain visible. The Git cache defaults to `${XDG_CACHE_HOME:-$HOME/.cache}/pstack-codex/upstream` and can be set with `PSTACK_UPSTREAM_WORKDIR`.
 
+Both `check` and `prepare` read `scripts/port-adaptations.json`. When an upstream file with recorded adaptations changes, they list the affected source, local target, and adaptation reasons. Detection covers the whole file, including changes outside the replaced text, deletions, and renames. A pending adaptation review returns exit code 2. Exit code 0 means no recorded adaptation was affected, not that the upstream update is safe to integrate. Invalid or unavailable comparison inputs fail with exit code 1.
+
+For each affected file, show the user the upstream change and the recorded adaptations. Wait for the user's decision to retain, revise, or remove those adaptations before editing the affected plugin files, changing their adaptation records, or advancing the synchronized baseline. Do not clear the review by automatically updating hashes or replacement text. `prepare` still writes the comparison materials when review is pending.
+
 `bash scripts/upstream.sh prepare --commit <full-SHA>` creates three directories in that maintenance cache:
 
 1. `base-upstream`: the last synced upstream version.
@@ -89,7 +94,7 @@ Within the selected port scope, copy the upstream files first. Preserve their wo
 
 `changes.txt` records the comparison. Upstream snapshots intentionally include excluded content for review; they are not installable plugin output. The script never overwrites source files or edits the lock. Repeated preparation creates a separate directory rather than overwriting earlier work.
 
-Review changes using the mappings above, port selected fixes, check renames/deletions and references, rebuild changed runtime code, and validate the affected behavior. Update the lock and this log only when synchronization is complete. If interrupted, leave the previous baseline in place. No scheduled upstream monitor is installed.
+Review changes using the mappings above and obtain the user's decisions for affected adaptations. Then port the selected fixes, check renames/deletions and references, rebuild changed runtime code, and validate the affected behavior. Update the lock and this log only when synchronization is complete. If interrupted, leave the previous baseline in place. No scheduled upstream monitor is installed.
 
 ## Verify the copy and adaptations
 

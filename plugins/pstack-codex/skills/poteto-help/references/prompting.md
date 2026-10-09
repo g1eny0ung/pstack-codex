@@ -38,7 +38,7 @@ A prompt states the intent and the check for done. The playbook supplies the ste
 ## Before stepping away
 
 - Say "im going to bed" or "im stepping away" so the agent stops asking.
-- Write done as checks every iteration can run, and give the autonomous run that predicate, using the [Codex runtime](../../poteto-mode/references/codex-runtime.md) continuation interface.
+- Write done as checks every iteration can run, and give the explicitly requested Codex Goal that predicate, using the [Codex runtime](../../poteto-mode/references/codex-runtime.md) Goal tools.
 - Ask for a fresh worktree off a named base.
 - Pre-answer what the agent would stop for, such as "don't ask me before committing".
 - Ask for a decision log to audit later.

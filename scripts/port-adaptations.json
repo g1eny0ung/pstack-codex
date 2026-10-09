@@ -231,6 +231,13 @@
           "count": 1,
           "kind": "metadata",
           "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "the core count with `nproc`.",
+          "new": "the core count with `nproc` on Linux or `sysctl -n hw.ncpu` on macOS.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the platform core-count command on supported macOS hosts without GNU coreutils."
         }
       ],
       "source_sha256": "6a767e788a60428fa14e645ee10fe2e49896e514ff654f668b1d824deb9038e8"
@@ -795,10 +802,10 @@
         },
         {
           "old": "[README](../../README.md)",
-          "new": "[README](../../../../README.md)",
+          "new": "[README](https://github.com/g1eny0ung/pstack-codex/blob/main/README.md)",
           "count": 1,
           "kind": "host",
-          "reason": "Resolve README to the repository root."
+          "reason": "The repository README is outside the installed Codex plugin; link to its public copy."
         },
         {
           "old": "../../docs/guide/01-setup.md",
@@ -858,10 +865,10 @@
         },
         {
           "old": "pstack is built for Cursor. Its skills use the Agent Skills format, so other tools can read them. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.",
-          "new": "pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes and `/loop` are Cursor features; this port uses current-task invocation and the host's native continuation and automation capabilities. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
+          "new": "pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
           "count": 1,
           "kind": "host",
-          "reason": "Replace incompatible platform compatibility instructions with the Codex runtime contract."
+          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
           "old": "Whether `/poteto-mode` stays on depends on how the user starts it:\n\n- Enter on `/poteto-mode` attaches the skill to one message. It fades as the chat moves on.\n- Option+Enter on Mac or Alt+Enter on Windows, or Use as Mode from the skill entry, makes it a Custom Mode. It stays in context every turn until the user exits the mode, and it stays out of casual turns.\n- Cursor's docs list Custom Modes in the Agents Window and the CLI. Elsewhere, start each new task with `/poteto-mode`.",
@@ -963,10 +970,10 @@
         },
         {
           "old": "`/loop` and `/create-skill` are Cursor built-ins.",
-          "new": "`/loop` and `/create-skill` are Cursor built-ins. Use the Codex runtime continuation interfaces and the host's skill-creator skill instead.",
+          "new": "`/loop` and `/create-skill` are Cursor built-ins. Use Codex Goals for explicit persistent objectives, native automation for timed checks, and the host's skill-creator skill for authoring. Follow Codex runtime for Goal tools and lifecycle handling.",
           "count": 1,
           "kind": "host",
-          "reason": "Explain unsupported host built-ins and their local equivalents."
+          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
           "old": "pstack has no `/orchestrate` skill. Orchestrate is a `/poteto-mode` playbook. If the slash menu shows `/orchestrate`, another plugin provides it.",
@@ -1236,10 +1243,10 @@
         },
         {
           "old": "give `/loop` that predicate.",
-          "new": "give the autonomous run that predicate, using the [Codex runtime](../../poteto-mode/references/codex-runtime.md) continuation interface.",
+          "new": "give the explicitly requested Codex Goal that predicate, using the [Codex runtime](../../poteto-mode/references/codex-runtime.md) Goal tools.",
           "count": 1,
           "kind": "host",
-          "reason": "Use supported continuation instead of Cursor loop."
+          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
           "old": "/poteto-mode",
@@ -1292,10 +1299,10 @@
         },
         {
           "old": "/loop until done.",
-          "new": "continue until done; use the host scheduler if a later wakeup is needed.",
+          "new": "create a Codex Goal to continue until done.",
           "count": 1,
           "kind": "host",
-          "reason": "Use the native continuation interface for this explicit autonomous prompt."
+          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
           "old": "- `/poteto-mode full autopilot on this queue. each item is independent.`\n",
@@ -1684,10 +1691,10 @@
       "edits": [
         {
           "old": "using Cursor's `/loop` command (a built-in, not a pstack skill)",
-          "new": "using the host's native event wait and, when the user explicitly requests scheduled or later work, native automation per `../references/codex-runtime.md`. Without that request, keep the loop in the active turn; without a scheduler, use the active process and explicit resume",
+          "new": "using Codex Goal tools for an explicitly requested persistent objective, native event waits for events, and native automation for explicitly requested timed or later checks, per `../references/codex-runtime.md`. Reuse an existing Goal for this objective; otherwise create one only when authorized. Without a persistent Goal request, continue within the active turn. Report unavailable Goal or scheduling tools and use the active process and explicit resume",
           "count": 1,
           "kind": "host",
-          "reason": "Preserve event wake and heartbeat selection without inventing authorization for a persistent schedule."
+          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
           "old": "Mid-run discoveries are yours.",
@@ -1740,10 +1747,10 @@
         },
         {
           "old": "Run `drive` and `background` under `/loop` in dynamic mode.",
-          "new": "Run `drive` and `background` with native event waits; use native automation for later wakeups only when the user requested scheduled or later work, per `../references/codex-runtime.md`.",
+          "new": "Run `drive` and `background` with native event waits. Use Codex Goal tools for an explicitly requested persistent objective and native automation for requested timed or later checks, per `../references/codex-runtime.md`.",
           "count": 1,
           "kind": "host",
-          "reason": "Preserve watcher-driven dynamic wakeups and native schedule authorization."
+          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
           "old": "scripts/watch-pr/watch-pr",
@@ -2240,10 +2247,10 @@
         },
         {
           "old": "Hold the watch under `/loop` in dynamic mode.",
-          "new": "Hold the watch with native event waits; use native automation for later wakeups only when the user requested scheduled or later work, per `../references/codex-runtime.md`.",
+          "new": "Hold the watch with native event waits. Use Codex Goal tools for an explicitly requested persistent objective and native automation for requested timed or later checks, per `../references/codex-runtime.md`.",
           "count": 1,
           "kind": "host",
-          "reason": "Retain event-driven frontier watching with the host-authorized wake mechanism."
+          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
           "old": "scripts/watch-pr/watch-pr",
@@ -2355,6 +2362,20 @@
           "count": 1,
           "kind": "host",
           "reason": "Resolve reference files from the installed skill root, including generated plans."
+        },
+        {
+          "old": "4. Pause on irreversible loss. `wip:N` is N tracked uncommitted edits. Show the diff and get a decision first, since removing a clean worktree is recoverable from its branch but uncommitted work is gone. `scratch:N` is N untracked files. Confirm they are throwaway before dropping them, and name the files. Per Autonomy, clean and merged and not-in-use proceeds. `wip` and in-use pause.\n",
+          "new": "4. Pause on irreversible loss. `DIRTY` lists `wip:N` for tracked changes, `untracked:N` for untracked files, and `ignored:N` for ignored files. Mixed content lists each count. Inspect the diff and name the untracked and ignored files before deciding what to preserve or discard. Untracked and ignored files can contain needed work. Hold each non-clean worktree until its contents are accounted for. `unknown` means the status command failed. Resolve that failure before cleanup. Inspect unpushed commits against the worktree's configured upstream. `REMOTE` reports its ahead and behind counts from local refs. Per Autonomy, clean and merged and not-in-use proceeds. `wip` and in-use pause.\n",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Preserve user-authorized cleanup boundaries by inspecting all tracked, untracked, ignored, and unreadable work before deciding whether it is disposable."
+        },
+        {
+          "old": "5. Prune the confirmed set. For a Codex-managed worktree, use the native archive tool with the identity from attached artifacts. For an ordinary Git worktree, per path, `git worktree remove --force <path>`. For an ordinary Git worktree, if the dir survives on ignored build artifacts, `rm -rf` it, then `git worktree prune`. Branch refs survive, so no commits are lost. Confirm with `df -h /` and re-list.\n",
+          "new": "5. Prune the confirmed set. For a Codex-managed worktree, use the native archive tool with the identity from attached artifacts. Its snapshot excludes ignored files, so preserve needed ignored content separately before archive. For an ordinary Git worktree, preserve needed content and remove only files confirmed disposable, then use `git worktree remove <path>` without force. If removal refuses, inspect and report the remaining content rather than retrying with force or `rm -rf`. Use `git worktree prune` only if metadata needs cleanup. Branch refs survive, so no commits are lost. Confirm with `df -h /` and re-list.\n",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Preserve ignored content omitted by Codex archive and prevent ordinary cleanup from bypassing Git removal protections with force or recursive deletion."
         }
       ],
       "source_sha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6"
@@ -2564,10 +2585,10 @@
         },
         {
           "old": "main_wt=$(git worktree list --porcelain | awk '/^worktree /{print $2; exit}')",
-          "new": "main_wt=$(git worktree list --porcelain | sed -n 's/^worktree //p' | head -1)",
+          "new": "main_wt=\"\"",
           "count": 1,
           "kind": "host",
-          "reason": "Codex project paths may contain spaces; preserve the full Git path"
+          "reason": "Identify the primary worktree in the same NUL-delimited stream as linked paths, preserving tabs and newlines."
         },
         {
           "old": "# Transcripts dir: ~/.cursor/projects/<slugified-repo-path>/agent-transcripts.\nslug=$(printf '%s' \"$main_wt\" | sed 's#^/##; s#/#-#g')\ntranscripts=\"$HOME/.cursor/projects/$slug/agent-transcripts\"\n",
@@ -2577,11 +2598,11 @@
           "reason": "Do not scan Cursor-specific or unrelated Codex transcripts"
         },
         {
-          "old": "git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt; do",
-          "new": "git worktree list --porcelain -z | while IFS= read -r -d '' field; do\n\tcase \"$field\" in worktree\\ *) wt=${field#worktree } ;; *) continue ;; esac",
+          "old": "git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt; do\n\t[ \"$wt\" = \"$main_wt\" ] && continue\n\n\tsize=$(du -sh \"$wt\" 2>/dev/null | awk '{print $1}')",
+          "new": "git worktree list --porcelain -z | while IFS= read -r -d '' field; do\n\tcase \"$field\" in worktree\\ *) wt=${field#worktree } ;; *) continue ;; esac\n\tif [ -z \"$main_wt\" ]; then main_wt=$wt; continue; fi\n\n\tsize=$(du -sh \"$wt\" 2>/dev/null | awk 'NR == 1 {print $1; exit}')",
           "count": 1,
           "kind": "host",
-          "reason": "Preserve Codex worktree paths including spaces using Git NUL records"
+          "reason": "Preserve raw Codex worktree paths using Git NUL records, exclude the first worktree, and keep du path fragments out of the size cell."
         },
         {
           "old": "\t# Most recent chat whose transcript operated in this worktree. Match path\n\t# followed by \"/\" or a quote so glint-482 does not match glint-482-r37.\n\tlast=\"-\"; last_ts=0\n\tif [ -d \"$transcripts\" ]; then\n\t\tf=$(rg -l -e \"${wt}/\" -e \"${wt}\\\"\" \"$transcripts\" 2>/dev/null \\\n\t\t\t| xargs stat -f '%m %N' 2>/dev/null | sort -rn | head -1)\n\t\tif [ -n \"$f\" ]; then last_ts=$(echo \"$f\" | awk '{print $1}')\n\t\t\tlast=$(date -r \"$last_ts\" '+%Y-%m-%d' 2>/dev/null); fi\n\tfi\n\trecent=$([ \"$last_ts\" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)\n",
@@ -2596,6 +2617,55 @@
           "count": 1,
           "kind": "host",
           "reason": "Report absent host ownership evidence instead of treating it as inactivity"
+        },
+        {
+          "old": "# origin/main drives the merge check. Best-effort; stale is fine for a first pass.\ngit fetch origin main --quiet 2>/dev/null || echo \"warn: could not fetch origin/main; merged column may be stale\" >&2\n",
+          "new": "preferred_remote=$(git remote | sed -n '1p')\nif git remote | grep -qx origin; then preferred_remote=origin; fi\ndefault_ref=\"\"\nif [ -n \"$preferred_remote\" ]; then\n\tdefault_ref=$(git symbolic-ref --quiet \"refs/remotes/$preferred_remote/HEAD\" 2>/dev/null || true)\n\tif [ -z \"$default_ref\" ]; then\n\t\tdefault_branch=$(git ls-remote --symref \"$preferred_remote\" HEAD 2>/dev/null | awk '$1 == \"ref:\" && $3 == \"HEAD\" { sub(/^refs\\/heads\\//, \"\", $2); print $2; exit }')\n\t\tif [ -n \"$default_branch\" ]; then default_ref=\"refs/remotes/$preferred_remote/$default_branch\"; fi\n\tfi\nfi\nif [ -z \"$default_ref\" ] || ! git rev-parse --verify \"$default_ref^{commit}\" >/dev/null 2>&1; then\n\tdefault_ref=\"\"\n\techo \"warn: default branch could not be resolved locally; MERGED is unknown\" >&2\nelse\n\tprintf 'Merge base: %s (local snapshot; this audit does not fetch)\\n' \"$default_ref\" >&2\nfi\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the actual default branch of arbitrary Codex repositories using local refs and read-only remote discovery; preserve unknown merge state when no local default commit is available."
+        },
+        {
+          "old": "\t# Squash-merged branches are not ancestors of main, so PR state is the\n",
+          "new": "\t# Squash-merged branches are not ancestors of the default branch, so PR state is the\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the actual default branch of arbitrary Codex repositories using local refs and read-only remote discovery; preserve unknown merge state when no local default commit is available."
+        },
+        {
+          "old": "\tgit merge-base --is-ancestor \"$head\" origin/main 2>/dev/null && merged=YES || merged=no\n",
+          "new": "\tmerged=\"?\"\n\tif [ -n \"$default_ref\" ] && [ -n \"$head\" ]; then\n\t\tgit merge-base --is-ancestor \"$head\" \"$default_ref\" 2>/dev/null && merged=YES || merged=no\n\tfi\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the actual default branch of arbitrary Codex repositories using local refs and read-only remote discovery; preserve unknown merge state when no local default commit is available."
+        },
+        {
+          "old": "# Usage: worktree-audit.sh [repo-path]   (defaults to the current repo)\nset -u\n\nrepo=\"${1:-$(git rev-parse --show-toplevel 2>/dev/null)}\"\n[ -z \"$repo\" ] && { echo \"not in a git repo; pass a repo path\" >&2; exit 1; }\ncd \"$repo\" || exit 1\n\n# Main worktree is the first entry; everything else is a candidate.\n",
+          "new": "# Usage: worktree-audit.sh [repo-path]   (defaults to the current repo)\nset -u\nexport GIT_OPTIONAL_LOCKS=0\n\nrepo=\"${1:-$(git rev-parse --show-toplevel 2>/dev/null)}\"\n[ -z \"$repo\" ] && { echo \"not in a git repo; pass a repo path\" >&2; exit 1; }\ncd \"$repo\" || exit 1\ngit rev-parse --git-dir >/dev/null 2>&1 || { echo \"not a git repository: $repo\" >&2; exit 1; }\n\n# Main worktree is the first entry; everything else is a candidate.\n",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Keep the Codex audit read-only by disabling optional index refreshes, and reject invalid repository input before reporting results."
+        },
+        {
+          "old": "\tfi\n\n\t# Distinguish real WIP (tracked edits) from disposable untracked scratch.\n\tporcelain=$(git -C \"$wt\" status --porcelain 2>/dev/null)\n\tif [ -z \"$porcelain\" ]; then dirty=clean\n\telif printf '%s\\n' \"$porcelain\" | grep -qv '^??'; then\n\t\tdirty=\"wip:$(printf '%s\\n' \"$porcelain\" | grep -cv '^??')\"\n\telse dirty=\"scratch:$(printf '%s\\n' \"$porcelain\" | grep -c '^??')\"; fi\n\n\tbranch=$(git -C \"$wt\" symbolic-ref --quiet --short HEAD 2>/dev/null || echo \"\")\n\tif [ -z \"$branch\" ]; then remote=detached\n\telif git -C \"$wt\" show-ref --verify --quiet \"refs/remotes/origin/$branch\"; then\n\t\t[ \"$(git -C \"$wt\" rev-parse \"origin/$branch\" 2>/dev/null)\" = \"$head\" ] \\\n\t\t\t&& remote=pushed \\\n\t\t\t|| remote=\"ahead$(git -C \"$wt\" rev-list --count \"origin/$branch..HEAD\" 2>/dev/null)\"\n\telse remote=no-remote; fi\n\n\tpr=$([ -n \"$branch\" ] && jq -r --arg b \"$branch\" \\\n",
+          "new": "\tfi\n\n\tif porcelain=$(git -C \"$wt\" status --porcelain=v1 --untracked-files=all --ignored 2>/dev/null); then\n\t\tdirty=clean\n\t\tif [ -n \"$porcelain\" ]; then\n\t\t\ttracked=$(printf '%s\\n' \"$porcelain\" | grep -Ecv '^(\\?\\?|!!)')\n\t\t\tuntracked=$(printf '%s\\n' \"$porcelain\" | grep -c '^??')\n\t\t\tignored=$(printf '%s\\n' \"$porcelain\" | grep -c '^!!')\n\t\t\tdirty=\"\"\n\t\t\t[ \"$tracked\" -eq 0 ] || dirty=\"wip:$tracked\"\n\t\t\t[ \"$untracked\" -eq 0 ] || dirty=\"${dirty:+$dirty,}untracked:$untracked\"\n\t\t\t[ \"$ignored\" -eq 0 ] || dirty=\"${dirty:+$dirty,}ignored:$ignored\"\n\t\tfi\n\telse dirty=unknown; fi\n\n\tbranch=$(git -C \"$wt\" symbolic-ref --quiet --short HEAD 2>/dev/null || echo \"\")\n\tupstream=$(git -C \"$wt\" rev-parse --symbolic-full-name '@{upstream}' 2>/dev/null || true)\n\tif [ -z \"$branch\" ]; then remote=detached\n\telif [ -n \"$upstream\" ] && git -C \"$wt\" rev-parse --verify \"$upstream^{commit}\" >/dev/null 2>&1; then\n\t\tif counts=$(git -C \"$wt\" rev-list --left-right --count \"HEAD...$upstream\" 2>/dev/null); then\n\t\t\tread -r ahead behind <<< \"$counts\"\n\t\t\tif [ \"$ahead\" -eq 0 ] && [ \"$behind\" -eq 0 ]; then remote=pushed\n\t\t\telse remote=\"ahead$ahead/behind$behind\"; fi\n\t\telse remote=unknown; fi\n\telse remote=no-upstream; fi\n\n\tpr=$([ -n \"$branch\" ] && jq -r --arg b \"$branch\" \\\n",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Restore authorized cleanup protections by holding unreadable, untracked, and ignored work; inspect the configured Git upstream instead of assuming an origin branch with the same name."
+        },
+        {
+          "old": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in wip:*) bucket=hold-wip ;; *)\n\t\tcase \"$pr\" in *OPEN*) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [ \"$pr\" != \"-\" ]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
+          "new": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in\n\t\tunknown) bucket=hold-unknown ;;\n\t\twip:*) bucket=hold-wip ;;\n\t\t*ignored:*) bucket=hold-ignored ;;\n\t\tuntracked:*) bucket=hold-untracked ;;\n\t\tclean)\n\t\tcase \"$pr\" in *OPEN*) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [[ \"$pr\" == */MERGED ]]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Only a clean worktree with merge evidence may enter the advisory safe bucket; hold all non-clean states and do not treat a closed, unmerged PR as merge evidence."
+        },
+        {
+          "old": "\tprintf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n\" \\\n\t\t\"$size\" \"$age\" \"$merged\" \"$dirty\" \"$remote\" \"$pr\" \"$last\" \"$bucket\" \"$wt\"",
+          "new": "\tdisplay_wt=$wt\n\tif [[ \"$wt\" == *$'\\n'* || \"$wt\" == *$'\\t'* ]]; then printf -v display_wt '%q' \"$wt\"; fi\n\tprintf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n\" \\\n\t\t\"$size\" \"$age\" \"$merged\" \"$dirty\" \"$remote\" \"$pr\" \"$last\" \"$bucket\" \"$display_wt\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Shell-escape displayed paths containing tabs or newlines so each linked worktree occupies one nine-cell TSV row; preserve ordinary path display."
         }
       ],
       "source_sha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc"
@@ -4023,7 +4093,7 @@
     "skills/deslop/agents/openai.yaml": "30b301cbff2e3fcb0736a41755b01eab9ca56285ce0f198d278c0fdeb32f48c0",
     "skills/figure-it-out/agents/openai.yaml": "eea4bd98d716480914557dcf58e006b9cb32bed565ff3d3abe4f7f8abea7b9c9",
     "skills/how/agents/openai.yaml": "3b67b3517d6168ea42adf78cc8afef479f7e39b8be5ab735df0f54445ceb9a3f",
-    "skills/interrogate/agents/openai.yaml": "25e19b95eb54e1de4e07e73bcdb5b0bf31603e3358c8a6a3ec71452500a52e65",
+    "skills/interrogate/agents/openai.yaml": "b226d54180f8b27526993910c654d2e545de63293feef6ff4f09dd92aee8197b",
     "skills/no-comments/agents/openai.yaml": "7384ac6719b077671b5f35c99d9fd0f8204616e55c2ea067b505e24ad04acd00",
     "skills/poteto-help/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
     "skills/poteto-mode/agents/openai.yaml": "ff640cc2fe974c232909f53c5443dddda565042422379d969f449c08622e962d",

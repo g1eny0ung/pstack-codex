@@ -37,11 +37,11 @@ When the model configuration is missing and it matters, ask whether the user wan
 2. Run [`$setup-pstack`](../setup-pstack/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes personal JSON configuration. The configuration applies to subsequent subagent launches.
 3. Start a real task with `$poteto-mode`, a goal, and a check that can pass or fail.
 
-Installing changes nothing until the user invokes a skill. All skills require explicit invocation or deliberate routing from an invoked workflow. The [README](../../../../README.md) and [guide page 1](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/01-setup.md) have the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
+Installing changes nothing until the user invokes a skill. All skills require explicit invocation or deliberate routing from an invoked workflow. The [README](https://github.com/g1eny0ung/pstack-codex/blob/main/README.md) and [guide page 1](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/01-setup.md) have the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, say where the tokens go and how to spend fewer. pstack spends extra tokens on subagents and review panels. Rerun `$setup-pstack` and pick a smaller budget or cheaper models. A role set to `auto` or `inherit-parent` runs on the chat's model, which saves tokens when the chat runs on a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `$poteto-mode` for work that needs rigor.
 
-pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes and `/loop` are Cursor features; this port uses current-task invocation and the host's native continuation and automation capabilities. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
+pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
 
 ## Start a task with `$poteto-mode`
 
@@ -94,7 +94,7 @@ Close calls:
 Availability in this port:
 
 - `$deslop`, `control-cli`, and `control-ui` come from `cursor-team-kit` and are bundled in this port.
-- `/loop` and `/create-skill` are Cursor built-ins. Use the Codex runtime continuation interfaces and the host's skill-creator skill instead.
+- `/loop` and `/create-skill` are Cursor built-ins. Use Codex Goals for explicit persistent objectives, native automation for timed checks, and the host's skill-creator skill for authoring. Follow Codex runtime for Goal tools and lifecycle handling.
 - pstack has no `/orchestrate` skill. Its Orchestrate playbook is excluded from this port, as are Autopilot-full and Autopilot-stack. If a skill menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles

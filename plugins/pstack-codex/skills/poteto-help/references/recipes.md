@@ -39,7 +39,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 
 ## Away and back
 
-- `$poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. continue until done; use the host scheduler if a later wakeup is needed. if you're truly stuck after a few hours, stop and write up why.`
+- `$poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. create a Codex Goal to continue until done. if you're truly stuck after a few hours, stop and write up why.`
 - `$show-me-your-work catch me up on what you did last night.` Read its Attention section first.
 - `$reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
 - `$bro` restates the last reply in plain words.

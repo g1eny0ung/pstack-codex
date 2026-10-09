@@ -13,7 +13,7 @@ codex plugin add pstack-codex@pstack-codex
 
 Start a new Codex chat after installation.
 
-To install from a [release ZIP](https://github.com/g1eny0ung/pstack-codex/releases), extract the entire archive and register the extracted repository directory:
+To install from a [release ZIP](https://github.com/g1eny0ung/pstack-codex/releases), extract the entire archive and register the extracted directory:
 
 ```bash
 codex plugin marketplace add /path/to/extracted/pstack-codex
@@ -26,6 +26,8 @@ Keep the hidden `.agents` and `.codex-plugin` directories when extracting or cop
 codex plugin marketplace remove pstack-codex
 ```
 
+The ZIP contains the marketplace registration, plugin skills and resources, model defaults, runtime helpers, and licenses. Tests, development dependencies, helper source code used only for building, and repository maintenance files stay in the source repository.
+
 ## Use
 
 In a Codex chat, invoke a skill and describe the task:
@@ -35,6 +37,8 @@ $poteto-mode Fix the failing feature and verify the user-visible behavior.
 ```
 
 `poteto-mode` applies to the current task and selects related workflows as needed. It does not enable a persistent mode or change your main chat's model. Asking it to inspect or plan keeps the task within that scope.
+
+For work that should continue across turns until a checkable outcome is reached, explicitly request a Codex Goal. For example, `$poteto-mode Create a Goal to fix the failing tests, complete only when the full test suite passes.` On hosts with Goal tools, the workflow creates or reuses that Goal. This replaces upstream's `/loop until done`. Requests for timed checks, such as checking every hour, use native automation instead. See [Codex runtime](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#goals-tools-and-authorization) for tool availability and lifecycle handling.
 
 You can also invoke a focused skill directly:
 
@@ -54,6 +58,22 @@ You can also invoke a focused skill directly:
 | Prevent repeated mistakes | `$correct Find repeated agent mistakes in this repo and prevent them with verified changes.` |
 
 Skills activate only when explicitly invoked. An invoked workflow can read related skills and delegate work when its instructions call for it. See the [skill directory](plugins/pstack-codex/skills/) for all available skills.
+
+## Differences from upstream
+
+This plugin includes selected upstream skills. The following pstack skills are not included:
+
+| Skill | Upstream capability |
+|---|---|
+| `automate-me` | Turn your working preferences into a personal mode skill. |
+| `create-verification-skill` | Generate a project-specific skill that runs the app and captures verification evidence. |
+| `maintain-verification-skill` | Check and update a project's verification skill and feature map. |
+| `make-bot-ui` | Build a custom interface that triggers a Grok Bot through a webhook. |
+| `recall` | Reconstruct recent working context from chat history, current project state, and shared records. |
+
+The cloud orchestration workflows `orchestrate`, `autopilot-full`, and `autopilot-stack`, and their `scripts/orch/` helpers are also excluded. The Benny automation pack for triaging and reproducing Slack issue reports is not included.
+
+From cursor-team-kit, this plugin includes only `deslop`, `control-cli`, and `control-ui`. See [UPSTREAM.md](UPSTREAM.md#exclusions) for the maintained port scope and exclusions.
 
 ## Configure models
 
@@ -96,6 +116,7 @@ Additional tools depend on the workflow you use:
 |---|---|
 | Node helper scripts | Node.js 22+ |
 | Git and worktree operations | Bash, Git, `jq` for the worktree audit, and standard system utilities |
+| Upstream maintenance commands | Python 3, Bash, and Git |
 | GitHub pull requests | GitHub CLI, `gh`, authenticated with your account |
 | Browser or interactive CLI verification | Suitable tools provided by your Codex host or project |
 | Spatial explanations in `teach` | A host image-generation tool; unavailable image generation is reported as blocked |

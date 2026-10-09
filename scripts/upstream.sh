@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
+trap 'exit 1' ERR
 
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 lock="$root/upstream.lock.json"
@@ -10,6 +11,7 @@ Usage: bash scripts/upstream.sh check
 
 Compare the last synced upstream commit with main, or prepare three-way materials.
 Neither command edits plugin files or advances upstream.lock.json.
+Exit status: 0 no adapted-file impact, 2 human review required, 1 inspection failed.
 PSTACK_UPSTREAM_WORKDIR overrides the cache/materials directory.
 PSTACK_UPSTREAM_REPOSITORY optionally selects a Git mirror (also used by tests).
 EOF
@@ -57,6 +59,8 @@ if [[ "$command_name" == prepare ]]; then
 else
   target=$(g rev-parse "refs/remotes/origin/$branch^{commit}")
 fi
+scratch=$(mktemp -d "$workdir/inspection.XXXXXX")
+trap 'rm -rf "$scratch"' EXIT
 paths=(pstack cursor-team-kit/skills/deslop cursor-team-kit/skills/control-cli cursor-team-kit/skills/control-ui cursor-team-kit/LICENSE)
 classify() {
   local path=$1 relative name
@@ -69,6 +73,14 @@ classify() {
     *) printf 'new-or-out-of-scope' ;;
   esac
 }
+g diff --name-status -z --find-renames "$base" "$target" -- "${paths[@]}" > "$scratch/changes.nul"
+[[ -f "$root/scripts/check-adaptation-impact.py" && -r "$root/scripts/check-adaptation-impact.py" ]] || die 'Missing or unreadable adaptation impact checker'
+impact_status=0
+python3 "$root/scripts/check-adaptation-impact.py" --git-dir "$cache" --base "$base" --target "$target" > "$scratch/adaptations.txt" || impact_status=$?
+case "$impact_status" in
+  0|2) ;;
+  *) exit 1 ;;
+esac
 report() {
   local status first second
   printf 'Repository: %s\nBaseline: %s\nTarget: %s\n\nRelevant commits:\n' "$repository" "$base" "$target"
@@ -82,9 +94,12 @@ report() {
         printf '%s -> %s\t%s\t%q -> %q\n' "$(classify "$first")" "$(classify "$second")" "$status" "$first" "$second" ;;
       *) printf '%s\t%s\t%q\n' "$(classify "$first")" "$status" "$first" ;;
     esac
-  done < <(g diff --name-status -z --find-renames "$base" "$target" -- "${paths[@]}")
+  done < "$scratch/changes.nul"
+  printf '\n'
+  cat "$scratch/adaptations.txt"
 }
-report
+report > "$scratch/report.txt"
+cat "$scratch/report.txt"
 if [[ "$command_name" == prepare ]]; then
   mkdir -p "$workdir/prepared"
   material=$(mktemp -d "$workdir/prepared/${base:0:12}-${target:0:12}.XXXXXX")
@@ -92,9 +107,10 @@ if [[ "$command_name" == prepare ]]; then
     local revision=$1 destination=$2 path
     local available=()
     mkdir -p "$destination"
-    for path in "${paths[@]}"; do
-      if g cat-file -e "$revision:$path" 2>/dev/null; then available+=("$path"); fi
-    done
+    g ls-tree --name-only -z "$revision" -- "${paths[@]}" > "$scratch/snapshot-paths.nul"
+    while IFS= read -r -d '' path; do
+      available+=("$path")
+    done < "$scratch/snapshot-paths.nul"
     if [[ ${#available[@]} -gt 0 ]]; then
       g archive "$revision" -- "${available[@]}" | tar -xf - -C "$destination"
     fi
@@ -103,8 +119,9 @@ if [[ "$command_name" == prepare ]]; then
   export_snapshot "$target" "$material/target-upstream"
   mkdir -p "$material/local-codex"
   tar -C "$root/plugins" --exclude=node_modules --exclude=.DS_Store -cf - pstack-codex | tar -xf - -C "$material/local-codex"
-  report > "$material/changes.txt"
+  cp "$scratch/report.txt" "$material/changes.txt"
   printf '%s\n' 'Read UPSTREAM.md for path mappings. These are comparison materials, not an automatic merge.' > "$material/README.txt"
   printf '\nPrepared: %s\n' "$material"
 fi
 printf '\nPlugin files and synced baseline were not modified.\n'
+exit "$impact_status"

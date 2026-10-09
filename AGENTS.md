@@ -52,9 +52,9 @@ For upstream tracker changes, run `bash scripts/upstream.test.sh`.
 
 When PR helper source or dependencies change, run `bash scripts/build.sh` and include the generated `plugins/pstack-codex/skills/poteto-mode/scripts/dist/watch-pr.mjs` and any changed dependency license notice. Do not edit the generated bundle by hand.
 
-For packaging changes, run `bash scripts/package.sh` and inspect the ZIP contents. The script packages the existing bundle into `dist/pstack-codex-<version>.zip`; build first if the bundle is missing or stale. When adding or removing packaged files, update the input list in `scripts/package.sh`.
+For packaging changes, run `bash scripts/package.test.sh`, then run `bash scripts/package.sh` and inspect the ZIP contents. The script packages the existing bundle into `dist/pstack-codex-<version>.zip`; build first if the bundle is missing or stale. When adding or removing packaged files, update the input list in `scripts/package.sh`.
 
-For upstream synchronization or port-fidelity changes, follow `UPSTREAM.md` and run `python3 scripts/check-port.py --upstream <upstream-snapshot>` plus `python3 scripts/check-port.test.py --upstream <upstream-snapshot>`. Review every recorded adaptation against upstream before updating `scripts/port-adaptations.json`. Advance `last_synced_commit` only after the selected changes are integrated and verified. Checking for upstream updates alone does not advance the baseline.
+For upstream synchronization or port-fidelity changes, follow `UPSTREAM.md`, including its user-decision gate for affected adaptations, and run `python3 scripts/check-port.py --upstream <upstream-snapshot>` plus `python3 scripts/check-port.test.py --upstream <upstream-snapshot>`. Review every recorded adaptation against upstream before updating `scripts/port-adaptations.json`. Advance `last_synced_commit` only after the selected changes are integrated and verified. Checking for upstream updates alone does not advance the baseline.
 
 ## Commit messages
 
