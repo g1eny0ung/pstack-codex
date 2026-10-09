@@ -17,88 +17,66 @@
       "model": "gpt-6-astra",
       "reasoning_effort": "high"
     },
-    "judgment": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "how_explorer": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "how_explainer": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "why_investigators": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "reflect_tooling": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "swarm_workers": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "comment_review": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
+    "judgment_and_prose": {
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "xhigh"
     },
     "hardest_tasks": {
       "model": "gpt-6-astra",
+      "reasoning_effort": "xhigh"
+    },
+    "how_explorer": {
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "high"
+    },
+    "how_explainer": {
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "xhigh"
+    },
+    "why_investigators": {
+      "model": "gpt-6.1-sol",
       "reasoning_effort": "xhigh"
     },
     "why_synthesizer": {
       "model": "gpt-6-astra",
       "reasoning_effort": "xhigh"
     },
-    "reflect_judgment": {
+    "reflect_tooling": {
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "high"
+    },
+    "reflect_judgment_divergent_synthesizer": {
       "model": "gpt-6-astra",
       "reasoning_effort": "xhigh"
-    },
-    "reflect_divergent": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "reflect_synthesizer": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "arena_judge": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "audit_reviewer": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "writing": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "medium"
     },
     "arena_runners": [
       {
         "model": "gpt-6-astra",
-        "reasoning_effort": "high"
-      },
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "high"
+        "reasoning_effort": "xhigh"
       },
       {
         "model": "gpt-6-astra",
         "reasoning_effort": "high"
       }
     ],
-    "architect_runners": [
+    "arena_cross_judge_pool": [
       {
         "model": "gpt-6-astra",
-        "reasoning_effort": "high"
+        "reasoning_effort": "xhigh"
       },
       {
         "model": "gpt-6-astra",
         "reasoning_effort": "high"
+      }
+    ],
+    "swarm_workers": {
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high"
+    },
+    "architect_runners": [
+      {
+        "model": "gpt-6-astra",
+        "reasoning_effort": "xhigh"
       },
       {
         "model": "gpt-6-astra",
@@ -106,10 +84,6 @@
       }
     ],
     "interrogate_reviewers": [
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "ultra"
-      },
       {
         "model": "gpt-6-astra",
         "reasoning_effort": "xhigh"

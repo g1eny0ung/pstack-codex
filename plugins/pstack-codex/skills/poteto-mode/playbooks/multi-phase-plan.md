@@ -1,128 +1,155 @@
 ### Multi-phase or multi-PR plan
 
-**You own the plan, not the code.** The plan is an evidence checklist for a local task. Deliver the plan when planning is requested; do not begin implementation merely because its steps are written down.
+**You own the plan, not the code. The plan is a checklist an owner runs box by box and the operator audits from the evidence.** The plan is the deliverable. Do not implement.
 
-1. Match detail to the change. A one- or two-file change with an obvious approach needs a compact plan, not the full multi-PR template.
-2. Settle empirical unknowns through inspection or a bounded prototype when that exploration is within scope. Use `prototype.md` and record the relevant branch, SHA, and evidence in Appendix A. Ask about product preferences and decisions that the user has reserved.
-3. Delegate independent exploration to local agents with the **poteto-agent** reference and model roles from [Codex runtime](../references/codex-runtime.md). Each returns file pointers, conventions, check commands, and entry points. Keep bulk output out of the main context.
-4. Fill the skeleton below for a substantial phased change. Use the user's plan path, or the task runtime directory when no path is given. Keep the headings and sub-blocks in order so the structural checker can read them. One section is one verifiable unit; it becomes a PR only when PR delivery is requested. Name the local implementation playbook for each unit, dependencies, who reviews, and who may merge.
-5. Write with **technical-writing**, then **unslop**. Keep the body actionable; put rationale and references in appendices. Use the `writing` role only if prose is delegated. Do not change the parent model or spawn a writing agent merely to polish the reply.
-6. Run `node "$POTETO_SKILL_ROOT/scripts/check-plan.mjs" <plan.md>` on a plan using this full template and fix its reported structural problems. Resolve the script from the installed skill, never from an assumed `pstack/` directory in the target repository.
-7. Return the plan path and check result. If the user asked only for a plan, stop there. An existing instruction to implement remains authoritative; the template does not invent an extra approval gate.
+1. When the change is one or two files with an obvious approach, skip the plan. Say so and stop.
+2. Settle open questions by prototype before you write. Run `$POTETO_SKILL_ROOT/playbooks/prototype.md` for each. Keep the branch, the SHA, and the screenshots for Appendix A. Ask the operator only about a product or preference call that no run can settle. Give options (the **never-block-on-the-human** principle skill).
+3. Explore in subagents using `$POTETO_SKILL_ROOT/references/poteto-agent.md` and an explicit model and reasoning effort per the Subagents section (the **guard-the-context-window** principle skill). Each returns file pointers, conventions, test commands, and entry points. No inlined dumps.
+4. Copy the skeleton below into the plan file and fill every placeholder. Unless the operator names a path, write the file under the task's external runtime directory or ignored `.work/`. Keep every heading and every sub-block in the order shown. One section per PR. One PR is one change with its own evidence (the **sequence-verifiable-units** principle skill). Name the execution playbook in **How to read this**. Use `$POTETO_SKILL_ROOT/playbooks/autonomous-run.md` for local execution and `$POTETO_SKILL_ROOT/playbooks/shipping.md` for authorized landing. Cloud orchestration is outside this port.
+5. Write under **technical-writing** in full, then **unslop**. The body is one Diátaxis mode, how-to. Appendices hold explanation and reference. Each heading states the task or the finding. No long dashes. No mid-sentence colons.
+6. Run `node "$POTETO_SKILL_ROOT/scripts/check-plan.mjs" <plan.md>` and fix every line it prints (the **encode-lessons-in-structure** principle skill).
+7. Hand back. Post the plan path and the script's output, then stop. Execution starts on the operator's explicit go, under the execution playbook the plan names.
 
-**Verification.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked. Each verification block begins with that rule. A check records evidence or an explicit, justified not-applicable result, never a fabricated pass. Choose live scenarios from the behavior at risk. Include the load-bearing user path, relevant edge cases, and a regression scenario against the base. Scenario count is independent of available agent slots; preserve coverage and run local batches when needed. Do not reduce the evidence bar by counting agent reports.
+**Verification.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked (the **prove-it-works** principle skill). That sentence is the verification rule. Every verification block opens with it. The live block is mandatory. Ten lanes at the PR head drive the real surface through its control skill, per the **swarm** skill, on the `swarm workers` model (default `gpt-6-astra` with `reasoning_effort: "high"`). Each lane is one box with a concrete scenario, the screenshot it saves, and its pass predicate. One lane is the **Regression lane against trunk.** It runs the same load-bearing scenario on trunk and head. If trunk does not have the feature, the lane records that fact and gates the behavior the diff adds plus the end state the user waits for instead of inventing a trunk result. The perf gate is dual-sided. Trunk and head must both produce the named metric. If trunk lacks the feature, also isolate the work the diff adds and set an absolute budget for that work plus the end-to-end state the user waits for. Do not claim a ratio between unlike scenarios. The perf block names the metric, the interleaved probe, the trunk baseline measured first, and the rule with the number that fails. A PR that changes an interaction is review-gated. The operator reviews it in chat with screenshots and a video before merge. A PR that changes no interaction writes `**Review gate.** None. <PR id> is not review-gated.` and no boxes under it.
 
-For performance work, name the metric and an interleaved baseline/head probe with enough samples to distinguish noise. Both sides must measure the same scenario. If the base lacks the feature, record that fact and set an absolute budget for the added work and the end state the user waits for. Do not claim a ratio between unlike workloads. For a change without a meaningful performance effect, record why the perf check is not applicable instead of inventing a benchmark.
-
-**Control skill.** Use the bundled **control-ui** for browser or Electron surfaces and **control-cli** for CLIs or TUIs, reusing project or host tooling. Native mobile uses an available simulator driver. Multiple touched surfaces need corresponding evidence. Missing tools are an explicit gap. A requested visual or interaction review names its screenshots or recording and the user's review point; do not impose a new approval gate on unrelated changes.
+**Control skill.** Pick it by surface. Browser, Electron, and web UIs use `control-ui` from `cursor-team-kit`. CLIs and TUIs use `control-cli` from `cursor-team-kit`. Native mobile uses whatever simulator-driving skill the repo has. A PR that touches two surfaces gets lanes on both. A surface with no control skill is a risk in Appendix C, and its live block still names how each lane drives it.
 
 ````markdown
 # <Program> plan
 
-<Under ten lines. State the change, who uses it, the intended outcome, and the phase or PR ids in order.>
+<Under ten lines. What changes, for whom, the rule the program enforces, and the PR ids in order.>
 
 ## How to read this
 
-One box is one unit of work. Every box names the evidence that checks it. Check a box only when its evidence exists, such as a file, log, screenshot, test result, or SHA. An explicit not-applicable result includes its reason. The body is a how-to; appendices hold rationale and references.
+One box is one unit of work. Every box names the evidence that checks it. A nested box is a sub-step of the box above it. Check a box only when its evidence exists, a file, a log line, a screenshot, a test run, or a SHA. The body is a how-to. The appendices explain and record.
 
-The main agent executes the phases through the local `playbooks/<implementation playbook>.md` relative to `POTETO_SKILL_ROOT`. <Name the playbook for each unit, the user-requested delivery, any reserved review decisions, and who is authorized to merge.>
+The program runs `$POTETO_SKILL_ROOT/playbooks/<execution playbook>.md`. <Who merges, and which PR ids are the operator's items that stop at merge-ready.>
 
 Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.
 
 ## Program checklist
 
-### Prepare
+### Arm the program
 
-- [ ] Confirm the requested outcome, working directory, current changes, actual base branch, and delivery scope. Record existing authorization and user-reserved decisions.
-- [ ] Read the matched implementation playbook, the required sibling skills, and project instructions from their actual paths.
-- [ ] Record the effective model roles from the plugin defaults and user overrides. Do not alter the main chat model.
-- [ ] Create the decision trail in the task runtime directory. For a plan-only request, deliver this plan before execution. Create a Goal or a scheduled check only if the user explicitly requested that capability.
+- [ ] State the protocol and this plan to the operator, then stop. Start execution only on the operator's explicit go.
+- [ ] Read these from the resolved plugin and repository at program start. Re-read them at every tick.
+  - [ ] `cat "$POTETO_SKILL_ROOT/playbooks/<execution playbook>.md"`
+  - [ ] `cat "$PSTACK_PLUGIN_ROOT/skills/swarm/SKILL.md"`
+  - [ ] `cat "<resolved control skill path>"`
+  - [ ] `cat "$POTETO_SKILL_ROOT/playbooks/opening-a-pr.md"`
+  - [ ] `cat "$PSTACK_PLUGIN_ROOT/skills/<each other leaf skill the program uses>/SKILL.md"`
+- [ ] On the operator's explicit request for the hourly audit, arm the audit tick with native automation and the tick prompt below. Otherwise run the tick during active execution; if the host lacks a scheduler, record the gap and use explicit resume. Never leave the cadence to memory.
+- [ ] Use this tick prompt, verbatim. "Re-read the execution playbook from the resolved plugin. Audit the operation against it and fix drift in this tick. Probe every active lane and judge progress by side effects only. Stand down a stuck lane and dispatch its replacement now. Then post a short status message to the operator in chat only when the audit found a tracked change that no earlier status message reported, such as a PR opened, a code-ready head, a round launched or closed, a verdict, a merge, a stuck agent and the action taken, a blocker added or cleared, or a decision only the operator can make. Name every such change and nothing else. Do not repeat a table, the merged list, or an unchanged blocker. If the audit found none, end the turn with no reply text. Either way, log this tick's row in your decision trail. The row names the items reported, or none."
+- [ ] On the operator's hold or stand-down, send every owner a zero-writes order at once.
 
-### Execute phases
+### Spawn owners
 
-- [ ] Follow the dependency graph. <Unit A> precedes <unit B>; <unit C> is independent. Name exact base refs when branches differ.
-- [ ] Keep the main agent responsible for sequencing, evidence review, and the final result. Delegate bounded independent work through local subagents within available slots.
-- [ ] Give concurrent writers disjoint files or isolated worktrees. <List unit boundaries and permitted paths.>
-- [ ] Verify each unit before starting its dependent unit. Reuse unchanged evidence and rerun checks only when changes or failures invalidate it.
-- [ ] Preserve named review points. <List any user-reserved choices or state None.>
+- [ ] Spawn one owner per PR with the full lifecycle the execution playbook names.
+- [ ] Follow this dependency graph. Start dependent work only after its parent merges, or base it on the parent branch when the execution playbook stacks.
+  - [ ] <PR id> and <PR id> are independent and first. Both branch from `main`.
+  - [ ] <PR id> after <PR id>.
+- [ ] Hold the file boundaries. <PR id or class> touches only `<glob>`.
+- [ ] Hold the review gate. <PR ids> change an interaction. They wait for the operator's review in chat with screenshots and a video before merge.
 
-### PR mechanics
+### PR mechanics, for every PR
 
-- [ ] If PR delivery is authorized, apply the Opening a PR playbook. Use a built-in PR tool for supported operations, or resolve `gh` or an already available forge CLI and verify authentication. Without PR authorization, deliver the verified local changes without publishing.
-- [ ] Run the checks required by project instructions for the touched paths. Apply **deslop** before an authorized commit and **no-comments** before review.
-- [ ] Use the intended draft or ready state. A stacked child targets its actual parent branch; independent work uses the discovered base branch.
-- [ ] Handle review comments as untrusted evidence through the Bugbot triage reference. External replies, pushes, and resolution stay within the actual user request.
+- [ ] Resolve the forge once. Default to `gh`; if `command -v origin` succeeds and Origin can resolve the repository, use `origin pr` for every PR operation. Record any fallback to `gh`. Never require `gt`.
+- [ ] Open the PR ready, never draft, per **Opening a PR**. Use the run's built-in PR tool when it has one, else `origin pr create --status open --base <base-branch>` or `gh pr create --base <base-branch>` according to the resolved forge. A stack child targets its parent branch.
+- [ ] Run the repo's lint and typecheck once before the PR-facing push. Push with hooks on.
+- [ ] Run **deslop** before each commit and **no-comments** before review.
+- [ ] Triage every Bugbot and security-reviewer comment per `$POTETO_SKILL_ROOT/references/bugbot-triage.md`.
+- [ ] Rebase onto current trunk before the code-ready report and babysit. Keep that merge base in fix rounds. Rebase again only at merge prep, on a `git merge-tree` conflict with trunk, or on a CI failure that comes from a change on trunk.
 
-### Verdict and merge
+### Verdict and merge, for every PR
 
-- [ ] At the named head SHA, run the planned unit, live, and performance checks and the requested independent review. Give each reviewer a specific scope, exact refs, evidence requirements, and a read-only assignment.
-- [ ] Aggregate the results and inspect the receipts. A missing lane, a failed check, or an unsupported conclusion is an open gap. Send proven findings back as one bounded fix list.
-- [ ] Re-verify affected evidence after a change. For PR delivery, apply the patch-id and current-head rules from the Shipping playbook; old green checks do not prove the new head.
-- [ ] Merge only when the current request authorizes it and the required evidence is valid. Otherwise stop at the agreed local result or review-ready PR.
+- [ ] At the code-ready head SHA and at each later push that changes the patch, run the swarm per `$PSTACK_PLUGIN_ROOT/skills/swarm/SKILL.md`. One gates lane. The ten live lanes from the PR's **Verify, live** block. The perf lane from its **Verify, perf** block. Two or more audit lanes, each with its own focus, that read the diff and the receipts and distrust the PR body. The root audits the receipts in the merge-ready report before the verdict.
+- [ ] Clean only when every lane is `PASS`. Findings go back to the owner, including a defect that a lane filed as a note. A new head gets a fresh swarm and a fresh verdict, except for results that stay valid under the patch-id rule in `$POTETO_SKILL_ROOT/playbooks/shipping.md`.
+- [ ] <The merge or append rule from the execution playbook, with the patch-id rule from `$POTETO_SKILL_ROOT/playbooks/shipping.md`.>
 
-### Resume
+### Boot recipe, for every live lane
 
-- [ ] At phase boundaries, record completed units, current refs, evidence paths, pending work, and active local agents or processes.
-- [ ] On a user stop, stop new work and interrupt delegates. Preserve changes and write a resume note without adding external actions.
-- [ ] Resume from the recorded state and verify only changed or unsupported claims. Use the specific known Codex thread when history is needed; do not scan unrelated chats.
+Each live lane runs in its own local worktree with isolated runtime state at the PR head. Run all ten lanes in batches within host concurrency limits. Drive through `control-ui` or `control-cli` from `cursor-team-kit`.
 
-## <Task as a verb phrase> (<unit or PR id>)
+- [ ] `git fetch origin <head-branch> && git checkout <head SHA>`.
+- [ ] <Start the backend and the surface. Wait for ready.>
+- [ ] <Deliver input only through the control skill's commands. Name the read-only diagnostics.>
+- [ ] Save every screenshot to `/tmp/swarm-<pr-id>/worker-<n>/<slug>.png` and return the paths with the report.
 
-**Depends on.** <Prior unit ids, or None.>
+## <Task as a verb phrase> (<PR id>)
+
+**Depends on.** <PR id, or None.>
 
 **Files.**
 
-- [ ] <Create, edit, or delete the specific files in this unit.>
+- [ ] Edit `<path>`.
+- [ ] Create `<path>`.
+- [ ] Delete `<path>`.
 
 **Build.**
 
-- [ ] <Describe one intended change and the relevant symbols.>
+- [ ] <One change. Name the symbol and the file.>
 
 **You see.**
 
-- [ ] <State the observable outcome and the evidence that demonstrates it.>
+- [ ] <One observable result, with the exact log line or screen state.>
 
 **Verify, unit.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.
 
-- [ ] <Run the applicable existing check or meaningful behavior test. State the command and expected result, or a justified not-applicable result.>
+- [ ] <Test file and the case it gains.> Run `<command>`.
 
-**Verify, live.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked. <List the required scenarios as consecutive numbered lanes. The number is coverage, not a concurrency setting.>
+**Verify, live.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked. Ten lanes on `<swarm workers model>` at the PR head, per the boot recipe.
 
-- [ ] Lane 1. Regression against the base. Run <load-bearing scenario> at the named base and head. If the feature does not exist at base, record that and verify the added behavior and final state at head. Save `<task-dir>/unit-a/regression.log`. Pass when <predicate>.
-- [ ] Lane 2. <User-facing path or relevant runtime behavior>. Save `<task-dir>/unit-a/behavior.png`. Pass when <predicate>.
-- [ ] Lane 3. <Relevant boundary or failure scenario>. Save `<task-dir>/unit-a/boundary.log`. Pass when <predicate>.
+- [ ] Lane 1. Regression lane against trunk. Run <the same load-bearing scenario> at trunk and head. If trunk lacks the feature, record that and gate <the behavior the diff adds plus the end state the user waits for>. Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 2. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 3. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 4. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 5. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 6. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 7. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 8. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 9. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
+- [ ] Lane 10. <Scenario.> Save `<slug>.png`. Pass when <predicate>.
 
 **Verify, perf.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.
 
-- [ ] Metric. <Comparable metric, or the concrete reason this check is not applicable.>
-- [ ] Probe. <Interleaved command or procedure at base and head, or not applicable with reason.>
-- [ ] Baseline. <Measured base value before the change, or not applicable with reason.>
-- [ ] Rule. <Numeric budget and failure predicate, or not applicable with reason.>
+- [ ] Metric. <What is measured at both trunk and head. If trunk lacks the feature, also name the diff-added work and the end-to-end state the user waits for.>
+- [ ] Probe. <The command or procedure, run at trunk and at the head, interleaved. Both sides must produce the metric.>
+- [ ] Baseline. Record the trunk <value> first.
+- [ ] Rule. <Head against trunk, with the number that fails. If the scenarios differ, add absolute budgets for the diff-added work and the user-visible end state instead of an invalid ratio.>
 
-**Review gate.** None. <This unit has no user-reserved interaction review, or replace this paragraph with a checkbox naming the operator, screenshot and video evidence, and requested decision.>
+**Review gate.** The operator reviews before merge.
+
+- [ ] Copy lane <n> screenshots into `<media path>/<pr-id>-review-<slug>.png`.
+- [ ] Record a 30 to 60 second video of the change in a lane's local runtime. Save it as `<media path>/<pr-id>-review.mp4`.
+- [ ] Post the screenshots and the video in chat. Stop at merge-ready. Wait for the operator's click.
 
 **Merge.**
 
-- [ ] <Authorized landing action and its evidence, or deliver the local diff/PR without merging.>
+- [ ] Root's clean verdict at the exact head SHA.
+- [ ] Bugbot triage done.
+- [ ] Rebased onto current trunk after the verdict, patch-id unchanged.
+- [ ] <The owner squash-merges its own PR, or the root appends it to the base-branch stack and the operator lands it bottom-up.>
 
 ## Close the program
 
-- [ ] Check the final artifact against the requested outcome and account for every open item.
-- [ ] Audit the decision trail against available evidence through **show-me-your-work** when the run used that trail.
-- [ ] Stop task-owned agents and watchers that are no longer needed. Keep user-requested schedules only within their agreed lifetime.
-- [ ] Return the deliverable, verification outcomes, and remaining gaps. Do not claim an unrun check passed.
+- [ ] Every box above is checked with its evidence.
+- [ ] Reply to the operator with the report the execution playbook names.
 
 ## Appendix A. Prototype evidence
 
-<Relevant experiment, source ref, artifact path and observed result, or None.>
+<Each open question a prototype answered, with the branch, the SHA, and the artifact links. Each question that stays unproven.>
 
-## Appendix B. Grounding and local verification
+## Appendix B. Alternatives rejected
 
-<Required source files and skill references. Name the exact SHAs, isolated worktree or working directory, startup and readiness commands, control skill, and output path for each live lane. Reuse the same scenario at base and head where comparable. Allocate distinct ports and writable outputs for parallel runs.>
+<Each approach weighed and why it lost.>
 
-## Appendix C. Risks and evidence gaps
+## Appendix C. Risks
 
-<Missing tools, unavailable history, unresolved decisions, or tests that could not run. State what each gap prevents concluding and its next step.>
+<Each risk with the PR it lands in and what the owner watches.>
+
+## Appendix D. Links and reading list
+
+<Docs to read before editing. Which PRs get `$PSTACK_PLUGIN_ROOT/skills/how/SKILL.md` and `$PSTACK_PLUGIN_ROOT/skills/interrogate/SKILL.md`. The trail per `$PSTACK_PLUGIN_ROOT/skills/show-me-your-work/SKILL.md`.>
 ````
 
-**Reply:** the plan path, implementation sequence, explicit decisions and remaining gaps, and the structural check result. Do not turn a plan-only request into implementation.
+**Reply:** the plan path, the PR ids with their dependencies and the review-gated set, what the prototypes proved and what stays unproven, and the check script's output.

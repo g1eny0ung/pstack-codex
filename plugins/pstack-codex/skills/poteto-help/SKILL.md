@@ -1,128 +1,138 @@
 ---
 name: poteto-help
-description: "Guide users through pstack-codex setup, poteto-mode, and choosing a skill, playbook, or principle. Use $poteto-help with a question."
+description: Guides users through pstack setup, $poteto-mode, and picking the skill, playbook, or principle for a task. Type $poteto-help with a question.
 ---
 
 # Poteto help
 
-Answer the user's question about pstack-codex, give them a prompt they can send, and link the file the answer came from. For a help question, don't start the work. Let the user send the prompt.
+Answer the user's question about pstack, hand them a prompt they can send, and link the file the answer came from. For a help question, don't start the work. The user asked how, and a pstack run spends real tokens, so let them send the prompt.
 
-A message that asks for work, such as "use pstack to fix this bug", is not a help question. Read [poteto-mode](../poteto-mode/SKILL.md) and do the work under it. Its workflow applies to the current task.
+A message that asks for work, such as "use pstack to fix this bug", is not a help question. Read [`poteto-mode`](../poteto-mode/SKILL.md), do the work under it, and mention once that it applies to the current task.
 
-This file maps questions to the skills that own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. Link the local file you read. For installation and removal, read the [repository README](https://github.com/g1eny0ung/pstack-codex#readme). Use the port's instructions rather than Cursor installation or Custom Mode instructions.
+This file maps questions to the skills and guide pages that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. The local links here point into the installed plugin. Give the user the resolved file link for Codex instructions. Links to upstream guide pages are pinned source references; their Cursor-specific instructions do not override this port.
 
 ## Find out what they need
 
-Infer the need from the message and conversation. A named situation, such as "which skill reviews a PR?", goes straight to its section. If the need is unclear, ask one multiple-choice question with these options, then answer the section they pick:
+Infer the need from the message and the conversation. A named situation, such as "which skill reviews a PR?", goes straight to its section. If the need is still unclear, ask one multiple-choice question with these options, then answer only the section they pick:
 
-- Get set up.
-- Start a task with `$poteto-mode`.
-- Pick a skill for a situation.
-- Fix a run that went wrong.
-- Make pstack my own.
+- Get set up
+- Start a task with `$poteto-mode`
+- Pick a skill for a situation
+- Fix a run that went wrong
+- Make pstack my own
 
 Check the state that changes the answer, and mention it only when it does:
 
-- Read [Codex runtime](../poteto-mode/references/codex-runtime.md) before checking model settings. If the personal override file is absent, every role uses its shipped default. Absence does not prove setup has never run.
-- Check the project's verification tools when the question is about proving a change works. Use available tests and host control tools. Don't recommend an unshipped verification skill.
+- No `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` means `$setup-pstack` hasn't run for this user, so every role uses its default model.
+- No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention the missing harness when the question is about proving a change works. The upstream `create-verification-skill` skill is outside this port.
 
-When personal overrides are absent and it matters, ask whether the user wants to choose role models and reasoning effort now. It matters when the user is new, asks about setup or cost, or needs to know which models run. Ask at most once per chat. If the need is also unclear, combine the questions. Offer two choices:
+When the model configuration is missing and it matters, ask whether the user wants to pick a model for each role and a reasoning budget now. It matters when the user is new, the question is about setup or cost, or the answer depends on which models run. Ask at most once per chat. If the need is also unclear, ask both questions together. Offer two choices:
 
-- Now. Give them `$setup-pstack` to type, and answer their question too.
-- Later. Answer their question and say roles keep their shipped defaults until configured.
+- Now: give them `$setup-pstack` to type, and answer their question too.
+- Later: answer their question, and add one line saying every role keeps its default model until they run `$setup-pstack`.
 
 ## Get set up
 
-1. Follow the [README installation instructions](https://github.com/g1eny0ung/pstack-codex#install) and start a new Codex chat.
-2. Invoke [setup-pstack](../setup-pstack/SKILL.md) to inspect or change role models and reasoning effort. Personal overrides stay outside the installed plugin.
+1. Install with `codex plugin marketplace add https://github.com/g1eny0ung/pstack-codex.git`, then `codex plugin add pstack-codex@pstack-codex`. Start a new chat after installation.
+2. Run [`$setup-pstack`](../setup-pstack/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes personal JSON configuration. The configuration applies to subsequent subagent launches.
 3. Start a real task with `$poteto-mode`, a goal, and a check that can pass or fail.
 
-All skills require explicit invocation. An invoked workflow can read related skills when needed. Offer to word the first prompt using [the prompting reference](references/prompting.md).
+Installing changes nothing until the user invokes a skill. All skills require explicit invocation or deliberate routing from an invoked workflow. The [README](../../../../README.md) and [guide page 1](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/01-setup.md) have the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
 
-If cost is the concern, explain that subagents and review panels consume additional tokens. Use `$setup-pstack` to choose supported models or lower reasoning effort. The runtime owns the allowed settings and panel sizes. Do not suggest `auto`, `inherit-parent`, or fewer interrogate seats. Those are not supported configuration values in this port.
+If cost is the worry, say where the tokens go and how to spend fewer. pstack spends extra tokens on subagents and review panels. Rerun `$setup-pstack` and pick a smaller budget or cheaper models. A role set to `auto` or `inherit-parent` runs on the chat's model, which saves tokens when the chat runs on a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `$poteto-mode` for work that needs rigor.
+
+pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes and `/loop` are Cursor features; this port uses current-task invocation and the host's native continuation and automation capabilities. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
 
 ## Start a task with `$poteto-mode`
 
-`$poteto-mode` matches the task to a playbook, tracks its applicable steps, and reads other skills as needed. A skipped material step keeps its reason. A good prompt states the goal and how to tell it is done. Read [the prompting reference](references/prompting.md) before helping write one.
+`$poteto-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one. [Guide page 2](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/02-poteto-mode.md) has examples.
 
-Invoke `$poteto-mode` for each new task that needs it. It does not install a persistent chat mode or change the main chat's model. Mid-chat, "new task" tells the agent to match a fresh playbook. Playbook delegates use the local [poteto-agent reference](../poteto-mode/references/poteto-agent.md) through the host's native subagent tools.
+`$poteto-mode` applies to the current task. Start each new task with `$poteto-mode`; this port does not install a persistent Custom Mode.
+
+Link [Codex runtime](../poteto-mode/references/codex-runtime.md) when this comes up. Mid-chat, "new task" makes the mode match a fresh playbook. `$poteto-mode` already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, spawn it with the native local subagent tool and require it to read [poteto-agent](../poteto-mode/references/poteto-agent.md).
 
 ## Pick a skill
 
-The default answer for a nontrivial engineering task is `$poteto-mode`. Name a focused skill when the user wants a specific workflow. Read that skill before recommending it and give one example prompt.
+The default answer is `$poteto-mode`, which runs most of the others when its steps need them. Name a skill directly when the user wants more or less of something than the playbook gives. Read the skill before you recommend it, and give one example prompt.
 
 | The user wants to | Skill |
 |---|---|
-| Complete an engineering task with verification | [poteto-mode](../poteto-mode/SKILL.md) |
-| Understand current code or where a change belongs | [how](../how/SKILL.md) |
-| Understand why code has its current shape | [why](../why/SKILL.md) |
-| Compare types and module structure before implementation | [architect](../architect/SKILL.md) |
-| Compare attempts at one brief and combine the best parts | [arena](../arena/SKILL.md) |
-| Split checks or exploration across local agents | [swarm](../swarm/SKILL.md) |
-| Get independent reviews of a diff | [interrogate](../interrogate/SKILL.md) |
-| Fix a bug with a cheap local test first | [tdd](../tdd/SKILL.md) |
-| Apply TypeScript conventions | [typescript-best-practices](../typescript-best-practices/SKILL.md) |
-| Review comments and their underlying constraints | [no-comments](../no-comments/SKILL.md) |
-| Remove unnecessary generated code | [deslop](../deslop/SKILL.md) |
-| Drive a CLI or browser for verification | [control-cli](../control-cli/SKILL.md), [control-ui](../control-ui/SKILL.md) |
-| Remove AI writing patterns | [unslop](../unslop/SKILL.md) |
-| Write technical documentation | [technical-writing](../technical-writing/SKILL.md) |
-| Check a performance measurement | [benchmark-checklist](../benchmark-checklist/SKILL.md) |
-| Plan a large or cross-cutting engineering run | [figure-it-out](../figure-it-out/SKILL.md) |
-| Keep or review a decision log | [show-me-your-work](../show-me-your-work/SKILL.md) |
-| Configure role models and reasoning effort | [setup-pstack](../setup-pstack/SKILL.md) |
-| Turn a completed task's lessons into proposed skill changes | [reflect](../reflect/SKILL.md) |
-| Prevent repeated agent mistakes in a repository | [correct](../correct/SKILL.md) |
-| Find their way around the plugin | `$poteto-help` |
+| Do any non-trivial task with rigor | [`$poteto-mode`](../poteto-mode/SKILL.md) |
+| Know how code works now, or where new code should live | [`$how`](../how/SKILL.md) |
+| Know why code is shaped this way, or where a number came from | [`$why`](../why/SKILL.md) |
+| Settle types and module shape before code that crosses a function boundary | [`$architect`](../architect/SKILL.md) |
+| Get several attempts at one brief, merged into the best one | [`$arena`](../arena/SKILL.md) |
+| Run parallel checks over slices, or race workers, as local agents | [`$swarm`](../swarm/SKILL.md) |
+| Have different GPT configurations review a diff and try to break it | [`$interrogate`](../interrogate/SKILL.md) |
+| Fix a bug test-first when a cheap local test exists | [`$tdd`](../tdd/SKILL.md) |
+| Apply TypeScript rules to `.ts` or `.tsx` work | [`$typescript-best-practices`](../typescript-best-practices/SKILL.md) |
+| Strip comments before review, using a reviewer that didn't write them | [`$no-comments`](../no-comments/SKILL.md) |
+| Clean AI tells out of prose | [`$unslop`](../unslop/SKILL.md) |
+| Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`$technical-writing`](../technical-writing/SKILL.md) |
+| Vet a performance number before reporting or acting on it | [`$benchmark-checklist`](../benchmark-checklist/SKILL.md) |
+| Run a large or cross-cutting change, or one to review after stepping away | [`$figure-it-out`](../figure-it-out/SKILL.md) |
+| Keep a decision log during a run, and review it afterward | [`$show-me-your-work`](../show-me-your-work/SKILL.md) |
+| Pick a model for each role and a reasoning budget | [`$setup-pstack`](../setup-pstack/SKILL.md) |
+| Turn what a finished task taught into skill edits | [`$reflect`](../reflect/SKILL.md) |
+| Stop agents from repeating the same mistakes in this repo | [`$correct`](../correct/SKILL.md) |
+| Find their way around pstack | `$poteto-help` |
 
-If a sibling skill is missing from the table, read its frontmatter and route by its description. The `principle-*` directories are covered below.
+If a skill directory next to this one is missing from the table, read its frontmatter and route by its description. The `principle-*` directories are covered under principles below.
 
 Close calls:
 
-- `$how` explains mechanics. `$why` explains reasons.
-- `$arena` gives every worker the same brief. `$swarm` splits the work into slices or a race.
-- `$architect` implements after settling the design. Add "with checkpoint" to review the design before implementation.
-- `$interrogate` reviews a diff. `$correct` identifies repeated mistakes and changes the repository to prevent them.
-- Resuming a specific chat or branch uses Session pickup. This port does not ship a cross-chat recall skill.
-- `$figure-it-out` designs a rigorous run. The Autonomous run playbook drives one task to a finish condition.
+- `$how` explains what the code does. `$why` explains the reasons.
+- `$arena` gives every worker the same brief and merges the best parts. `$swarm` splits work into slices or a race and returns one report.
+- `$architect` implements right after it settles the design. Add "with checkpoint" to review the design before it writes code.
+- `$interrogate` reviews the diff.
+- Resuming one specific chat or branch is the Session pickup playbook.
+- `$figure-it-out` designs one rigorous run. The Autonomous run playbook drives one task to a finish condition.
+
+Availability in this port:
+
+- `$deslop`, `control-cli`, and `control-ui` come from `cursor-team-kit` and are bundled in this port.
+- `/loop` and `/create-skill` are Cursor built-ins. Use the Codex runtime continuation interfaces and the host's skill-creator skill instead.
+- pstack has no `/orchestrate` skill. Its Orchestrate playbook is excluded from this port, as are Autopilot-full and Autopilot-stack. If a skill menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles
 
-Playbooks are step lists inside `$poteto-mode`, not separate skills. These phrases select one:
+Playbooks are step lists inside `$poteto-mode`, not skills, so they have no standalone skill command. Inside `$poteto-mode`, describing the task picks one, and these phrases name one directly:
 
-- "Check on PR 123. Anything outstanding?" runs Babysit in its status mode. "Babysit this PR. Get it green." requests active work. Neither request authorizes a merge.
-- "Land the stack" runs Shipping.
-- "Take over this branch" runs Session pickup.
-- "Pause safely" runs Pause safely.
-- "Run the eval playbook" runs Eval.
+- "babysit this pr" or "check on pr 123" runs Babysit. It drives the PR to merge-ready and stops there. It doesn't merge unless the user asks to merge, land, or ship.
+- "land the stack" runs Shipping.
+- "take over this branch" runs Session pickup.
+- "pause safely" runs Pause safely.
+- "run the eval playbook" runs Eval.
 
-The [poteto-mode playbook list](../poteto-mode/SKILL.md#playbooks) owns the complete routing. Cloud orchestration and the two Autopilot playbooks are excluded from this port.
+Without `$poteto-mode`, a phrase such as "babysit this pr" can start another installed skill for the same job instead. The Playbooks section of [`poteto-mode`](../poteto-mode/SKILL.md) lists every playbook and when it applies. [Guide page 6](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/06-verify-and-ship.md) covers opening, babysitting, and landing a PR.
 
-For work spanning phases or stacked PRs, asking `$poteto-mode` for a plan runs the [Multi-phase plan playbook](../poteto-mode/playbooks/multi-phase-plan.md). A plan request does not authorize implementation. For a design question, the Prototype playbook or `$architect` can test alternatives first.
+pstack has no planning skill. Codex's Plan Mode works alongside it. For work that spans phases or stacked PRs, asking `$poteto-mode` for a plan runs the [Multi-phase plan playbook](../poteto-mode/playbooks/multi-phase-plan.md), which writes the plan and doesn't implement it. For a design question, the Prototype playbook or `$architect` settles it in code first.
 
-Principles are focused skills that `$poteto-mode` reads and cites when they change a decision. A user can steer with a name, such as "Apply Prove It Works. Show me the actual output." Read the relevant `principle-*/SKILL.md` before explaining it.
+Principles are one-rule skills that `$poteto-mode` reads and cites in its replies. The user rarely invokes one. They steer with the names instead, as in "apply prove it works. show me the real output." Typing `$principle-<name>` still loads one on demand. [Guide page 8](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/08-principles.md) lists them.
 
 ## Fix a run that went wrong
 
 | Symptom | Fix |
 |---|---|
-| An unrelated task inherited the previous workflow | State "new task" and invoke the desired skill for that task. |
-| A new model setting had no effect | Read the effective configuration. New settings apply to subsequent subagent launches, not running agents or the main chat. |
-| Runs cost more than expected | Inspect role settings and the subagents the selected workflow requires. |
-| A skill did not load on its own | Invoke it explicitly. All shipped skills are explicit-only. |
-| Parallel agents overwrote each other | Give writers separate worktrees or disjoint file ownership. |
-| An unattended run made changes but finished nothing | Set a checkable finish condition. Request scheduling explicitly only when later wakeups are needed and the host supports them. |
-| The reply claims success from a green build | Ask for the actual command output, user flow, stored value, or profile. |
+| The mode stopped applying after a few turns | The invocation applies to one task. Start each task with `$poteto-mode`. |
+| A question got treated as the next step of the last task | Say "new task", or say the turn doesn't need the mode. |
+| A new model choice had no effect | The configuration from `$setup-pstack` applies to subsequent subagent launches. Running agents keep their settings. |
+| Runs cost more than expected | See the cost paragraph under Get set up. |
+| A skill didn't load on its own | All skills require explicit invocation or deliberate routing from an invoked workflow. They load when the user types them or when `$poteto-mode` runs them, and it doesn't run every skill. |
+| Parallel agents overwrote each other | Give each agent its own worktree. |
+| An overnight run moved but finished nothing | The autonomous run needs a check that can pass or fail, not a duration. See [guide page 7](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/07-overnight.md). |
+| The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That's the prove-it-works principle. |
 
-[The prompting reference](references/prompting.md) has short ways to redirect a run. [The recipes](references/recipes.md) provide example prompts.
+For a run that drifts, [`references/prompting.md`](references/prompting.md) has one-line steers. [Guide page 10](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/10-recipes-and-pitfalls.md) has more pitfalls and the recipes worth copying.
 
 ## Make pstack my own
 
-- Use `$setup-pstack` for personal role configuration.
-- Use [reflect](../reflect/SKILL.md) after a session to propose skill edits.
-- Ask `$poteto-mode` to write a skill for a workflow. It uses the host's skill authoring tools when available. The Eval playbook can test a change independently.
-- Edit skills in their source checkout. Keep personal configuration and task artifacts outside the installed cache.
+- [`$reflect`](../reflect/SKILL.md) after a session turns its lessons into skill edits the user approves.
+- `$poteto-mode write a skill for <workflow>` runs the authoring playbook. The eval playbook tests a skill change blind.
+- Fix a misbehaving skill in its own PR, not inside the feature work where it went wrong.
+
+[Guide page 9](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/09-make-it-yours.md) covers each of these.
 
 ## Reply
 
-Lead with the answer. Give at most one example prompt in a code block, adapted from [the recipes](references/recipes.md), then a link to the source you read. Keep it short unless the user asks for the whole map.
+Lead with the answer. Give at most one example prompt in a code block, adapted from [`references/recipes.md`](references/recipes.md) when one fits, then the link to that file. Keep it short unless the user asked for the whole map.

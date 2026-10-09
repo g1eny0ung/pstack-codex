@@ -18,7 +18,7 @@ Examples of the pattern:
 - User describes a flaky test the agent could have queried via an observability MCP. Routing: the debugging skill should mention the observability MCP.
 - User links a chat thread the agent could have fetched via a chat MCP. Routing: the relevant skill should mention the chat MCP.
 
-Read the exported conversation at <ABSOLUTE_PATH>. Respect missing or truncated-history markers and report any coverage gap. If no full-history export is available, report the missing input rather than claiming a transcript audit.
+Read the active transcript at <ABSOLUTE_PATH> (or use the digest below if no path is given).
 
 Scan for:
 - Tool invocations and command flags the agent had to discover
@@ -32,14 +32,14 @@ Scan for:
 
 Findings must point to skills, tools, or MCPs invoked in this transcript. Speculative routings to skills the parent never opened do not count. To check whether a skill was used, scan the transcript for:
 
-- File-read tool calls against any `SKILL.md` in the project, user skill directories, or the installed plugin
-- Subagent launch prompts that name a skill path
-- Tool calls (shell, file search, MCP, etc.) that match a skill's documented commands
+- File-reading tool calls against any `SKILL.md` file (workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths)
+- Native subagent prompts that name a skill path
+- Tool calls (Shell, Grep, MCP, etc.) that match a skill's documented commands
 
 Two valid finding shapes:
 
 - The parent invoked the skill and you found a real gap in its body. Route to the skill's relevant section.
-- The skill was invoked or deliberately routed but its description or entrypoint led to the wrong workflow. Tune that description or routing. Explicit-only invocation is intentional; do not treat lack of automatic invocation as a bug. Route as `tune description: <skill path>`.
+- The skill was visible in the catalog but did not trigger when it would have helped. Tune the skill's description so future agents pick it up. Route as `tune description: <skill path>`.
 
 If a skill was neither invoked nor a missed-trigger candidate, drop it.
 
@@ -51,3 +51,5 @@ List each durable learning you find. For each:
 Skip trivial things (typos, retries). Skip anything already obvious from the existing skill the parent followed. Skip implementation details that drift: specific SHAs, current file paths, version numbers, exact byte counts. Convention generalizes. Pinned details don't.
 
 Return as a numbered list. No exposition.
+
+<DIGEST IF FILE PATH UNAVAILABLE>

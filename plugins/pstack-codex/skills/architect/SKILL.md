@@ -5,7 +5,7 @@ description: "Sketch types, signatures, and module structure before code, then s
 
 # Architect
 
-Read [Codex runtime](../poteto-mode/references/codex-runtime.md) before using subagents, model settings, or conversation history. Resolve sibling skills from this plugin’s `skills/` directory.
+Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.
 
 Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Synthesize across multiple model perspectives, then fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.
 
@@ -31,7 +31,7 @@ Skip Phase A only when the work is genuinely greenfield with no surrounding syst
 
 Run the **arena** skill with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's prompt. Each candidate produces a design package shaped per `references/rationale-template.md`.
 
-Use the `architect_runners` role instead of `arena_runners`. The default is three independent GPT candidates at high effort. Arena’s independent judge uses `arena_judge`. Resolve both through the shared runtime.
+Take the runners from the `architect_runners` line in the Codex model configuration, in place of the `arena_runners` line. If the rule or that line is missing, use `gpt-6-astra` with `reasoning_effort: xhigh` and `gpt-6-astra` with `reasoning_effort: high`. Alias and rejected entries follow the runner rules in the **arena** skill's Phase A.
 
 Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is the **exhaust-the-design-space** principle skill made concrete. Whole-shape alternatives, not point fixes inside one shape.
 

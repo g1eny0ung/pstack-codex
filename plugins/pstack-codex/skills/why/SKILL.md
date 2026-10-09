@@ -5,13 +5,13 @@ description: "Use for 'why does X work this way', 'why we picked Y', design rati
 
 # Why
 
-Read [Codex runtime](../poteto-mode/references/codex-runtime.md) before using subagents, model settings, or conversation history. Resolve sibling skills from this plugin’s `skills/` directory.
+Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.
 
 Investigate the motivation and intent behind code.
 
 Companion to the `how` skill. `how` answers what the code does and how it works. `why` answers what forces led to its shape.
 
-Each spawn uses the role named below, resolved through the shared Codex runtime and model configuration. Pass `model` and `reasoning_effort` separately. An unavailable model or effort is a reported capability gap, not permission to substitute.
+Each spawn below names a role in the Codex model configuration and a default. Set `model` and `reasoning_effort` to that role's values, or to the default if the rule or the line is missing. Leave `model` and `reasoning_effort` unset when the value is `auto` or `inherit-parent`. If the native subagent tool rejects a configuration, use the default and say so. If it rejects the default, use the closest supported configuration of the same GPT model from its error message.
 
 ## Operating Posture
 
@@ -62,7 +62,7 @@ Capture this as seed context (file paths, symbols, commits, PR numbers, linked t
 
 ### Discovery
 
-Before spawning investigators, inspect the current Codex tool inventory and discover callable connectors through the host’s tool search when available. Classify only tools actually present. External connectors are optional; do not install one merely to fill the roster.
+Before spawning investigators, list the available MCPs from the Codex host. Use the available-tools map when present. Otherwise use the host's supported tool-discovery interface for enabled MCP servers.
 
 Map each available MCP to one evidence category:
 
@@ -74,15 +74,16 @@ Map each available MCP to one evidence category:
 6. Error / exception tracking
 7. Product analytics warehouse
 
-Use local Git history for source control when the target is a Git repository. Use `gh` for remote evidence when installed and authenticated; otherwise record that gap. For the other six, classify using the MCP name, server instructions, tool names, and resource descriptors. If an MCP could fit more than one category, choose the one matching its primary evidence. Record ambiguous cases in the coverage map.
+Source control is always available through git and `gh`. For the other six, classify using the MCP name, server instructions, tool names, and resource descriptors. If an MCP could fit more than one category, choose the one matching its primary evidence. Record ambiguous cases in the coverage map.
 
 Aim for a complete **coverage map**, not a minimal one. Document the null, don't skip the search.
 
-Launch matching investigators concurrently within the available local slots. Don't ask one agent to cover multiple MCPs.
+Launch all matching investigators in a single message so they run concurrently. Don't ask one agent to cover multiple MCPs.
 
 Subagent config (each):
-- Role: `why_investigators`.
-- Read-only investigation. Use available MCPs for evidence; do not modify external records.
+- Use the native local subagent API.
+- `model` and `reasoning_effort`: the `why_investigators` line, default `gpt-6.1-sol` with `reasoning_effort: xhigh`
+- Preserve MCP access in the native subagent assignment. Investigators still shouldn't write anything.
 
 Each investigator gets:
 1. The base prompt from `references/investigator-prompt.md`
@@ -97,7 +98,7 @@ Spawn one investigator per category that has a matching MCP. Each owns exactly o
 
 Each entry names the category and the kind of "why" it uniquely surfaces. Use it to know what to expect back, how to name a gap when a category returns empty, and (only in the rare provably-irrelevant case) to justify a skip.
 
-1. **Source control investigator**. Git history, available `gh` PR evidence, code comments, tests. Spawn for the code anchor and record any missing Git or remote access. Best at surfacing *implementation-time rationale captured during review*.
+1. **Source control investigator**. Git history, `gh` for PRs, code comments, tests. Always spawn. The only guaranteed source. Best at surfacing *implementation-time rationale captured during review*.
 
 2. **Issue / ticket tracker investigator** (e.g. Linear, Jira, GitHub Issues, Plane, Shortcut MCP). Best at surfacing *the product or business forcing function*. Strongest when the why is external to engineering.
 
@@ -124,8 +125,9 @@ If your scope assessment suggests a single-commit trivial target where the PR de
 
 Spawn one synthesizer subagent:
 
-- Role: `why_synthesizer`.
-- Read-only synthesis. Spot-check citations through the available tools.
+- Use the native local subagent API.
+- `model` and `reasoning_effort`: the `why_synthesizer` line, default `gpt-6-astra` with `reasoning_effort: xhigh`
+- Preserve MCP access in the native subagent assignment. The synthesizer's quality check spot-verifies citations, which can require MCP access.
 
 The synthesizer gets:
 1. The investigator findings, including any null results and any categories skipped with justification

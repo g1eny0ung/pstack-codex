@@ -87,8 +87,6 @@ Don't mix modes: no reference tables inside a tutorial, no tutorial hand-holding
 - Call each thing by one name, everywhere. A doc that says "the gate", "the ratchet", and "the budget check" for one thing teaches three things. Rewording an unchanged sentence between edits costs the same way. Don't churn what didn't change.
 - Skip idioms, colloquialisms, Latin abbreviations, and metaphors. A non-native reader, a translator, and an agent all parse plain constructions best.
 
-Sources for these standards are [Diátaxis](https://diataxis.fr/), the [Google developer style guide](https://developers.google.com/style), [ASD-STE100](https://asd-ste100.org/), and John R. Kohl's *The Global English Style Guide* from SAS Press.
-
 ## Voice and repo specifics
 
 - Apply the **unslop** skill to every doc this skill touches. That skill owns the slop-pattern catalog: AI vocabulary, filler, hedging, formatting tells.

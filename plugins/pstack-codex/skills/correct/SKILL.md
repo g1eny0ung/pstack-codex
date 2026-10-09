@@ -1,19 +1,17 @@
 ---
 name: correct
-description: "Find repeated agent mistakes in this repo and prevent them through architecture, types, checks, or tests. Prove each new check catches a real past mistake. Use for $correct."
+description: "Find the mistakes agents keep repeating in this repo and make each one impossible. Try architecture first, then types, then a lint whose error names the fix, then a test, and write docs last. Prove each check fails on a real past mistake. Repeat this each time the operator corrects you. Use for $correct."
 ---
 
 # Correct
 
-The user keeps correcting agents in this repo for the same mistakes. Change the repo so the next agent can't make them.
-
-Apply this workflow to the requested task only. Preserve the user's scope and authorization boundaries in [Codex runtime](../poteto-mode/references/codex-runtime.md). If the user asks only for an audit, report the classes and proposed checks without editing.
+The operator keeps correcting agents in this repo for the same mistakes. Change the repo so the next agent can't make them.
 
 Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Design the repo so a change that looks right from one file is right for the whole repo.
 
 ## Find the mistake classes
 
-Read recent commits, reverts, available review comments, agent instruction files, and comments that explain workarounds. Group the mistakes into classes. A class counts once it has happened twice. Cite both occurrences. Missing review access is an evidence gap, not permission to invent a repeat or scan unrelated chats.
+First, read recent commits, reverts, review comments, agent instruction files, and comments that explain workarounds. Group the mistakes into classes. A class counts once it has happened twice.
 
 ## Fix each class at the highest level that works
 
@@ -24,10 +22,10 @@ Read recent commits, reverts, available review comments, agent instruction files
 
 ## Fix and prove
 
-Fix the most frequent classes within the requested scope. Keep each class as a separate verified change, and use one commit per class when commits are part of the requested delivery. Prove each new check fails on a real past mistake and passes on the corrected case. Run the same command locally and in CI when CI execution is available and authorized. Otherwise report that CI execution remains unverified. Exceptions go on the offending line with a reason, an expiry date, and the user's approval.
+Then fix the most frequent classes now, one commit each. Prove each new check fails on a real past mistake. Run the same command locally and in CI. Exceptions go on the offending line with a reason, an expiry date, and a human's approval.
 
 ## Keep the rule table
 
-Keep a table in the repository's agent instruction file that pairs each remaining rule with what enforces it. During this task, when the user corrects you, fix the mistake and add the rule. If the rule was already there and nothing enforces it, that's a repeat. Fix it at the highest level within scope. Drop a rule once its mistake can't happen.
+Last, keep a table in the agent instruction file that pairs each rule with what enforces it. When the operator corrects you, fix the mistake and add the rule. If the rule was already there and nothing enforces it, that's a repeat, so fix it at the highest level in the same change. Drop a rule once its mistake can't happen.
 
-**Reply:** each class with its evidence, the level you picked, why a higher level didn't work, and the verification result. If no class has two supported occurrences, say so instead of changing the repo.
+**Reply:** each class with its evidence, the level you picked, and why a higher level didn't work.

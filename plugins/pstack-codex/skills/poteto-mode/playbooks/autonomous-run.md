@@ -1,12 +1,13 @@
 ### Autonomous run
 
-**You own the exit condition. Define done, then drive to it within the user's scope.**
+**You own the exit condition. Define done, then drive to it without stopping.**
 
-1. State the exit condition as a checkable predicate before the first iteration, such as tests green, the repro fixed, or the requested PRs ready. Use the user's condition and authority; a skill cannot authorize merging or unrelated work.
-2. Pick the execution mechanism from [Codex runtime](../references/codex-runtime.md). Continue ordinary work in the current task. An event to watch can use a local watcher process or subagent and the host's waits. Create a Goal only for an explicit persistent-goal request, and a heartbeat or schedule only for an explicit request to monitor or continue later. If the host lacks that capability, state the limit and preserve a resume checkpoint; do not build a background scheduler.
-3. Each iteration makes the smallest change the evidence justifies and verifies it against the predicate. Commit a verified unit when commits are in scope. Revert only the task's unsuccessful changes, preserving unrelated work. Sequence work via **principle-sequence-verifiable-units**, verifying each unit before the next.
-4. Address blockers and related defects only within the authorized task. Report unrelated discoveries for a separate decision. Repair a broken skill only when its source edit is requested; keep the installed plugin read-only. Surface a product decision reserved for the user, missing external-action authorization, or a genuine dead end while continuing independent useful work.
-5. Checkpoint each meaningful iteration via **show-me-your-work**, recording what changed, its evidence, and whether the predicate moved. Keep logs in the task runtime directory.
-6. Stop when the predicate is met, the user stops the run, or a host limit or concrete blocker prevents progress. A plateau calls for a revised hypothesis, not a fabricated success. Never relax the predicate to declare victory. Report an unfinished state and the next actionable step.
+1. State the exit condition as a checkable predicate before the first iteration (tests green, repro fixed, all N PRs merged, pixel-diff zero).
+2. Pick the wake mechanism using the host's native event wait and, when the user explicitly requests scheduled or later work, native automation per `$POTETO_SKILL_ROOT/references/codex-runtime.md`. Without that request, keep the loop in the active turn; without a scheduler, use the active process and explicit resume. An event to watch (CI, a merge, a ref advancing) gets a watcher subagent that wakes you on the event, with a long time-based heartbeat as fallback. No event gets a fixed-interval heartbeat sized to when the result is worth re-checking.
+3. Each iteration makes the smallest change the evidence justifies, verifies it against the predicate, commits if it advanced, discards changes that didn't help. Belt-and-suspenders that "might help" gets reverted, not left to ride.
+   Sequence the work via the **sequence-verifiable-units** principle skill, verifying each unit before the next instead of batching checks at the end.
+4. Mid-run discoveries within the authorized task are yours. Address broken skills, related bugs, flaky verifiers, review noise, tooling failures, orphaned follow-ups, and fixable drift yourself via poteto-mode. Put out-of-band fixes in their own PR. Do not park reversible work for the human or ask an unnecessary question. Surface only irreversible actions, genuine product or preference calls no experiment can settle, or a real dead end. Keep the predicate as the main drive, and return to it after each side fix.
+5. Checkpoint every iteration via the **show-me-your-work** skill, a row for what changed and whether the predicate moved.
+6. Stop when the predicate is met. A plateau is not a stop, so keep going and pivot your approach to push past it. Surface a genuine dead end rather than spinning, and never relax the predicate to declare victory.
 
-**Reply:** the exit condition, iterations run, what changed, what was discarded, final predicate state, and any remaining blocker.
+**Reply:** the exit condition, iterations run, what landed, what was discarded, final predicate state.

@@ -1,51 +1,51 @@
 # Word the prompt
 
-A prompt states the intent and the check for done. The playbook supplies the steps, so a few plain sentences are enough.
+A prompt states the intent and the check for done. The playbook supplies the steps, so a few plain sentences beat a spec.
 
 ## Put in
 
-- The goal. Say what is wrong or what you want.
+- The goal. Say what is wrong or what the user wants.
 - The done check. It can pass or fail. "Make it better" and a duration are not checks.
-- The proof to show. Ask for the actual command output, a recording of the flow, the stored value, or a before and after measurement.
-- What you already know. A symptom, a reproduction step, a log, or a link saves the agent a search.
-- The real constraints. "Reproduce first", "don't change any code yet", "zero behavior change", and "let me review before proceeding" each change what the agent does.
+- The proof to show. Ask for the real command output, a video of the flow, the stored value, or a before and after number.
+- What the user already knows. A symptom, a repro step, a log, or a link saves the agent a search.
+- The real constraints. "repro first", "don't change any code yet", "zero behavior change", and "let me review before proceeding" each change what the agent does.
 
 ## Leave out
 
-- A prescribed implementation when you want the agent to explore alternatives.
-- A list of skills or steps that duplicates the playbook. Name a skill when you want to override a workflow choice.
-- An unlabelled theory of the cause. Mark a guess as a guess so it does not replace the observed symptom.
+- The how. Say what to achieve, and leave the agent room to find a better way.
+- A list of skills or steps. A hand-written order drops or reorders steps the playbook keeps. Name a skill only to override one choice.
+- The user's theory of the cause, until the agent restates the problem. A stated guess narrows the search.
 
 ## Load the context first
 
-- For a noisy report, ask the agent to restate the issue in plain words before it starts. This exposes a misunderstanding before code exists.
-- In a fresh chat, provide the relevant branch, decision log, or specific chat reference. Use Session pickup to continue that work. Do not scan unrelated conversations.
-- Before a change to unfamiliar code, ask `$how` for the mechanics and `$why` for the reasons.
-- Ask the agent to explain why its proposed change fixes the cause and what evidence supports that claim.
+- For a noisy report, ask the agent to restate the underlying issue in its own words and in plain English before it does anything else. A misreading shows up before any code exists.
+- In a fresh chat, read the relevant earlier work on the topic through the host's thread-history tools. Old chats hold context that the new agent lacks.
+- Before a change to unfamiliar code, ask `$how` for the mechanics and `$why` for the reasons. An agent with no traced model fixes the symptom at the first plausible spot.
+- Ask the agent to make the case for a choice, as in "convince me it fixes the cause and not the symptom". A case is easier to check than a summary.
 
 ## Design before the plan
 
-- For an unsettled design, ask for prototypes of a few options. Use screenshots or recordings for UI when the host can capture them.
-- Let prototypes answer observable questions before reviewing an abstract plan.
-- For a shared package or API, ask for usage documentation first, then work back to the code. The documentation becomes a target to verify.
-- Ask for the implementation plan after the design is settled. Each step ends in a check.
+- Never take the first design. Ask for prototypes of a few options, with screenshots or videos for UI, and pick from the evidence.
+- Let prototypes answer the open questions. Don't review an abstract plan adversarially, because reviewers invent risks that never happen.
+- For a shared package or API, ask for the README or a tutorial first, then work back to the code. The doc becomes the target the agent checks itself against.
+- Ask for the plan only after the design is settled. Each step of the plan ends in a check.
 
 ## Follow up short
 
-- "Do it", "continue", and "keep going until done" are complete prompts once the chat holds the task and its scope.
-- Start with "new task" when the subject changes. Otherwise the agent treats the message as the next step.
+- "do it", "continue", and "keep going until done" are whole prompts once the chat holds the task.
+- Start with "new task" when the subject changes. Otherwise the mode treats the message as the next step.
 
 ## Before stepping away
 
-- Say that you are stepping away and name the decisions the agent may make.
-- Define done with checks the agent can run. A request to continue in the current turn does not create a schedule. Ask for monitoring or later wakeups explicitly when needed.
-- Ask for a fresh worktree off a named base when isolation matters.
-- State delivery permissions, such as whether to commit, push, or open a PR.
-- Ask for a decision log to review later.
-- Give a stop condition for an unresolved blocker and ask for the evidence gathered so far.
+- Say "im going to bed" or "im stepping away" so the agent stops asking.
+- Write done as checks every iteration can run, and give the autonomous run that predicate, using the [Codex runtime](../../poteto-mode/references/codex-runtime.md) continuation interface.
+- Ask for a fresh worktree off a named base.
+- Pre-answer what the agent would stop for, such as "don't ask me before committing".
+- Ask for a decision log to audit later.
+- Give an exit: "if you're truly stuck after a few hours, stop and write up why".
 
 ## Steer in one line
 
-- Restate the goal. "I asked you to reproduce it, not to fix it yet."
-- Name the principle. "Apply Prove It Works. Show me the actual output."
-- A cited principle must be one the agent read. Its reply names the decision that the principle changed.
+- Restate the goal: "i said the goal is to repro. i did not ask for a fix yet."
+- Name the principle: "apply prove it works. show me the real output, not the build log."
+- A principle name works because the agent already read the rule. Its reply names the decision the rule changed.

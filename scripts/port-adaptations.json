@@ -1,0 +1,4006 @@
+{
+  "version": 1,
+  "upstream_commit": "d0ef80d86795816da932a153458c5dbe192d294e",
+  "files": [
+    {
+      "source": "cursor-team-kit/LICENSE",
+      "target": "licenses/cursor-team-kit-MIT.txt",
+      "edits": [],
+      "source_sha256": "702f5f331b56aff0e33d8c7826df5202559f894145eb70355c6477b55b5bb8a0"
+    },
+    {
+      "source": "pstack/LICENSE",
+      "target": "licenses/pstack-MIT.txt",
+      "edits": [],
+      "source_sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e"
+    },
+    {
+      "source": "pstack/skills/architect/SKILL.md",
+      "target": "skills/architect/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /architect",
+          "new": " $architect",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "\"/architect",
+          "new": "\"$architect",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "# Architect\n",
+          "new": "# Architect\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "`pstack-models.mdc` rule",
+          "new": "Codex model configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Roles resolve through models.defaults.json and personal overrides as defined by Codex runtime."
+        },
+        {
+          "old": "`architect runners`",
+          "new": "`architect_runners`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "`arena runners`",
+          "new": "`arena_runners`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "`claude-opus-5-5-xhigh`",
+          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map the first upstream candidate to the unchanged first GPT configuration."
+        },
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: high`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
+        }
+      ],
+      "source_sha256": "922238947195f2fb825e90688bb6cfa520b81a35a7bee12223c73a6cf96ae64b"
+    },
+    {
+      "source": "pstack/skills/architect/references/design-red-flags.md",
+      "target": "skills/architect/references/design-red-flags.md",
+      "edits": [],
+      "source_sha256": "d0e639e4cc588ec865f930d3a4111faad60987ae36925917e319d7ceca7c69ce"
+    },
+    {
+      "source": "pstack/skills/architect/references/rationale-template.md",
+      "target": "skills/architect/references/rationale-template.md",
+      "edits": [],
+      "source_sha256": "0cedfccdc7b47fc881febd5a8293eecbc542c20f8df825639904a8102d2eb5d3"
+    },
+    {
+      "source": "pstack/skills/architect/references/runner-prompt.md",
+      "target": "skills/architect/references/runner-prompt.md",
+      "edits": [],
+      "source_sha256": "21dd5314aab778c5007228027a4591d97693fbec6ab86524037772b63f40948e"
+    },
+    {
+      "source": "pstack/skills/arena/SKILL.md",
+      "target": "skills/arena/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /arena",
+          "new": " $arena",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "# Arena\n",
+          "new": "# Arena\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "`~/.cursor/rules/pstack-models.mdc`",
+          "new": "the Codex model configuration",
+          "count": 2,
+          "kind": "model",
+          "reason": "Replace the Cursor rules file with Codex role resolution."
+        },
+        {
+          "old": "`arena runners`",
+          "new": "`arena_runners`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "`arena cross-judge pool`",
+          "new": "`arena_cross_judge_pool`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "omit `model`",
+          "new": "omit `model` and `reasoning_effort`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both fields inherit for auto and inherit-parent."
+        },
+        {
+          "old": "the Task tool",
+          "new": "the native subagent tool",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "the closest valid slug of the same family from its error message",
+          "new": "the closest supported configuration of the same GPT model from its error message",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex validates model and effort separately."
+        },
+        {
+          "old": "`claude-opus-5-5-xhigh`",
+          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "count": 3,
+          "kind": "model",
+          "reason": "Map the first upstream candidate to the unchanged first GPT configuration."
+        },
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: high`",
+          "count": 2,
+          "kind": "model",
+          "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
+        },
+        {
+          "old": "run that seat on its family's default",
+          "new": "run that seat on its shipped role default",
+          "count": 1,
+          "kind": "model",
+          "reason": "Fallback follows the mapped role configuration."
+        },
+        {
+          "old": "Families go by prefix: `claude-*` and `grok-*`. ",
+          "new": "",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both upstream families map to GPT configurations; no Cursor-family routing remains."
+        },
+        {
+          "old": "With no family match,",
+          "new": "With no matching default entry,",
+          "count": 1,
+          "kind": "model",
+          "reason": "Retain the fallback for unmatched entries under JSON role resolution."
+        },
+        {
+          "old": "Spawn all N subagents in one message with `run_in_background: true`",
+          "new": "Spawn all N local subagents concurrently, in batches when the host limits slots",
+          "count": 1,
+          "kind": "host",
+          "reason": "Native spawn is asynchronous and host concurrency limits change scheduling, not N."
+        },
+        {
+          "old": "Prefer a different model family from the parent's.",
+          "new": "Prefer a different reasoning effort from the parent's.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the documented GPT cross-judge effort mapping."
+        }
+      ],
+      "source_sha256": "6e17736b5228b661569c3af054f8302c55cf9bf1649447652d53705cce38bed6"
+    },
+    {
+      "source": "pstack/skills/benchmark-checklist/SKILL.md",
+      "target": "skills/benchmark-checklist/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        }
+      ],
+      "source_sha256": "6a767e788a60428fa14e645ee10fe2e49896e514ff654f668b1d824deb9038e8"
+    },
+    {
+      "source": "cursor-team-kit/skills/control-cli/SKILL.md",
+      "target": "skills/control-cli/SKILL.md",
+      "edits": [],
+      "source_sha256": "13ac93e595bbda2000849bdb815d5f2ca03f7c2ca63788c8335f9212b9b422a2"
+    },
+    {
+      "source": "cursor-team-kit/skills/control-ui/SKILL.md",
+      "target": "skills/control-ui/SKILL.md",
+      "edits": [],
+      "source_sha256": "410cae25bdb1e5d2323b126abc5047b0213be7fdb0195710213fa8de8a751871"
+    },
+    {
+      "source": "pstack/skills/correct/SKILL.md",
+      "target": "skills/correct/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /correct",
+          "new": " $correct",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        }
+      ],
+      "source_sha256": "bf482bacc972b3f124a4af8bf9364b4b3e280cb5845e44c326ea4f4565e5c904"
+    },
+    {
+      "source": "cursor-team-kit/skills/deslop/SKILL.md",
+      "target": "skills/deslop/SKILL.md",
+      "edits": [],
+      "source_sha256": "2f7b7def74af7ed11f5b44b4d32f0f91fca8c5d1f92bf2171e8d12fd33a0f810"
+    },
+    {
+      "source": "pstack/skills/figure-it-out/SKILL.md",
+      "target": "skills/figure-it-out/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /figure-it-out",
+          "new": " $figure-it-out",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        }
+      ],
+      "source_sha256": "0eb9485f0e7d84fee56b5d0f0af0faf4635e3ca87c8cba3970c01293b76ecc19"
+    },
+    {
+      "source": "pstack/skills/how/SKILL.md",
+      "target": "skills/how/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "# How\n",
+          "new": "# How\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "`pstack-models.mdc` rule",
+          "new": "Codex model configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Roles resolve through models.defaults.json and personal overrides as defined by Codex runtime."
+        },
+        {
+          "old": "`how explorer`",
+          "new": "`how_explorer`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "`how explainer`",
+          "new": "`how_explainer`",
+          "count": 2,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "a role line in",
+          "new": "a role in",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex roles are JSON fields."
+        },
+        {
+          "old": "Set `model` to that line's value",
+          "new": "Set `model` and `reasoning_effort` to that role's values",
+          "count": 1,
+          "kind": "model",
+          "reason": "Keep model and reasoning effort separate."
+        },
+        {
+          "old": "Leave `model` unset",
+          "new": "Leave `model` and `reasoning_effort` unset",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both fields inherit for auto and inherit-parent."
+        },
+        {
+          "old": "the Task tool",
+          "new": "the native subagent tool",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "Task subagent",
+          "new": "native subagent",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "- `model`: the",
+          "new": "- `model` and `reasoning_effort`: the",
+          "count": 3,
+          "kind": "model",
+          "reason": "Pass both fields from the resolved role configuration."
+        },
+        {
+          "old": "- `subagent_type`: `generalPurpose`",
+          "new": "- Use the native local subagent API.",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "- `readonly`: `true`",
+          "new": "- Read-only assignment; do not edit files or external records.",
+          "count": 3,
+          "kind": "host",
+          "reason": "Native Codex schema has no readonly field; preserve the review-only assignment."
+        },
+        {
+          "old": "the closest valid slug of the same family from its error message",
+          "new": "the closest supported configuration of the same GPT model from its error message",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex validates model and effort separately."
+        },
+        {
+          "old": "rejects a slug",
+          "new": "rejects a configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex uses model and effort fields, not combined slugs."
+        },
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6.1-sol` with `reasoning_effort: high`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the shipped explorer or investigator role default."
+        },
+        {
+          "old": "`claude-opus-5-5-xhigh`",
+          "new": "`gpt-6.1-sol` with `reasoning_effort: xhigh`",
+          "count": 2,
+          "kind": "model",
+          "reason": "Use the shipped explainer or synthesizer role default."
+        }
+      ],
+      "source_sha256": "7e0d902484a90eba73dcf518bff478dc5b962b456d23c3d0a188c2ce36b236d8"
+    },
+    {
+      "source": "pstack/skills/how/references/explainer-prompt.md",
+      "target": "skills/how/references/explainer-prompt.md",
+      "edits": [
+        {
+          "old": "Use Read, Grep, and Glob as needed.",
+          "new": "Use file-reading tools, `rg`, and `rg --files` as needed.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Map named Cursor tools to available Codex file tools."
+        }
+      ],
+      "source_sha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff"
+    },
+    {
+      "source": "pstack/skills/how/references/explorer-prompt.md",
+      "target": "skills/how/references/explorer-prompt.md",
+      "edits": [
+        {
+          "old": "Use Glob to find directories and files, Grep to find key symbols, Read to understand the actual implementation.",
+          "new": "Use `rg --files` to find directories and files, `rg` to find key symbols, and file-reading tools to understand the actual implementation.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Map named Cursor tools to available Codex file tools."
+        }
+      ],
+      "source_sha256": "a3b44a6e5bb16a6d4d1cac19db8ed5322ffd5f5f5d45baca4e73990ca096f8be"
+    },
+    {
+      "source": "pstack/skills/interrogate/SKILL.md",
+      "target": "skills/interrogate/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "# Interrogate\n",
+          "new": "# Interrogate\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "`~/.cursor/rules/pstack-models.mdc`",
+          "new": "the Codex model configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Replace the Cursor rules file with Codex role resolution."
+        },
+        {
+          "old": "`interrogate reviewers`",
+          "new": "`interrogate_reviewers`",
+          "count": 2,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "omit `model`",
+          "new": "omit `model` and `reasoning_effort`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both fields inherit for auto and inherit-parent."
+        },
+        {
+          "old": "the Task tool",
+          "new": "the native subagent tool",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "- `model`: the",
+          "new": "- `model` and `reasoning_effort`: the",
+          "count": 1,
+          "kind": "model",
+          "reason": "Pass both fields from the resolved role configuration."
+        },
+        {
+          "old": "- `subagent_type`: `generalPurpose`",
+          "new": "- Use the native local subagent API.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "- `readonly`: `true`",
+          "new": "- Read-only assignment; do not edit files or external records.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Native Codex schema has no readonly field; preserve the review-only assignment."
+        },
+        {
+          "old": "`claude-opus-5-5-xhigh`",
+          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map the first upstream candidate to the unchanged first GPT configuration."
+        },
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: high`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
+        },
+        {
+          "old": "run that reviewer on the table default of its family",
+          "new": "run that reviewer on its shipped table default",
+          "count": 1,
+          "kind": "model",
+          "reason": "Fallback uses the corresponding GPT configuration."
+        },
+        {
+          "old": "Families go by prefix: `claude-*` and `grok-*`. ",
+          "new": "",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both families map to GPT configurations."
+        },
+        {
+          "old": "With no family match,",
+          "new": "With no matching default entry,",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve unmatched-entry fallback in the GPT mapping."
+        },
+        {
+          "old": "valid slugs",
+          "new": "supported model and effort pairs",
+          "count": 1,
+          "kind": "model",
+          "reason": "Model and effort are separate Codex fields."
+        },
+        {
+          "old": "prefer the same family and reasoning tier",
+          "new": "prefer the same GPT model and reasoning effort",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use separate GPT launch fields."
+        },
+        {
+          "old": "and open a separate PR to update the default table",
+          "new": "and, when the user authorizes it, open a separate PR to update the default table",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Review invocation does not authorize publishing an unrelated PR."
+        }
+      ],
+      "source_sha256": "2f7e570ec23791ed2e485a09c98ed0597c46035e2050b351b84d3dc760ddd71f"
+    },
+    {
+      "source": "pstack/skills/interrogate/references/code-quality-review.md",
+      "target": "skills/interrogate/references/code-quality-review.md",
+      "edits": [],
+      "source_sha256": "79162fda183eafd40d51661fbb5e151c7ba250f89e506ba17f5bd135dcbd50a8"
+    },
+    {
+      "source": "pstack/skills/interrogate/references/lead-judgment.md",
+      "target": "skills/interrogate/references/lead-judgment.md",
+      "edits": [],
+      "source_sha256": "6e5bdf5670eb34017692e9b6c546f36ac7552e6bb9f3f2f3429164fcc46a9361"
+    },
+    {
+      "source": "pstack/skills/interrogate/references/reviewer-prompt.md",
+      "target": "skills/interrogate/references/reviewer-prompt.md",
+      "edits": [],
+      "source_sha256": "e0598e254792b56de39bb16b1e6db559b03a522fdc54b98f942d254090920ae6"
+    },
+    {
+      "source": "pstack/skills/interrogate/references/rubric.md",
+      "target": "skills/interrogate/references/rubric.md",
+      "edits": [
+        {
+          "old": "(Read, Grep, Glob)",
+          "new": "(file-reading tools, `rg`, `rg --files`)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex file tools."
+        }
+      ],
+      "source_sha256": "a85aa801abbaf14434f00579440abc0d8e2723227ba8bf57de7cca8d6e7d2f25"
+    },
+    {
+      "source": "pstack/skills/no-comments/SKILL.md",
+      "target": "skills/no-comments/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "`/architect",
+          "new": "`$architect",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "`/how",
+          "new": "`$how",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "`/no-comments",
+          "new": "`$no-comments",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "`/why",
+          "new": "`$why",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "# No comments\n",
+          "new": "# No comments\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "Spawn `Task` with `subagent_type: \"Comment Sicko\"`.",
+          "new": "Spawn a native local subagent that reads `references/comment-sicko.md`, inheriting the parent model and effort.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Role references replace Cursor custom agent types; no new model role is added."
+        }
+      ],
+      "source_sha256": "5c5b0882297d704c3a9720c52b7a793c68b013eaf717989f0945624efdfe2b05"
+    },
+    {
+      "source": "pstack/agents/comment-sicko.md",
+      "target": "skills/no-comments/references/comment-sicko.md",
+      "edits": [
+        {
+          "old": "/how",
+          "new": "$how",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "/why",
+          "new": "$why",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        }
+      ],
+      "source_sha256": "c0fd0383008da45fc78cfac17b9007d62c42f87ad1c8d5c2fb658b1fd01f7c82"
+    },
+    {
+      "source": "pstack/skills/poteto-help/SKILL.md",
+      "target": "skills/poteto-help/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit invocation is configured in agents/openai.yaml."
+        },
+        {
+          "old": "and mention once that a Custom Mode keeps it on.",
+          "new": "and mention once that it applies to the current task.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex invocation is task-scoped, not a Cursor Custom Mode."
+        },
+        {
+          "old": "The links here point into the installed plugin, which the user may not be able to open, so give the user the file's public copy: `https://github.com/cursor/plugins/blob/main/pstack/` followed by its path.",
+          "new": "The local links here point into the installed plugin. Give the user the resolved file link for Codex instructions. Links to upstream guide pages are pinned source references; their Cursor-specific instructions do not override this port.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Upstream public files do not represent adapted Codex runtime instructions."
+        },
+        {
+          "old": "`~/.cursor/rules/pstack-models.mdc`",
+          "new": "`${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the personal Codex JSON configuration path."
+        },
+        {
+          "old": "Mention `/create-verification-skill` when the question is about proving a change works.",
+          "new": "Mention the missing harness when the question is about proving a change works. The upstream `create-verification-skill` skill is outside this port.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Do not route to excluded skill; preserve harness diagnosis."
+        },
+        {
+          "old": "the model rule",
+          "new": "the model configuration",
+          "count": 1,
+          "kind": "host",
+          "reason": "The host uses JSON configuration rather than rules."
+        },
+        {
+          "old": "Install with `/add-plugin pstack` in chat, or from Customize in the sidebar.",
+          "new": "Install with `codex plugin marketplace add https://github.com/g1eny0ung/pstack-codex.git`, then `codex plugin add pstack-codex@pstack-codex`. Start a new chat after installation.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use supported Codex plugin installation commands."
+        },
+        {
+          "old": "and writes a rule. The rule applies to new chats.",
+          "new": "and writes personal JSON configuration. The configuration applies to subsequent subagent launches.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Role settings are resolved for each Codex subagent launch."
+        },
+        {
+          "old": "Only `/setup-pstack` loads from the user's words.",
+          "new": "All skills require explicit invocation or deliberate routing from an invoked workflow.",
+          "count": 2,
+          "kind": "metadata",
+          "reason": "All installed entries have explicit invocation policy."
+        },
+        {
+          "old": "[README](../../README.md)",
+          "new": "[README](../../../../README.md)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve README to the repository root."
+        },
+        {
+          "old": "../../docs/guide/01-setup.md",
+          "new": "https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/01-setup.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "This guide is not shipped; preserve its pinned upstream reference."
+        },
+        {
+          "old": "../../docs/guide/02-poteto-mode.md",
+          "new": "https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/02-poteto-mode.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "This guide is not shipped; preserve its pinned upstream reference."
+        },
+        {
+          "old": "../../docs/guide/06-verify-and-ship.md",
+          "new": "https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/06-verify-and-ship.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "This guide is not shipped; preserve its pinned upstream reference."
+        },
+        {
+          "old": "../../docs/guide/07-overnight.md",
+          "new": "https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/07-overnight.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "This guide is not shipped; preserve its pinned upstream reference."
+        },
+        {
+          "old": "../../docs/guide/08-principles.md",
+          "new": "https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/08-principles.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "This guide is not shipped; preserve its pinned upstream reference."
+        },
+        {
+          "old": "../../docs/guide/09-make-it-yours.md",
+          "new": "https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/09-make-it-yours.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "This guide is not shipped; preserve its pinned upstream reference."
+        },
+        {
+          "old": "../../docs/guide/10-recipes-and-pitfalls.md",
+          "new": "https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/10-recipes-and-pitfalls.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "This guide is not shipped; preserve its pinned upstream reference."
+        },
+        {
+          "old": "when the chat runs on Auto or a cheaper model",
+          "new": "when the chat runs on a cheaper model",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor Auto is not a Codex model; preserve the cheaper-parent guidance."
+        },
+        {
+          "old": "pstack is built for Cursor. Its skills use the Agent Skills format, so other tools can read them. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.",
+          "new": "pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes and `/loop` are Cursor features; this port uses current-task invocation and the host's native continuation and automation capabilities. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace incompatible platform compatibility instructions with the Codex runtime contract."
+        },
+        {
+          "old": "Whether `/poteto-mode` stays on depends on how the user starts it:\n\n- Enter on `/poteto-mode` attaches the skill to one message. It fades as the chat moves on.\n- Option+Enter on Mac or Alt+Enter on Windows, or Use as Mode from the skill entry, makes it a Custom Mode. It stays in context every turn until the user exits the mode, and it stays out of casual turns.\n- Cursor's docs list Custom Modes in the Agents Window and the CLI. Elsewhere, start each new task with `/poteto-mode`.",
+          "new": "`/poteto-mode` applies to the current task. Start each new task with `/poteto-mode`; this port does not install a persistent Custom Mode.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor keyboard and mode UI instructions have no Codex equivalent."
+        },
+        {
+          "old": "Link [Cursor's skills docs](https://cursor.com/docs/skills) when this comes up.",
+          "new": "Link [Codex runtime](../poteto-mode/references/codex-runtime.md) when this comes up.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Route Codex invocation questions to the actual runtime contract."
+        },
+        {
+          "old": "spawn it with `subagent_type: \"poteto-agent\"`.",
+          "new": "spawn it with the native local subagent tool and require it to read [poteto-agent](../poteto-mode/references/poteto-agent.md).",
+          "count": 1,
+          "kind": "host",
+          "reason": "Role is a local reference, not a native agent type."
+        },
+        {
+          "old": "| Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "| Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "| Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "| Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "| Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "| Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "| Turn their own working habits into a personal mode skill | [`/automate-me`](../automate-me/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "| Build a page whose buttons wake a Grok Bot over a webhook | [`/make-bot-ui`](../make-bot-ui/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the table route to an excluded skill."
+        },
+        {
+          "old": "or race workers, as cloud agents",
+          "new": "or race workers, as local agents",
+          "count": 1,
+          "kind": "host",
+          "reason": "Swarm runs on native local subagents."
+        },
+        {
+          "old": "Have different models review a diff",
+          "new": "Have different GPT configurations review a diff",
+          "count": 1,
+          "kind": "model",
+          "reason": "Review diversity maps to supported GPT configurations."
+        },
+        {
+          "old": " `/teach` runs one or both and explains the result plainly.",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only the excluded teach route."
+        },
+        {
+          "old": " `/blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe.",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only the excluded blast-radius route."
+        },
+        {
+          "old": "`/recall` rebuilds context across recent chats. ",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only the excluded recall route; keep Session pickup guidance."
+        },
+        {
+          "old": " The Orchestrate playbook runs a program that spans days and many PRs.",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only excluded cloud orchestration route."
+        },
+        {
+          "old": "Not in pstack:",
+          "new": "Availability in this port:",
+          "count": 1,
+          "kind": "scope",
+          "reason": "The port bundles selected cursor-team-kit entries."
+        },
+        {
+          "old": "`/deslop`, `control-cli`, and `control-ui` ship in the `cursor-team-kit` plugin.",
+          "new": "`/deslop`, `control-cli`, and `control-ui` come from `cursor-team-kit` and are bundled in this port.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Preserve attribution and describe actual packaged entries."
+        },
+        {
+          "old": "`/loop` and `/create-skill` are Cursor built-ins.",
+          "new": "`/loop` and `/create-skill` are Cursor built-ins. Use the Codex runtime continuation interfaces and the host's skill-creator skill instead.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Explain unsupported host built-ins and their local equivalents."
+        },
+        {
+          "old": "pstack has no `/orchestrate` skill. Orchestrate is a `/poteto-mode` playbook. If the slash menu shows `/orchestrate`, another plugin provides it.",
+          "new": "pstack has no `/orchestrate` skill. Its Orchestrate playbook is excluded from this port, as are Autopilot-full and Autopilot-stack. If a skill menu shows `/orchestrate`, another plugin provides it.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Retain naming distinction without routing to excluded playbooks."
+        },
+        {
+          "old": "- \"full autopilot on this queue\" runs Autopilot-full. \"stack them, don't ship\" runs Autopilot-stack.\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only executable routing to excluded cloud playbooks."
+        },
+        {
+          "old": "Cursor's own skill",
+          "new": "another installed skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex does not invoke Cursor built-ins."
+        },
+        {
+          "old": "Cursor's Plan Mode",
+          "new": "Codex's Plan Mode",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use host plan mode terminology."
+        },
+        {
+          "old": "so they have no slash command",
+          "new": "so they have no standalone skill command",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex uses explicit skill invocation."
+        },
+        {
+          "old": "It was started with Enter. Start it as a Custom Mode, or start each task with `/poteto-mode`.",
+          "new": "The invocation applies to one task. Start each task with `/poteto-mode`.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Do not advise unsupported Custom Mode UI."
+        },
+        {
+          "old": "The rule from `/setup-pstack` applies to new chats. Start one.",
+          "new": "The configuration from `/setup-pstack` applies to subsequent subagent launches. Running agents keep their settings.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Correct the settings refresh boundary."
+        },
+        {
+          "old": "The others load when the user types them or when `/poteto-mode` runs them, and it doesn't run every skill.",
+          "new": "They load when the user types them or when `/poteto-mode` runs them, and it doesn't run every skill.",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Keep explicit-only invocation explanation consistent."
+        },
+        {
+          "old": "Give each agent its own worktree, or run them as cloud agents, which each get their own machine.",
+          "new": "Give each agent its own worktree.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cloud execution is excluded; preserve isolation guidance."
+        },
+        {
+          "old": "`/loop` needs a check that can pass or fail, not a duration.",
+          "new": "The autonomous run needs a check that can pass or fail, not a duration.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Map loop troubleshooting to the retained autonomous run."
+        },
+        {
+          "old": "- [`/automate-me`](../automate-me/SKILL.md) drafts a personal mode skill from the user's own history, to use alongside `/poteto-mode`.\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only excluded automate-me route."
+        },
+        {
+          "old": "/poteto-help",
+          "new": "$poteto-help",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/poteto-mode",
+          "new": "$poteto-mode",
+          "count": 26,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/setup-pstack",
+          "new": "$setup-pstack",
+          "count": 9,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/how",
+          "new": "$how",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/why",
+          "new": "$why",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/architect",
+          "new": "$architect",
+          "count": 4,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/arena",
+          "new": "$arena",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/swarm",
+          "new": "$swarm",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/interrogate",
+          "new": "$interrogate",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/tdd",
+          "new": "$tdd",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/typescript-best-practices",
+          "new": "$typescript-best-practices",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/no-comments",
+          "new": "$no-comments",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/unslop",
+          "new": "$unslop",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/technical-writing",
+          "new": "$technical-writing",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/benchmark-checklist",
+          "new": "$benchmark-checklist",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/figure-it-out",
+          "new": "$figure-it-out",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/show-me-your-work",
+          "new": "$show-me-your-work",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/reflect",
+          "new": "$reflect",
+          "count": 4,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/correct",
+          "new": "$correct",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/deslop",
+          "new": "$deslop",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/principle-<name>",
+          "new": "$principle-<name>",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "..$",
+          "new": "../",
+          "count": 26,
+          "kind": "host",
+          "reason": "Keep relative file paths intact after skill invocation conversion."
+        }
+      ],
+      "source_sha256": "ea71bcb15c023a5d9cc70686e4812144687ffe03bf80d85cc480af3e0b181d1e"
+    },
+    {
+      "source": "pstack/skills/poteto-help/references/prompting.md",
+      "target": "skills/poteto-help/references/prompting.md",
+      "edits": [
+        {
+          "old": "`/recall` earlier work on the topic.",
+          "new": "read the relevant earlier work on the topic through the host's thread-history tools.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Keep context-loading advice without invoking excluded recall."
+        },
+        {
+          "old": "Ask `/teach` to make the case",
+          "new": "Ask the agent to make the case",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Keep explanatory prompt without invoking excluded teach."
+        },
+        {
+          "old": "give `/loop` that predicate.",
+          "new": "give the autonomous run that predicate, using the [Codex runtime](../../poteto-mode/references/codex-runtime.md) continuation interface.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use supported continuation instead of Cursor loop."
+        },
+        {
+          "old": "/poteto-mode",
+          "new": "$poteto-mode",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/how",
+          "new": "$how",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/why",
+          "new": "$why",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "..$",
+          "new": "../",
+          "count": 1,
+          "kind": "host",
+          "reason": "Keep relative file paths intact after skill invocation conversion."
+        }
+      ],
+      "source_sha256": "463f450c44a60afd001a2f69fdf8a5dea174351f339369b12ec3c41515e564d3"
+    },
+    {
+      "source": "pstack/skills/poteto-help/references/recipes.md",
+      "target": "skills/poteto-help/references/recipes.md",
+      "edits": [
+        {
+          "old": "`/recall my work on <topic> from last week, then read <issue>.`",
+          "new": "`read my relevant earlier chats on <topic> from last week using the host thread-history tools, then read <issue>.`",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Keep historical-context example without invoking excluded recall."
+        },
+        {
+          "old": "/teach me why",
+          "new": "explain why",
+          "count": 2,
+          "kind": "scope",
+          "reason": "Keep explanation examples without invoking excluded teach."
+        },
+        {
+          "old": "/loop until done.",
+          "new": "continue until done; use the host scheduler if a later wakeup is needed.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the native continuation interface for this explicit autonomous prompt."
+        },
+        {
+          "old": "- `/poteto-mode full autopilot on this queue. each item is independent.`\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only excluded autopilot-full example."
+        },
+        {
+          "old": "- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only excluded autopilot-stack example."
+        },
+        {
+          "old": "- `/bro` restates the last reply in plain words.\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only excluded bro invocation."
+        },
+        {
+          "old": "/poteto-mode",
+          "new": "$poteto-mode",
+          "count": 19,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/how",
+          "new": "$how",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/why",
+          "new": "$why",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/tdd",
+          "new": "$tdd",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/verify-<app>",
+          "new": "$verify-<app>",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/architect",
+          "new": "$architect",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/arena",
+          "new": "$arena",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/interrogate",
+          "new": "$interrogate",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/swarm",
+          "new": "$swarm",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/show-me-your-work",
+          "new": "$show-me-your-work",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": "/reflect",
+          "new": "$reflect",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        }
+      ],
+      "source_sha256": "1872323419a3e5c7783b1933f7a180ca26c25a6e1f4ec83bd65e091ebbfb812b"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/SKILL.md",
+      "target": "skills/poteto-mode/SKILL.md",
+      "edits": [
+        {
+          "old": "name: Poteto Mode",
+          "new": "name: poteto-mode",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex skill identifiers use lowercase hyphenated names"
+        },
+        {
+          "old": "description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, /poteto-mode, or requests to work in this style.",
+          "new": "description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use explicitly for $poteto-mode on the current task.",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation and task-scoped activation"
+        },
+        {
+          "old": "disable-model-invocation: true\nmode: true\nicon: crown\ncolor: yellow\nreminder: New task? Playbook match or rigor needed -> apply /poteto-mode. Casual turn or user opts out -> don't.\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Cursor mode metadata is replaced by explicit agents/openai.yaml policy"
+        },
+        {
+          "old": "# Poteto mode\n",
+          "new": "# Poteto mode\n\nApply this workflow to the current requested task. If invoked without a task, confirm that scope and wait. Read [Codex runtime](references/codex-runtime.md) before using tools, model roles, or sibling skills. Resolve paths from the installed plugin and keep personal state outside its cache.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve native Codex APIs, plugin paths and current-task activation"
+        },
+        {
+          "old": "`AskQuestion`",
+          "new": "ask the user",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor AskQuestion API is unavailable"
+        },
+        {
+          "old": "Under the grant, apply a default for a call that only the operator can make.",
+          "new": "Under the grant, apply a default only for a call the operator delegated.",
+          "count": 1,
+          "kind": "host",
+          "reason": "A skill cannot override user-reserved decisions"
+        },
+        {
+          "old": "**interrogate** skill (multi-model adversarial)",
+          "new": "**interrogate** skill (independent GPT adversarial)",
+          "count": 1,
+          "kind": "model",
+          "reason": "Reviewers use configured GPT model and effort pairs"
+        },
+        {
+          "old": "Agent-facing prose also follows the **create-skill** skill (Cursor's built-in for authoring SKILL.md files).",
+          "new": "Agent-facing prose also follows the host's **skill-creator** skill for authoring SKILL.md files. If unavailable, report that gap.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex provides skill-creator, not Cursor create-skill"
+        },
+        {
+          "old": "the `deslop` skill from the `cursor-team-kit` plugin",
+          "new": "the bundled `deslop` skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Selected cursor-team-kit skill is bundled in this plugin"
+        },
+        {
+          "old": "`cursor-team-kit` publishes `control-cli` (CLIs and TUIs) and `control-ui` (browser / Electron / web UIs).",
+          "new": "This plugin bundles `control-cli` (CLIs and TUIs) and `control-ui` (browser / Electron / web UIs).",
+          "count": 1,
+          "kind": "host",
+          "reason": "Selected control skills are bundled locally"
+        },
+        {
+          "old": ", and not Cursor's built-in babysit skill, whose description matches the same words",
+          "new": "",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor built-in babysit is not a Codex dependency"
+        },
+        {
+          "old": "\"/loop until X\"",
+          "new": "\"keep working until X\"",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use current task or explicitly requested host schedule instead of Cursor loop"
+        },
+        {
+          "old": "**Just do it.** Use any MCP tool. Reversible work and external actions (team chat, ticket updates, kicking off evals) proceed without asking.",
+          "new": "**Just do it.** Use available MCP tools. Authorized reversible work proceeds without asking. External actions (team chat, ticket updates, kicking off evals) require authorization from the current user request; a skill cannot grant it.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve Codex external-action authorization boundaries"
+        },
+        {
+          "old": "**Always pause** for irreversible writes: force-push to shared branches, deploys, data deletion, customer messages.",
+          "new": "**Always pause** for irreversible writes without existing authorization: force-push to shared branches, deploys, data deletion, customer messages.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Existing user authorization persists in Codex"
+        },
+        {
+          "old": "**Use `subagent_type: \"poteto-agent\"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). `/poteto-mode` and `poteto-agent` route through the same wrapper.",
+          "new": "**Pass [poteto-agent](references/poteto-agent.md) to any local subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). `$poteto-mode` and the delegate read the same skill.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Native Codex agents accept a brief rather than Cursor custom agent types"
+        },
+        {
+          "old": "set their own `subagent_type` for diverse-model review. Respect what the skill prescribes, don't override to `poteto-agent`.",
+          "new": "set their own reviewer briefs for independent GPT review. Respect what the skill prescribes, don't override to the `poteto-agent` brief.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Routed Codex workflows select prompts instead of subagent_type"
+        },
+        {
+          "old": "**Defaults for every `Task` call.** `run_in_background: true`, agent mode (readonly strips MCP), file pointers not inlined context, explicit model per role",
+          "new": "**Defaults for every local subagent call.** Use the host's native asynchronous subagent tools, read-only scope for reviewers, file pointers not inlined context, explicit model and reasoning effort per role",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace Cursor Task flags with supported Codex launch fields and read-only scope"
+        },
+        {
+          "old": "Defaults `grok-4.7-xhigh-fast` for code, `claude-opus-5-5-xhigh` for prose and judgment",
+          "new": "Defaults `gpt-6-astra` with `high` effort for code, `gpt-6.1-sol` with `xhigh` effort for prose and judgment",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve configured code and prose roles"
+        },
+        {
+          "old": "(`claude-opus-5-5-xhigh`)",
+          "new": "(`gpt-6-astra` with `xhigh` effort)",
+          "count": 1,
+          "kind": "model",
+          "reason": "Hardest tasks use configured hardest_tasks pair"
+        },
+        {
+          "old": "Per-role lines in the `/setup-pstack` rule",
+          "new": "Per-role entries in the `$setup-pstack` JSON configuration",
+          "count": 1,
+          "kind": "host",
+          "reason": "Personal settings use Codex JSON configuration"
+        },
+        {
+          "old": "A role with no line keeps its default, and a role line of `inherit-parent` or `auto` runs that role on the parent chat model (omit Task `model`).",
+          "new": "A role with no override keeps its default, and a role value of `inherit-parent` or `auto` runs that role on the parent chat configuration (omit both `model` and `reasoning_effort`).",
+          "count": 1,
+          "kind": "model",
+          "reason": "Model and effort are separate Codex launch fields"
+        },
+        {
+          "old": "Each code playbook's configured model comes from its line (`feature, refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`), and the hardest changes read `hardest tasks`. Prose and judgment read `judgment and prose`.",
+          "new": "Each code playbook's configured model and effort come from its role (`feature_refactoring`, `bug_fix`, `perf_issue`, or `hillclimb`), and the hardest changes read `hardest_tasks`. Prose and judgment read `judgment_and_prose`.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Normalize upstream role labels to existing JSON keys"
+        },
+        {
+          "old": "A second opinion is the same prompt against a different model.",
+          "new": "A second opinion is the same prompt against a different configured GPT model or reasoning effort.",
+          "count": 1,
+          "kind": "model",
+          "reason": "GPT-only host supports independent model/effort configurations"
+        },
+        {
+          "old": "Open a todolist",
+          "new": "Open a task checklist",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use available host planner or a text checklist"
+        },
+        {
+          "old": " A standing project-scale program (multi-day, many stacked PRs, a fleet of subagents under one coordinator) routes to **Orchestrate** instead. figure-it-out designs one bespoke run, orchestrate runs the program.",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Orchestrate is explicitly excluded from the selected port"
+        },
+        {
+          "old": "- **Orchestrate.** A standing project handed to one coordinator chat: multi-day, many stacked PRs, dozens to hundreds of subagents, minimal human turns (\"run this whole project\", \"own this migration until it lands\"). Distinct from Autonomous run, which drives one task to a predicate. Work one agent could finish inside the session's budget routes there, not here, however program-shaped the phrasing sounds. `playbooks/orchestrate.md`.\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Excluded cloud orchestration playbook is not shipped"
+        },
+        {
+          "old": "- **Autopilot-full.** A queue of independent PRs run to merged with full autonomy. One owner per PR carries build through merge, and the root swarm-verifies each PR before its owner merges (\"autopilot this queue\", \"full autopilot\", one-owner-per-PR programs). `playbooks/autopilot-full.md`.\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Excluded cloud orchestration playbook is not shipped"
+        },
+        {
+          "old": "- **Autopilot-stack.** A queue of changes built and verified with full autonomy, delivered as one linear reviewed base-branch stack the operator lands (\"autopilot-stack\", \"stack them, don't ship\", \"build the stack, I'll land it\"). `playbooks/autopilot-stack.md`.\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Excluded cloud orchestration playbook is not shipped"
+        },
+        {
+          "old": "a transcript, cloud-agent URL, or pushed branch",
+          "new": "a known Codex thread, checkpoint, or pushed branch",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use accessible local history instead of cloud-agent sessions"
+        },
+        {
+          "old": "a Cursor restart",
+          "new": "a Codex restart",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex host lifecycle"
+        },
+        {
+          "old": "**Opening a PR.** Invoked at the end of every other playbook.",
+          "new": "**Opening a PR.** Invoked at the end of every other playbook when PR delivery is authorized.",
+          "count": 1,
+          "kind": "host",
+          "reason": "A skill does not authorize external publication"
+        },
+        {
+          "old": "/technical-writing",
+          "new": "$technical-writing",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex explicit skill invocation syntax"
+        },
+        {
+          "old": "/deslop",
+          "new": "$deslop",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex explicit skill invocation syntax"
+        },
+        {
+          "old": "/no-comments",
+          "new": "$no-comments",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex explicit skill invocation syntax"
+        },
+        {
+          "old": "/setup-pstack",
+          "new": "$setup-pstack",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex explicit skill invocation syntax"
+        }
+      ],
+      "source_sha256": "31cd02290360ce63564ef22b74d69fc6d90e62181d05a644cbed8f6c47cc9412"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/authoring-a-skill.md",
+      "target": "skills/poteto-mode/playbooks/authoring-a-skill.md",
+      "edits": [
+        {
+          "old": "**create-skill** skill (Cursor's built-in for authoring SKILL.md files)",
+          "new": "**skill-creator** skill (Codex's built-in for authoring SKILL.md files)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the available Codex authoring skill."
+        }
+      ],
+      "source_sha256": "f6a13a445c360b48d6cd72780ac01955f45b82826476efe0e67c7559329407aa"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/autonomous-run.md",
+      "target": "skills/poteto-mode/playbooks/autonomous-run.md",
+      "edits": [
+        {
+          "old": "using Cursor's `/loop` command (a built-in, not a pstack skill)",
+          "new": "using the host's native event wait and, when the user explicitly requests scheduled or later work, native automation per `../references/codex-runtime.md`. Without that request, keep the loop in the active turn; without a scheduler, use the active process and explicit resume",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve event wake and heartbeat selection without inventing authorization for a persistent schedule."
+        },
+        {
+          "old": "Mid-run discoveries are yours.",
+          "new": "Mid-run discoveries within the authorized task are yours.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "A playbook cannot expand task authorization to unrelated resources."
+        },
+        {
+          "old": "or use `AskQuestion`",
+          "new": "or ask an unnecessary question",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor AskQuestion is unavailable; preserve the prohibition on needless blocking questions."
+        },
+        {
+          "old": "../references/codex-runtime.md",
+          "new": "$POTETO_SKILL_ROOT/references/codex-runtime.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "15e54ad3ac92565613980772d8708de6e19cc4690bfd4bb3fb8836522407377b"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/babysit.md",
+      "target": "skills/poteto-mode/playbooks/babysit.md",
+      "edits": [
+        {
+          "old": "replaces Cursor's built-in babysit skill for",
+          "new": "handles",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex does not provide the Cursor built-in babysit router."
+        },
+        {
+          "old": "route there",
+          "new": "route to another babysit skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve the routing precedence without naming an unavailable built-in."
+        },
+        {
+          "old": " An Autopilot-full owner babysitting its own PR is that owner. Where this playbook says to report a rebase, that owner rebases its own branch and publishes it with `git push --force-with-lease` per `playbooks/autopilot-full.md` step 2. In Autopilot-stack, the root is that owner.",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only exceptions belonging to the three explicitly excluded cloud orchestration playbooks."
+        },
+        {
+          "old": "Run `drive` and `background` under `/loop` in dynamic mode.",
+          "new": "Run `drive` and `background` with native event waits; use native automation for later wakeups only when the user requested scheduled or later work, per `../references/codex-runtime.md`.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve watcher-driven dynamic wakeups and native schedule authorization."
+        },
+        {
+          "old": "scripts/watch-pr/watch-pr",
+          "new": "node \"$POTETO_SKILL_ROOT/scripts/dist/watch-pr.mjs\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the bundled Node watcher; the Cursor source command is not shipped."
+        },
+        {
+          "old": "playbooks/shipping.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/shipping.md",
+          "count": 3,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        },
+        {
+          "old": "../references/bugbot-triage.md",
+          "new": "$POTETO_SKILL_ROOT/references/bugbot-triage.md",
+          "count": 2,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        },
+        {
+          "old": "../references/codex-runtime.md",
+          "new": "$POTETO_SKILL_ROOT/references/codex-runtime.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "a0346c37c2313f36a863b80f66ee7b98059c2242adf74fc7b3e48abdb9ec6f5a"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/bug-fix.md",
+      "target": "skills/poteto-mode/playbooks/bug-fix.md",
+      "edits": [
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
+        },
+        {
+          "old": "with Cursor's `/loop` command",
+          "new": "with the wake mechanism in `playbooks/autonomous-run.md`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the ported active-turn or authorized native wake mechanism."
+        },
+        {
+          "old": "playbooks/autonomous-run.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/autonomous-run.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "018bbc146ae19145caa6c7e70591fee081b64447dda1c1c4b681c9974d928b13"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/eval.md",
+      "target": "skills/poteto-mode/playbooks/eval.md",
+      "edits": [
+        {
+          "old": "on different models per",
+          "new": "on different configured model/effort pairs per",
+          "count": 1,
+          "kind": "model",
+          "reason": "Arena candidates retain their configured GPT pairs and count."
+        },
+        {
+          "old": "on a different model family per",
+          "new": "on a different reasoning effort per",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map cross-family judging to the established GPT reasoning-effort rule."
+        },
+        {
+          "old": "Read each candidate's local transcript under the active workspace's `agent-transcripts/` directory (the system prompt names this path). Do not glob across `~/.cursor/projects/*/`.",
+          "new": "Read each candidate's local transcript with `node \"$POTETO_SKILL_ROOT/scripts/read-thread.mjs\" --thread-id <known-candidate-thread-id>`, per `../references/codex-runtime.md`. Do not scan unrelated conversations.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the read-only Codex history API for explicitly identified candidate threads."
+        },
+        {
+          "old": "../references/codex-runtime.md",
+          "new": "$POTETO_SKILL_ROOT/references/codex-runtime.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "b862bfa2fae2399abf047a8e80d3e3dddb64003af96fb1cebb625216131e36bb"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/feature.md",
+      "target": "skills/poteto-mode/playbooks/feature.md",
+      "edits": [
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
+        }
+      ],
+      "source_sha256": "3a62cc4a8cbcf144bb9dd05f05420a15be0d38b784d3b141bb730a5852f50a62"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/hillclimb.md",
+      "target": "skills/poteto-mode/playbooks/hillclimb.md",
+      "edits": [
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
+        },
+        {
+          "old": "playbooks/autonomous-run.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/autonomous-run.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        },
+        {
+          "old": "playbooks/perf-issue.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/perf-issue.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "244f289898fe67a458065e90fe8217c916c5acf61cdee8975ade3f9831a12e91"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/investigation.md",
+      "target": "skills/poteto-mode/playbooks/investigation.md",
+      "edits": [],
+      "source_sha256": "dc66bcf6af3a074fc7f67aa5e12b93ef571a4fb4d8e17f2f1af5ae5359f42e46"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/multi-phase-plan.md",
+      "target": "skills/poteto-mode/playbooks/multi-phase-plan.md",
+      "edits": [
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
+        },
+        {
+          "old": "`/technical-writing`",
+          "new": "**technical-writing**",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "`/unslop`",
+          "new": "**unslop**",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "`/deslop`",
+          "new": "**deslop**",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "`/no-comments`",
+          "new": "**no-comments**",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "with `subagent_type: \"poteto-agent\"` and an explicit model",
+          "new": "using `../references/poteto-agent.md` and an explicit model and reasoning effort",
+          "count": 1,
+          "kind": "host",
+          "reason": "Poteto is a local role reference; Codex has no poteto-agent native subagent_type."
+        },
+        {
+          "old": "under the agent store's `docs/`",
+          "new": "under the task's external runtime directory or ignored `.work/`",
+          "count": 1,
+          "kind": "host",
+          "reason": "This port has no cloud agent store; task plans belong outside the installed plugin."
+        },
+        {
+          "old": "Pick between `playbooks/autopilot-full.md` and `playbooks/autopilot-stack.md` per the rule at the end of `playbooks/autopilot-stack.md`. A standing program takes `playbooks/orchestrate.md`.",
+          "new": "Use `playbooks/autonomous-run.md` for local execution and `playbooks/shipping.md` for authorized landing. Cloud orchestration is outside this port.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Route only to retained local playbooks while retaining the complete planning and verification template."
+        },
+        {
+          "old": "node pstack/skills/poteto-mode/scripts/check-plan.mjs <plan.md>",
+          "new": "node \"$POTETO_SKILL_ROOT/scripts/check-plan.mjs\" <plan.md>",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the bundled checker from the loaded skill."
+        },
+        {
+          "old": "Read these from trunk at program start.",
+          "new": "Read these from the resolved plugin and repository at program start.",
+          "count": 1,
+          "kind": "host",
+          "reason": "The project trunk need not contain the installed plugin."
+        },
+        {
+          "old": "git show origin/main:pstack/skills/poteto-mode/playbooks/<execution playbook>.md",
+          "new": "cat \"$POTETO_SKILL_ROOT/playbooks/<execution playbook>.md\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the same required skill from its resolved installed source rather than an unrelated project trunk."
+        },
+        {
+          "old": "git show origin/main:pstack/skills/swarm/SKILL.md",
+          "new": "cat \"$PSTACK_PLUGIN_ROOT/skills/swarm/SKILL.md\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the same required skill from its resolved installed source rather than an unrelated project trunk."
+        },
+        {
+          "old": "git show origin/main:<control skill path>",
+          "new": "cat \"<resolved control skill path>\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the same required skill from its resolved installed source rather than an unrelated project trunk."
+        },
+        {
+          "old": "git show origin/main:pstack/skills/poteto-mode/playbooks/opening-a-pr.md",
+          "new": "cat \"$POTETO_SKILL_ROOT/playbooks/opening-a-pr.md\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the same required skill from its resolved installed source rather than an unrelated project trunk."
+        },
+        {
+          "old": "git show origin/main:pstack/skills/<each other leaf skill the program uses>",
+          "new": "cat \"$PSTACK_PLUGIN_ROOT/skills/<each other leaf skill the program uses>/SKILL.md\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the same required skill from its resolved installed source rather than an unrelated project trunk."
+        },
+        {
+          "old": "On the operator's go, arm the audit tick as `/loop 1h` with the tick prompt below.",
+          "new": "On the operator's explicit request for the hourly audit, arm the audit tick with native automation and the tick prompt below. Otherwise run the tick during active execution; if the host lacks a scheduler, record the gap and use explicit resume.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve hourly audit semantics only with the explicit scheduling request the host requires."
+        },
+        {
+          "old": "Re-read the execution playbook from trunk.",
+          "new": "Re-read the execution playbook from the resolved plugin.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Keep the audit prompt verbatim except for the actual installed-playbook location."
+        },
+        {
+          "old": "Each live lane runs on its own cloud VM at the PR head.",
+          "new": "Each live lane runs in its own local worktree with isolated runtime state at the PR head. Run all ten lanes in batches within host concurrency limits.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace excluded cloud VMs with isolated local execution without reducing lanes or coverage."
+        },
+        {
+          "old": "on a lane VM",
+          "new": "in a lane's local runtime",
+          "count": 1,
+          "kind": "host",
+          "reason": "Record the same required review video on the local verification surface."
+        },
+        {
+          "old": "pstack/skills/poteto-mode/playbooks/<execution playbook>.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/<execution playbook>.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Generated plans must name the resolved execution playbook."
+        },
+        {
+          "old": "pstack/skills/swarm/SKILL.md",
+          "new": "$PSTACK_PLUGIN_ROOT/skills/swarm/SKILL.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Generated plans resolve sibling skills from the installed plugin."
+        },
+        {
+          "old": "pstack/skills/how/SKILL.md",
+          "new": "$PSTACK_PLUGIN_ROOT/skills/how/SKILL.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Generated plans resolve sibling skills from the installed plugin."
+        },
+        {
+          "old": "pstack/skills/interrogate/SKILL.md",
+          "new": "$PSTACK_PLUGIN_ROOT/skills/interrogate/SKILL.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Generated plans resolve sibling skills from the installed plugin."
+        },
+        {
+          "old": "pstack/skills/show-me-your-work/SKILL.md",
+          "new": "$PSTACK_PLUGIN_ROOT/skills/show-me-your-work/SKILL.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Generated plans resolve sibling skills from the installed plugin."
+        },
+        {
+          "old": "playbooks/autonomous-run.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/autonomous-run.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        },
+        {
+          "old": "playbooks/prototype.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/prototype.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        },
+        {
+          "old": "playbooks/shipping.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/shipping.md",
+          "count": 3,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        },
+        {
+          "old": "../references/bugbot-triage.md",
+          "new": "$POTETO_SKILL_ROOT/references/bugbot-triage.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        },
+        {
+          "old": "../references/poteto-agent.md",
+          "new": "$POTETO_SKILL_ROOT/references/poteto-agent.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "27d310e3fc3937a60b8fcbe1318f9d249a7477a722907bf85b3e4eb3dc436b11"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/opening-a-pr.md",
+      "target": "skills/poteto-mode/playbooks/opening-a-pr.md",
+      "edits": [
+        {
+          "old": "`/technical-writing`",
+          "new": "**technical-writing**",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "`/unslop`",
+          "new": "**unslop**",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "`/deslop`",
+          "new": "**deslop**",
+          "count": 2,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "`/no-comments`",
+          "new": "**no-comments**",
+          "count": 2,
+          "kind": "host",
+          "reason": "Read the shipped sibling skill; Cursor slash command syntax is not a Codex interface."
+        },
+        {
+          "old": "Multiple `Task` calls",
+          "new": "Multiple native subagent calls",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace the Cursor Task tool name without changing worktree isolation."
+        },
+        {
+          "old": "Then it returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report and reports merge-ready or STACK-READY as its playbook says. The rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built do not apply to that owner.",
+          "new": "Then it returns to the parent without babysitting.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Remove only excluded Autopilot owner exceptions; ordinary PR and babysit duties remain unchanged."
+        }
+      ],
+      "source_sha256": "ab40de7163c1c6e274f46ee559b2e53ef45673703f601f13f4931c199e6fb90f"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/pause-safely.md",
+      "target": "skills/poteto-mode/playbooks/pause-safely.md",
+      "edits": [],
+      "source_sha256": "77968cfe5f4a71a8cd33e0ae8ffcdbd88dd693a212c240457773e6c40c96c21d"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/perf-issue.md",
+      "target": "skills/poteto-mode/playbooks/perf-issue.md",
+      "edits": [
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
+        },
+        {
+          "old": "playbooks/hillclimb.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/hillclimb.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "2b88ad0f880e4d4d755ac19fe52414d6631d6baa816d060f53cf0a7429d7e14a"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/prototype.md",
+      "target": "skills/poteto-mode/playbooks/prototype.md",
+      "edits": [],
+      "source_sha256": "7aa1f52c691c3d46d5afc527b23f90977fce869ce33573c73c81a4c7f0cde962"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/refactoring.md",
+      "target": "skills/poteto-mode/playbooks/refactoring.md",
+      "edits": [
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
+        }
+      ],
+      "source_sha256": "50f4f7d3d301551f8b8a57c3303c99958c5ca630ae0d0051823b6987c0eb5b96"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/runtime-forensics.md",
+      "target": "skills/poteto-mode/playbooks/runtime-forensics.md",
+      "edits": [],
+      "source_sha256": "594f02c40c243a346e1f57b688ecf2ed5e882f21b3d24ed2204d1ac6f1c24a8a"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/session-pickup.md",
+      "target": "skills/poteto-mode/playbooks/session-pickup.md",
+      "edits": [
+        {
+          "old": "A local transcript under the active workspace's `agent-transcripts/` directory (the system prompt names the path. Do not glob across `~/.cursor/projects/*/`, that crosses workspace boundaries and reads private chats from unrelated projects), a cloud-agent URL, or a pushed branch.",
+          "new": "A local transcript exported with `node \"$POTETO_SKILL_ROOT/scripts/read-thread.mjs\" --thread-id <known-thread-id>` per `../references/codex-runtime.md`, a user-provided chat reference, or a pushed branch. Do not scan unrelated conversations.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve the prior-trail sources using known Codex thread IDs; excluded cloud agents are unavailable."
+        },
+        {
+          "old": "../references/codex-runtime.md",
+          "new": "$POTETO_SKILL_ROOT/references/codex-runtime.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "1604fb463f7c7410d43fa024ca76c1c1824c166a01fd69d61f073d06fdca2a47"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/shipping.md",
+      "target": "skills/poteto-mode/playbooks/shipping.md",
+      "edits": [
+        {
+          "old": "not batched, each a Cursor cloud agent",
+          "new": "not combined into one assignment, each a local agent in an isolated worktree",
+          "count": 1,
+          "kind": "host",
+          "reason": "Keep one independent verifier per PR while replacing cloud execution."
+        },
+        {
+          "old": "against parent versus head.",
+          "new": "against parent versus head. Schedule batches within host concurrency limits.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Finite local slots change scheduling, never the required independent PR coverage."
+        },
+        {
+          "old": "Hold the watch under `/loop` in dynamic mode.",
+          "new": "Hold the watch with native event waits; use native automation for later wakeups only when the user requested scheduled or later work, per `../references/codex-runtime.md`.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Retain event-driven frontier watching with the host-authorized wake mechanism."
+        },
+        {
+          "old": "scripts/watch-pr/watch-pr",
+          "new": "node \"$POTETO_SKILL_ROOT/scripts/dist/watch-pr.mjs\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the bundled Node watcher; the Cursor source command is not shipped."
+        },
+        {
+          "old": "playbooks/babysit.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/babysit.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        },
+        {
+          "old": "../references/codex-runtime.md",
+          "new": "$POTETO_SKILL_ROOT/references/codex-runtime.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "19f3f6803a7bbe9ff04f624b03e3b55f07ac0a05e991aa00d5fe51239b920b2a"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/trace-forensics.md",
+      "target": "skills/poteto-mode/playbooks/trace-forensics.md",
+      "edits": [],
+      "source_sha256": "137ce3984fb96e45971fdff4d3c79fa4ccc647c5b30ae4945783b9fb23f8cec7"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/visual-parity.md",
+      "target": "skills/poteto-mode/playbooks/visual-parity.md",
+      "edits": [
+        {
+          "old": "`/loop` per component",
+          "new": "Use the wake mechanism in `playbooks/autonomous-run.md` per component",
+          "count": 1,
+          "kind": "host",
+          "reason": "Retain the zero-diff stop predicate with the ported wake mechanism."
+        },
+        {
+          "old": "playbooks/autonomous-run.md",
+          "new": "$POTETO_SKILL_ROOT/playbooks/autonomous-run.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "950ca51999a6454c98eee6bcbc3d1bbe501a4e3a5d5439b6f6ddc378991b256c"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/playbooks/worktree-cleanup.md",
+      "target": "skills/poteto-mode/playbooks/worktree-cleanup.md",
+      "edits": [
+        {
+          "old": "`scripts/worktree-audit.sh`",
+          "new": "`bash \"$POTETO_SKILL_ROOT/scripts/worktree-audit.sh\"`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Run the shipped Bash audit from its resolved plugin path."
+        },
+        {
+          "old": "`.cursor/worktrees/myrepo/x`",
+          "new": "a host-managed worktree directory",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex-managed paths must come from the host and Git, not a Cursor-specific directory."
+        },
+        {
+          "old": "and the newest chat that touched it, then suggests a bucket. The transcript scan is slow, so background it.",
+          "new": "and any known chat, then suggests a bucket. Resolve unknown ownership through the host's attached artifacts and active or pinned chats; read only the identified threads through `read-thread.mjs` per `../references/codex-runtime.md`.",
+          "count": 1,
+          "kind": "host",
+          "reason": "The Bash audit exposes known chat identity only; use native ownership evidence instead of a nonexistent transcript scan."
+        },
+        {
+          "old": "`scratch:N` is untracked throwaway, safe to drop, but name the files.",
+          "new": "`scratch:N` is N untracked files. Confirm they are throwaway before dropping them, and name the files.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "The audit label alone cannot authorize deleting untracked user data."
+        },
+        {
+          "old": "Per path, `git worktree remove --force <path>`.",
+          "new": "For a Codex-managed worktree, use the native archive tool with the identity from attached artifacts. For an ordinary Git worktree, per path, `git worktree remove --force <path>`.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Managed Codex worktrees require the native recoverable archive lifecycle."
+        },
+        {
+          "old": "If the dir survives on ignored build artifacts,",
+          "new": "For an ordinary Git worktree, if the dir survives on ignored build artifacts,",
+          "count": 1,
+          "kind": "host",
+          "reason": "Do not bypass managed-worktree archive by deleting its directory."
+        },
+        {
+          "old": "`~/Library/Application Support/Cursor` (`state.vscdb.backup`, and `snapshots/roots/<root>` where a `<root>` named for a folder you opened as a workspace balloons), ",
+          "new": "",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor application caches are not Codex runtime resources; retain the other applicable reclaimers."
+        },
+        {
+          "old": "../references/codex-runtime.md",
+          "new": "$POTETO_SKILL_ROOT/references/codex-runtime.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve reference files from the installed skill root, including generated plans."
+        }
+      ],
+      "source_sha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/references/bugbot-triage.md",
+      "target": "skills/poteto-mode/references/bugbot-triage.md",
+      "edits": [
+        {
+          "old": "# Bugbot triage\n",
+          "new": "# Bugbot triage\n\nExternal replies and mutations require authorization from the current request. Apply approved skill edits to the maintained source checkout, never the installed plugin cache.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex external-action and installed-cache boundaries"
+        }
+      ],
+      "source_sha256": "b2d146c770d8d3593e1ef3d77b668039b8e1f78093ea1a86f1d45d7f99614309"
+    },
+    {
+      "source": "pstack/agents/poteto-agent.md",
+      "target": "skills/poteto-mode/references/poteto-agent.md",
+      "edits": [
+        {
+          "old": "/poteto-mode",
+          "new": "$poteto-mode",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex explicit skill syntax"
+        },
+        {
+          "old": "is_background: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Native Codex launch is asynchronous; role reference has no host agent installation"
+        },
+        {
+          "old": "Substituting `generalPurpose` skips that read and drifts.",
+          "new": "Omitting that read skips the workflow and drifts.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex has no Cursor generalPurpose type"
+        },
+        {
+          "old": "Read the `poteto-mode` skill's `SKILL.md`",
+          "new": "Read [poteto-mode](../SKILL.md) and [Codex runtime](codex-runtime.md)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve role-relative skill and native host contract"
+        }
+      ],
+      "source_sha256": "abe41c169ecbfe65641f1725f4188d568e046c0dec7fd2dc271abb594c299201"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/bun.lock",
+      "target": "skills/poteto-mode/scripts/bun.lock",
+      "edits": [
+        {
+          "old": "@cursor-skill/poteto-mode-tools",
+          "new": "@pstack-codex/poteto-mode-tools",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex package identity"
+        }
+      ],
+      "source_sha256": "667d9cf7222e9aae3fa42a4be383e657784216e9df115da02227fbc5ac7bbe46"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/check-plan.mjs",
+      "target": "skills/poteto-mode/scripts/check-plan.mjs",
+      "edits": [
+        {
+          "old": "const PROGRAM_MARKERS = [\"git show origin/main:\", \"/loop 1h\", \"status message\"];",
+          "new": "const PROGRAM_MARKERS = [\"Read these from the resolved plugin and repository\", \"arm the audit tick with native automation\", \"status message\"];",
+          "count": 1,
+          "kind": "host",
+          "reason": "Match resolved plugin source reads and authorized native audit scheduling in the copied plan"
+        }
+      ],
+      "source_sha256": "4f9432d9989880b6afc2bdda503d5b12a9d07d357ecf31936b7ab5e83bc80523"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/package.json",
+      "target": "skills/poteto-mode/scripts/package.json",
+      "edits": [
+        {
+          "old": "@cursor-skill/poteto-mode-tools",
+          "new": "@pstack-codex/poteto-mode-tools",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex package identity"
+        },
+        {
+          "old": "bun test orch watch-pr",
+          "new": "bun test watch-pr read-thread.test.ts",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Exclude cloud orch tests and include Codex host history adapter tests"
+        },
+        {
+          "old": "\"typecheck\": \"tsc --project watch-pr/tsconfig.json --noEmit --strict\"",
+          "new": "\"typecheck\": \"tsc --project watch-pr/tsconfig.json --noEmit --strict\",\n    \"build\": \"bash ../../../../../scripts/build.sh\"",
+          "count": 1,
+          "kind": "host",
+          "reason": "Bundle for Node without runtime installation in plugin cache"
+        }
+      ],
+      "source_sha256": "d1f815091209d49763775cc188e8e06ff32d5fec648bffd2272bc25a165e87c3"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/cli.test.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/cli.test.ts",
+      "edits": [],
+      "source_sha256": "a35592b4c6da96caf8d47987e9cd503fab6c7774ab87d11a43f24b4b5df2a9d1"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/cli.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/cli.ts",
+      "edits": [],
+      "source_sha256": "89c08863089181a232be782c4b2ed90a1552f44aeecb0dcb7aac2c623620e680"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/fakes.test-helper.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/fakes.test-helper.ts",
+      "edits": [],
+      "source_sha256": "e53e31b7f03068063f53a99a3591b052aaed66e4e2b196b3a364980f60324ab1"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.test.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/github.test.ts",
+      "edits": [],
+      "source_sha256": "0cbce011050522938523e36bb42a260e92b812dcd2076930fa681672ad316b24"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/github.ts",
+      "edits": [],
+      "source_sha256": "d1bbbafbe8e2c703c84da2029de7f2c4011412512f8cf65a42100f46bcb92c8a"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/policy.test.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/policy.test.ts",
+      "edits": [],
+      "source_sha256": "a9fedb25feefd1f57ef6a662f80c99018690170a3a8070773a08eaf694d1d3d9"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/policy.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/policy.ts",
+      "edits": [],
+      "source_sha256": "68d240505852cf23c9b2dea463342e9e61243f486b3cc86c735d140f9ee7be49"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/render.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/render.ts",
+      "edits": [],
+      "source_sha256": "2b709e86628d5b8fdb61f860e60ababc342b0626c67576305442cf548283a604"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/tsconfig.json",
+      "target": "skills/poteto-mode/scripts/watch-pr/tsconfig.json",
+      "edits": [],
+      "source_sha256": "1ecccc72320b086c63ce3f73c959896fd747363e63553b3b1136296ea4069e45"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/types.compile.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/types.compile.ts",
+      "edits": [],
+      "source_sha256": "621af4c9a664fbf699a9737efccdc248abb416df8819c9dc5f824beae2b9b1d6"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/types.ts",
+      "target": "skills/poteto-mode/scripts/watch-pr/types.ts",
+      "edits": [],
+      "source_sha256": "64ba6221e3bfe61bbb292337d199cdec6309455477280efb060203dba34e0e91"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/watch-pr/watch-pr",
+      "target": "skills/poteto-mode/scripts/watch-pr/watch-pr",
+      "edits": [
+        {
+          "old": "#!/usr/bin/env bun",
+          "new": "#!/usr/bin/env node",
+          "count": 1,
+          "kind": "host",
+          "reason": "Release helper targets Node"
+        },
+        {
+          "old": "import { ensureDependenciesInstalled } from \"../bootstrap.ts\";\n\nensureDependenciesInstalled();\nconst { main } = await import(\"./cli.ts\");",
+          "new": "import { main } from \"./cli.ts\";",
+          "count": 1,
+          "kind": "host",
+          "reason": "Build bundles commander; do not install dependencies into installed plugin cache"
+        }
+      ],
+      "source_sha256": "d955603be6cc0e8b8ffcec722f635192b2261410b1f2929abea94480e47eb5d4"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/worktree-audit.sh",
+      "target": "skills/poteto-mode/scripts/worktree-audit.sh",
+      "edits": [
+        {
+          "old": "# deletes anything; deletion stays a human-gated step in the playbook.",
+          "new": "# deletes anything; deletion stays a human-gated step in the playbook.\n# Codex chat ownership must be checked through the host before cleanup.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex task ownership is available through host tools, not Cursor transcript directories"
+        },
+        {
+          "old": "main_wt=$(git worktree list --porcelain | awk '/^worktree /{print $2; exit}')",
+          "new": "main_wt=$(git worktree list --porcelain | sed -n 's/^worktree //p' | head -1)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex project paths may contain spaces; preserve the full Git path"
+        },
+        {
+          "old": "# Transcripts dir: ~/.cursor/projects/<slugified-repo-path>/agent-transcripts.\nslug=$(printf '%s' \"$main_wt\" | sed 's#^/##; s#/#-#g')\ntranscripts=\"$HOME/.cursor/projects/$slug/agent-transcripts\"\n",
+          "new": "",
+          "count": 1,
+          "kind": "host",
+          "reason": "Do not scan Cursor-specific or unrelated Codex transcripts"
+        },
+        {
+          "old": "git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt; do",
+          "new": "git worktree list --porcelain -z | while IFS= read -r -d '' field; do\n\tcase \"$field\" in worktree\\ *) wt=${field#worktree } ;; *) continue ;; esac",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve Codex worktree paths including spaces using Git NUL records"
+        },
+        {
+          "old": "\t# Most recent chat whose transcript operated in this worktree. Match path\n\t# followed by \"/\" or a quote so glint-482 does not match glint-482-r37.\n\tlast=\"-\"; last_ts=0\n\tif [ -d \"$transcripts\" ]; then\n\t\tf=$(rg -l -e \"${wt}/\" -e \"${wt}\\\"\" \"$transcripts\" 2>/dev/null \\\n\t\t\t| xargs stat -f '%m %N' 2>/dev/null | sort -rn | head -1)\n\t\tif [ -n \"$f\" ]; then last_ts=$(echo \"$f\" | awk '{print $1}')\n\t\t\tlast=$(date -r \"$last_ts\" '+%Y-%m-%d' 2>/dev/null); fi\n\tfi\n\trecent=$([ \"$last_ts\" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)\n",
+          "new": "\tlast=\"unknown\"; recent=unknown\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex has no Cursor transcript directory; host must inspect current/pinned task ownership"
+        },
+        {
+          "old": "done | sort -t$'\\t' -k1,1 -rh",
+          "new": "done | sort -t$'\\t' -k1,1 -rh\necho \"LAST_CHAT is unknown. Check active and pinned tasks and managed-worktree ownership with the host before cleanup.\" >&2",
+          "count": 1,
+          "kind": "host",
+          "reason": "Report absent host ownership evidence instead of treating it as inactivity"
+        }
+      ],
+      "source_sha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc"
+    },
+    {
+      "source": "pstack/skills/principle-attack-the-premise/SKILL.md",
+      "target": "skills/principle-attack-the-premise/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "c87bd7536f772f8a403ad8155535ee17a1bbec9a353156693eb3bb1520c87ae3"
+    },
+    {
+      "source": "pstack/skills/principle-boundary-discipline/SKILL.md",
+      "target": "skills/principle-boundary-discipline/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "62ac2862c2caa22dd14531f51c9c6bb445ceb198ca98a687e25b4d47c1f10a28"
+    },
+    {
+      "source": "pstack/skills/principle-build-the-lever/SKILL.md",
+      "target": "skills/principle-build-the-lever/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "458b269eab8e95a1573276955312f7d2a13ae8599879a9efc748248f6bc34b56"
+    },
+    {
+      "source": "pstack/skills/principle-encode-lessons-in-structure/SKILL.md",
+      "target": "skills/principle-encode-lessons-in-structure/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "77044c83a9ac6df78fc643887ea5f1f11f082adaf14b717c060cdaed03cce863"
+    },
+    {
+      "source": "pstack/skills/principle-exhaust-the-design-space/SKILL.md",
+      "target": "skills/principle-exhaust-the-design-space/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "8583310d7297b7823d75494faa57b003564d436807febecdecbd8321abe5cf6e"
+    },
+    {
+      "source": "pstack/skills/principle-experience-first/SKILL.md",
+      "target": "skills/principle-experience-first/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "58903529d733b1c1a7c9ccf127d45ef3c7d0d9f0b81164a4dc6b80efe6f2912b"
+    },
+    {
+      "source": "pstack/skills/principle-explain-the-number/SKILL.md",
+      "target": "skills/principle-explain-the-number/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "5aac99e7ce0bb1b37e2579acf4fe88c32a1456d9d46afd4a57cfe1df9092e89c"
+    },
+    {
+      "source": "pstack/skills/principle-fix-root-causes/SKILL.md",
+      "target": "skills/principle-fix-root-causes/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "ba4cd38da1dcc8fe5432feb64457cba95594736a9b21b2ebf8f8c52aee068707"
+    },
+    {
+      "source": "pstack/skills/principle-foundational-thinking/SKILL.md",
+      "target": "skills/principle-foundational-thinking/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "864b827e8199d946ce58beca0f89c4ed4099ed6e426fb698a3aaa45de2a9eea2"
+    },
+    {
+      "source": "pstack/skills/principle-guard-the-context-window/SKILL.md",
+      "target": "skills/principle-guard-the-context-window/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "d2cef147862576e3d709b7afc149d85196245e8338b9c7eef337c95fba412b3e"
+    },
+    {
+      "source": "pstack/skills/principle-laziness-protocol/SKILL.md",
+      "target": "skills/principle-laziness-protocol/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "9006579e9e3f33955d17569733db688ae65f22577dc3b21803d219a5a8445aff"
+    },
+    {
+      "source": "pstack/skills/principle-make-operations-idempotent/SKILL.md",
+      "target": "skills/principle-make-operations-idempotent/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "540738217c3da7bf513b9886924ad6a2bc77e58be867f5bd2e1831c74bf2ce70"
+    },
+    {
+      "source": "pstack/skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md",
+      "target": "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "09978915a4a11990cf0a9a02d9c08cc59e0b7a04c5c24b83aa560fbe4146f75b"
+    },
+    {
+      "source": "pstack/skills/principle-minimize-reader-load/SKILL.md",
+      "target": "skills/principle-minimize-reader-load/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "42551c5dc74cd578163c148da552db3ff67d29b78600ef216bfd311fb828fe69"
+    },
+    {
+      "source": "pstack/skills/principle-model-the-domain/SKILL.md",
+      "target": "skills/principle-model-the-domain/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "bbadbb9a723fac3f76e782ae45665eb94058ec10993e4bae36d4dc6b0e4eac07"
+    },
+    {
+      "source": "pstack/skills/principle-never-block-on-the-human/SKILL.md",
+      "target": "skills/principle-never-block-on-the-human/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "f2764bb9338cbfc788c903cf4b9cd0a5f4042d3a04dd6d59cbd525d9beaadd0a"
+    },
+    {
+      "source": "pstack/skills/principle-outcome-oriented-execution/SKILL.md",
+      "target": "skills/principle-outcome-oriented-execution/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "10eb91633aa570355ba4bb37088fcade2b22e498df7a58edc749e65bc5a78e2d"
+    },
+    {
+      "source": "pstack/skills/principle-prove-it-works/SKILL.md",
+      "target": "skills/principle-prove-it-works/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "ec79a15025bac8d33d62011c54f3b612733fd2a024e623b531b3637aa75070e2"
+    },
+    {
+      "source": "pstack/skills/principle-redesign-from-first-principles/SKILL.md",
+      "target": "skills/principle-redesign-from-first-principles/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "a1c7fd0a96b40e12a74bceb0e6bb20a9666dd844dcabfb624acb27da23b929fe"
+    },
+    {
+      "source": "pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md",
+      "target": "skills/principle-separate-before-serializing-shared-state/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "05294b40448e927c5da1c7b6f5c6b9fed3744637e3833d2d948b9154a9dd00bb"
+    },
+    {
+      "source": "pstack/skills/principle-sequence-verifiable-units/SKILL.md",
+      "target": "skills/principle-sequence-verifiable-units/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "2ccbbacc56ace5afdfb8670cef19d7bd009fb2a0033b9a741cbdf2b6baf72187"
+    },
+    {
+      "source": "pstack/skills/principle-subtract-before-you-add/SKILL.md",
+      "target": "skills/principle-subtract-before-you-add/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "a983a50e732c1ed315eba7aaf47a61329e31c4794eb1ab9d25d9945265b31e03"
+    },
+    {
+      "source": "pstack/skills/principle-test-behavior-not-implementation/SKILL.md",
+      "target": "skills/principle-test-behavior-not-implementation/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "87e40efe4e486f7ea639d2ed1fc0abe6c93b8fd0e89a81218086909d2470a52e"
+    },
+    {
+      "source": "pstack/skills/principle-type-system-discipline/SKILL.md",
+      "target": "skills/principle-type-system-discipline/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Codex explicit invocation lives in agents/openai.yaml"
+        }
+      ],
+      "source_sha256": "c83da8031ffb4c86410030d3e261f659598fca2b7d8158fd9dc269d70a3a025e"
+    },
+    {
+      "source": "pstack/skills/reflect/SKILL.md",
+      "target": "skills/reflect/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "\"/reflect",
+          "new": "\"$reflect",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "# Reflect\n",
+          "new": "# Reflect\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "`pstack-models.mdc` rule",
+          "new": "Codex model configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Roles resolve through models.defaults.json and personal overrides as defined by Codex runtime."
+        },
+        {
+          "old": "`reflect judgment, divergent, synthesizer`",
+          "new": "`reflect_judgment_divergent_synthesizer`",
+          "count": 3,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "`reflect tooling`",
+          "new": "`reflect_tooling`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "a role line in",
+          "new": "a role in",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex roles are JSON fields."
+        },
+        {
+          "old": "Set `model` to that line's value",
+          "new": "Set `model` and `reasoning_effort` to that role's values",
+          "count": 1,
+          "kind": "model",
+          "reason": "Keep model and reasoning effort separate."
+        },
+        {
+          "old": "Leave `model` unset",
+          "new": "Leave `model` and `reasoning_effort` unset",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both fields inherit for auto and inherit-parent."
+        },
+        {
+          "old": "the Task tool",
+          "new": "the native subagent tool",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "the closest valid slug of the same family from its error message",
+          "new": "the closest supported configuration of the same GPT model from its error message",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex validates model and effort separately."
+        },
+        {
+          "old": "rejects a slug",
+          "new": "rejects a configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex uses model and effort fields, not combined slugs."
+        },
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6.1-sol` with `reasoning_effort: high`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the unchanged reflect_tooling default."
+        },
+        {
+          "old": "`claude-opus-5-5-xhigh`",
+          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "count": 3,
+          "kind": "model",
+          "reason": "Use the unchanged shared Reflect role default."
+        },
+        {
+          "old": "create-skill",
+          "new": "skill-creator",
+          "count": 4,
+          "kind": "host",
+          "reason": "Use the available Codex skill authoring skill."
+        },
+        {
+          "old": "Cursor's built-in",
+          "new": "Codex's built-in",
+          "count": 1,
+          "kind": "host",
+          "reason": "Name the actual host supplying skill-creator."
+        },
+        {
+          "old": "The system prompt names the active workspace's `agent-transcripts/` directory. Use that path.",
+          "new": "Resolve the current thread ID from the host context and export it with `read-thread.mjs` as described in Codex runtime.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use scoped Codex history export."
+        },
+        {
+          "old": "Do not glob across `~/.cursor/projects/*/`.",
+          "new": "Do not scan unrelated Codex conversations.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve current-conversation privacy boundary."
+        },
+        {
+          "old": "ls -t <agent-transcripts>/*.jsonl <agent-transcripts>/*/*.jsonl <agent-transcripts>/*/subagents/*.jsonl 2>/dev/null | head -10",
+          "new": "node \"$POTETO_SKILL_ROOT/scripts/read-thread.mjs\" --thread-id <thread-id> > <task-dir>/transcript.json",
+          "count": 1,
+          "kind": "host",
+          "reason": "Execute the existing Codex App Server reader."
+        },
+        {
+          "old": "Three transcript layouts: legacy flat (`<id>.jsonl`), current nested (`<id>/<id>.jsonl`), and subagent (`<parent>/subagents/<child>.jsonl`).",
+          "new": "The export preserves thread, turn, item, and tool-result associations.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Describe the actual reader output rather than Cursor filesystem layouts."
+        },
+        {
+          "old": "For each candidate, read the first JSONL line and check that `message.content[0].text` contains the conversation's opening user prompt. Take the matching path.",
+          "new": "Check the exported thread ID and opening user prompt against the current conversation. Take the matching path.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Verify the exported Codex history identity."
+        },
+        {
+          "old": "If no path resolves, write a tight digest of the session and pass that instead.",
+          "new": "If no path resolves, write a tight digest of the session and pass that instead, marking the missing transcript as a coverage gap.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve digest fallback without claiming full history coverage."
+        },
+        {
+          "old": "One message, three `Task` calls, `subagent_type: generalPurpose`, with `model` set as below, agent mode (`readonly: false`).",
+          "new": "Three concurrent native local subagent launches, with `model` and `reasoning_effort` set as below.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace unsupported Cursor launch fields; preserve three reviewers."
+        },
+        {
+          "old": "Readonly strips MCPs.",
+          "new": "Preserve MCP access while prohibiting writes.",
+          "count": 2,
+          "kind": "host",
+          "reason": "Codex read-only assignment is an instruction; Cursor mode limitation is inapplicable."
+        },
+        {
+          "old": "in the `Task` response body",
+          "new": "in their native subagent reports",
+          "count": 1,
+          "kind": "host",
+          "reason": "Native delegation returns terminal reports."
+        },
+        {
+          "old": "One `Task` call, `subagent_type: generalPurpose`, with `model` from",
+          "new": "One native local subagent launch, with `model` and `reasoning_effort` from",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use native delegation with separate launch fields."
+        },
+        {
+          "old": ", agent mode (`readonly: false`).",
+          "new": ".",
+          "count": 1,
+          "kind": "host",
+          "reason": "Remove unsupported Cursor mode parameter."
+        },
+        {
+          "old": "Backlog items file to whatever devex / backlog tracker your team uses automatically.",
+          "new": "Backlog items file to whatever devex / backlog tracker your team uses automatically when the user has authorized filing them.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Skill invocation alone does not authorize external tracker writes."
+        },
+        {
+          "old": "run its description-optimization loop.",
+          "new": "run its description-optimization loop if available; otherwise report that missing capability.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex skill-creator lacks a dedicated description-optimization loop; surface the gap."
+        }
+      ],
+      "source_sha256": "31b8fb866ebe084e7fb7f16dc0ea46ab84ffdc838d54f948edc78556f301a497"
+    },
+    {
+      "source": "pstack/skills/reflect/references/divergent-reviewer.md",
+      "target": "skills/reflect/references/divergent-reviewer.md",
+      "edits": [
+        {
+          "old": "`Read` tool calls",
+          "new": "File-reading tool calls",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read tool is not a Codex API."
+        },
+        {
+          "old": "(workspace `.cursor/skills/`, user-level `~/.cursor/skills/`, or plugin-installed paths under `~/.cursor/plugins/`)",
+          "new": "(workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Inspect Codex skill paths instead of Cursor installation paths."
+        },
+        {
+          "old": "`Task` prompts",
+          "new": "Native subagent prompts",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use native Codex delegation evidence."
+        }
+      ],
+      "source_sha256": "221dfc0abf7cbcd25e1da3cd87323f5d1050fc3bf652e096d093584e183c98fb"
+    },
+    {
+      "source": "pstack/skills/reflect/references/judgment-reviewer.md",
+      "target": "skills/reflect/references/judgment-reviewer.md",
+      "edits": [
+        {
+          "old": "`Read` tool calls",
+          "new": "File-reading tool calls",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read tool is not a Codex API."
+        },
+        {
+          "old": "(workspace `.cursor/skills/`, user-level `~/.cursor/skills/`, or plugin-installed paths under `~/.cursor/plugins/`)",
+          "new": "(workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Inspect Codex skill paths instead of Cursor installation paths."
+        },
+        {
+          "old": "`Task` prompts",
+          "new": "Native subagent prompts",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use native Codex delegation evidence."
+        }
+      ],
+      "source_sha256": "a40ecb9b28bd2a3491e11a541157fe58efe158e0eda7b61a5006c14590aabe61"
+    },
+    {
+      "source": "pstack/skills/reflect/references/synthesizer.md",
+      "target": "skills/reflect/references/synthesizer.md",
+      "edits": [
+        {
+          "old": "\"path-shaped triggers belong in `paths:`, not description prose\"",
+          "new": "\"path-shaped triggers belong in `paths:`, not description prose\" (Codex has no equivalent path-trigger field.)",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Retain the upstream example while marking the unavailable Codex metadata capability."
+        },
+        {
+          "old": "create-skill",
+          "new": "skill-creator",
+          "count": 3,
+          "kind": "host",
+          "reason": "Use the available Codex skill authoring skill."
+        }
+      ],
+      "source_sha256": "2f76c847eb45b182dc6fbcbf7d96c8ee7e2986ecfd9e0d640fec44e3cc5a617c"
+    },
+    {
+      "source": "pstack/skills/reflect/references/tooling-reviewer.md",
+      "target": "skills/reflect/references/tooling-reviewer.md",
+      "edits": [
+        {
+          "old": "`Read` tool calls",
+          "new": "File-reading tool calls",
+          "count": 1,
+          "kind": "host",
+          "reason": "Read tool is not a Codex API."
+        },
+        {
+          "old": "(workspace `.cursor/skills/`, user-level `~/.cursor/skills/`, or plugin-installed paths under `~/.cursor/plugins/`)",
+          "new": "(workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Inspect Codex skill paths instead of Cursor installation paths."
+        },
+        {
+          "old": "`Task` prompts",
+          "new": "Native subagent prompts",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use native Codex delegation evidence."
+        }
+      ],
+      "source_sha256": "bc49ced90fa81eaba3083b88aeb430d900a6d8f14ff40c1d6b52263bacfc77b6"
+    },
+    {
+      "source": "pstack/skills/setup-pstack/SKILL.md",
+      "target": "skills/setup-pstack/SKILL.md",
+      "edits": [
+        {
+          "old": "writes an always-applied rule that overrides the skill defaults",
+          "new": "writes personal JSON configuration that overrides the skill defaults",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex resolves per-role JSON rather than Cursor rules."
+        },
+        {
+          "old": "Write `~/.cursor/rules/pstack-models.mdc`, an always-applied rule that sets pstack's model per role.",
+          "new": "Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json`, personal JSON configuration that sets pstack's model and reasoning effort per role. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for configuration resolution and local launch rules. Do not change the main chat's model or write inside the installed plugin cache.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Point setup at the existing runtime and writable personal settings."
+        },
+        {
+          "old": "model slugs you can pass to a `Task` subagent",
+          "new": "GPT models and reasoning efforts you can pass to a native local subagent",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex launch interface separates model and reasoning effort."
+        },
+        {
+          "old": "If Cursor also exposes",
+          "new": "If the host also exposes",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use available host interfaces."
+        },
+        {
+          "old": "paste the slugs they have access to",
+          "new": "paste the GPT model and reasoning-effort pairs they have access to",
+          "count": 1,
+          "kind": "model",
+          "reason": "Identify complete supported launch configurations."
+        },
+        {
+          "old": "Never write a real slug you have not confirmed is available.",
+          "new": "Never write a model and reasoning-effort pair you have not confirmed is available.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Validate the full Codex configuration."
+        },
+        {
+          "old": "even though they are not detected slugs",
+          "new": "even though they are not detected configurations",
+          "count": 1,
+          "kind": "model",
+          "reason": "Aliases are independent of explicit GPT configuration inventory."
+        },
+        {
+          "old": "The default role-to-model mapping is the rule shape shown in step 5 below.",
+          "new": "Read `config/models.defaults.json` from the plugin root. The default role-to-model mapping is the JSON shape shown in step 5 below.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Load the authoritative shipped default pairs."
+        },
+        {
+          "old": "If `~/.cursor/rules/pstack-models.mdc` already exists, read it and treat its `# budget` line and its role values as the current choices.",
+          "new": "If `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` already exists, read it and treat its `budget` field and its role values as the current choices, resolving overrides per the Codex runtime.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Load current choices from the actual JSON schema."
+        },
+        {
+          "old": "A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.",
+          "new": "A key whose role is not in step 5, such as `how_critics`, is from a retired role. Drop it. If older split roles contain conflicting values for one shared role, show the conflict when choosing that shared setting.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Map role identifiers and preserve migration conflicts for user selection."
+        },
+        {
+          "old": "Prefer AskQuestion over free text.",
+          "new": "Prefer the host's question tool over free text when available.",
+          "count": 2,
+          "kind": "host",
+          "reason": "Do not require an unavailable Cursor question tool."
+        },
+        {
+          "old": "when the rule records one. With no rule, say that `large` matches the skill defaults.",
+          "new": "when the configuration records one. With no configuration, show the shipped defaults, whose reasoning efforts vary by role.",
+          "count": 1,
+          "kind": "model",
+          "reason": "The preserved GPT defaults use both high and xhigh; no single budget matches all of them."
+        },
+        {
+          "old": "changed by family, list, or alias",
+          "new": "changed by model, list, or alias",
+          "count": 1,
+          "kind": "model",
+          "reason": "The Codex role selector stores model fields."
+        },
+        {
+          "old": "set the effort token of every real slug, panel entries included,",
+          "new": "set the `reasoning_effort` field of every explicit configuration, panel entries included,",
+          "count": 1,
+          "kind": "model",
+          "reason": "Reasoning effort is a separate field."
+        },
+        {
+          "old": "The effort token is the last token, or the one before a trailing `fast`, on the ladder",
+          "new": "Keep model and effort in separate fields. The effort ladder is",
+          "count": 1,
+          "kind": "model",
+          "reason": "Do not parse reasoning effort from model slug."
+        },
+        {
+          "old": "If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice.",
+          "new": "If the result is not a detected model/effort pair, use the same model with its highest supported effort at or below the target, else mark the role as needing a choice.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve fallback strength using supported GPT effort pairs."
+        },
+        {
+          "old": "So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`.",
+          "new": "So `unlimited` turns `{ \"model\": \"gpt-6-astra\", \"reasoning_effort\": \"xhigh\" }` into `{ \"model\": \"gpt-6-astra\", \"reasoning_effort\": \"max\" }` when supported.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve budget example with GPT configuration syntax."
+        },
+        {
+          "old": "Grok slugs top out at `xhigh`, so under `unlimited` the fallback puts Grok at `xhigh` and keeps `grok-4.7-xhigh-fast` as it is.",
+          "new": "If a GPT model tops out at `xhigh`, under `unlimited` the fallback puts it at `xhigh` and keeps an existing `xhigh` configuration as it is.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve capped-effort fallback example without assuming unsupported model limits."
+        },
+        {
+          "old": "`large` keeps both defaults. `small` turns them into `claude-opus-5-5-medium` and `grok-4.7-medium-fast`.",
+          "new": "`large` sets explicit configurations to `xhigh` when supported. `small` sets them to `medium` when supported.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Budget examples must reflect varying shipped GPT efforts."
+        },
+        {
+          "old": "Show every role with its model, marking any real slug not in the detected set",
+          "new": "Show every role with its model and reasoning effort, marking any explicit pair not in the detected set",
+          "count": 1,
+          "kind": "model",
+          "reason": "Expose and validate both configuration fields."
+        },
+        {
+          "old": "list each line step 2 dropped",
+          "new": "list each key step 2 dropped",
+          "count": 1,
+          "kind": "host",
+          "reason": "The personal settings schema is JSON."
+        },
+        {
+          "old": "offering the detected models plus",
+          "new": "offering the detected GPT model/effort pairs plus",
+          "count": 1,
+          "kind": "model",
+          "reason": "Options must include supported reasoning efforts."
+        },
+        {
+          "old": "both mean: this role runs on the parent chat model, which is how Auto users stay on Auto",
+          "new": "both mean: this role inherits the parent model and reasoning effort by omitting both launch fields",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve aliases using native parent inheritance."
+        },
+        {
+          "old": "whose model family differs from the parent's when possible",
+          "new": "whose reasoning effort differs from the parent's when possible",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve Arena preference with the port's cross-effort mapping."
+        },
+        {
+          "old": "Every real slug written must be in the detected set.",
+          "new": "Every explicit model/effort pair written must be in the detected set.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Validate complete supported pairs."
+        },
+        {
+          "old": "If a chosen real slug is not available",
+          "new": "If a chosen model/effort pair is not available",
+          "count": 1,
+          "kind": "model",
+          "reason": "Validate complete supported pairs."
+        },
+        {
+          "old": "### 5. Write the rule",
+          "new": "### 5. Write the configuration",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use JSON settings instead of a Cursor rule."
+        },
+        {
+          "old": "Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses.",
+          "new": "Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` with `\"version\": 1`, a `budget` field with the chosen label, and a `roles` object, using the role keys poteto-mode uses. Create the personal configuration directory if needed. The saved role values determine launches; the budget records the chosen label and does not overwrite later per-role edits.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Write the established personal JSON contract."
+        },
+        {
+          "old": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```\n",
+          "new": "The following shape shows all 17 shipped defaults. After a budget is chosen, record its label in `budget` and write the mapped role values. Remove a role override to fall back to its shipped default. Scalar objects may override either or both fields. Lists replace the whole ordered list and must be nonempty; each entry is a complete model/effort object or `\"inherit-parent\"` or `\"auto\"`. Aliases inherit both parent fields and still count toward panel fan-out.\n\n```json\n{\n  \"version\": 1,\n  \"roles\": {\n    \"feature_refactoring\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"bug_fix\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"perf_issue\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"hillclimb\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"judgment_and_prose\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"hardest_tasks\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"how_explorer\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"how_explainer\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"why_investigators\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"why_synthesizer\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"reflect_tooling\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"reflect_judgment_divergent_synthesizer\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"arena_runners\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ],\n    \"arena_cross_judge_pool\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ],\n    \"swarm_workers\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"architect_runners\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ],\n    \"interrogate_reviewers\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ]\n  }\n}\n```\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace only the incompatible Cursor rule example with the unchanged 17-role JSON default schema."
+        },
+        {
+          "old": "the rule was written and that it applies to new sessions",
+          "new": "the configuration was written and that it applies to subsequent subagent launches; running agents keep their settings",
+          "count": 1,
+          "kind": "host",
+          "reason": "Report the actual Codex settings refresh boundary."
+        },
+        {
+          "old": "I can generate one with /create-verification-skill.",
+          "new": "I can help author one with the poteto-mode authoring playbook.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Preserve optional harness offer without invoking excluded verification skill."
+        },
+        {
+          "old": "On yes, invoke `/create-verification-skill` (resolves wherever pstack is installed: workspace, user, or plugin).",
+          "new": "On yes, use the [Authoring a skill playbook](../poteto-mode/playbooks/authoring-a-skill.md). The upstream `create-verification-skill` skill is outside this port.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Use the retained authoring capability for the same optional user-approved outcome."
+        },
+        {
+          "old": "/setup-pstack",
+          "new": "$setup-pstack",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill syntax."
+        }
+      ],
+      "source_sha256": "d61b47256a18155a81c8e5ef95e3cc6569ce8c18317c35c4dd9c8015cf68cb59"
+    },
+    {
+      "source": "pstack/skills/show-me-your-work/SKILL.md",
+      "target": "skills/show-me-your-work/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /show-me-your-work",
+          "new": " $show-me-your-work",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "# Show me your work\n",
+          "new": "# Show me your work\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "Read this run's transcript under the active workspace's `agent-transcripts/` directory (the system prompt names the path).",
+          "new": "Read this run's transcript exported with `read-thread.mjs` as described in Codex runtime.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the scoped Codex App Server history reader."
+        },
+        {
+          "old": "Don't glob across `~/.cursor/projects/*/`.",
+          "new": "Don't scan unrelated Codex conversations.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve the prohibition against reading unrelated chats."
+        },
+        {
+          "old": "on a different model family from the one that did the work",
+          "new": "on GPT-6 Astra with a different supported reasoning effort from the one that did the work",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve required cross-review difference with the documented GPT effort mapping."
+        },
+        {
+          "old": "`reviewed by <model>`",
+          "new": "`reviewed by <model>, reasoning_effort <effort>`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Make the mapped cross-review distinction visible."
+        }
+      ],
+      "source_sha256": "bcff5f7f9fd23f92c12b251f9cd6b947e9485e1055cfacb6fdd9cae0789d7550"
+    },
+    {
+      "source": "pstack/skills/show-me-your-work/references/decision-log-template.tsv",
+      "target": "skills/show-me-your-work/references/decision-log-template.tsv",
+      "edits": [],
+      "source_sha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76"
+    },
+    {
+      "source": "pstack/skills/show-me-your-work/scripts/log.sh",
+      "target": "skills/show-me-your-work/scripts/log.sh",
+      "edits": [],
+      "source_sha256": "a65a4bc5fb7cdeadbdb7b7ff1ca4682f4d9c42420942b2977cd17b46c4ac338e"
+    },
+    {
+      "source": "pstack/skills/swarm/SKILL.md",
+      "target": "skills/swarm/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /swarm",
+          "new": " $swarm",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "# Swarm\n",
+          "new": "# Swarm\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "`~/.cursor/rules/pstack-models.mdc`",
+          "new": "the Codex model configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Replace the Cursor rules file with Codex role resolution."
+        },
+        {
+          "old": "`swarm workers`",
+          "new": "`swarm_workers`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "omit `model`",
+          "new": "omit `model` and `reasoning_effort`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both fields inherit for auto and inherit-parent."
+        },
+        {
+          "old": "the Task tool",
+          "new": "the native subagent tool",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "the closest valid slug of the same family from its error message",
+          "new": "the closest supported configuration of the same GPT model from its error message",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex validates model and effort separately."
+        },
+        {
+          "old": "rejects a slug",
+          "new": "rejects a configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex uses model and effort fields, not combined slugs."
+        },
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6-astra` with `reasoning_effort: high`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
+        },
+        {
+          "old": "parallel cloud workers",
+          "new": "parallel local workers",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cloud orchestration is excluded from this port."
+        },
+        {
+          "old": "the cloud concurrency limit",
+          "new": "the local concurrency limit",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve total worker count under local host scheduling."
+        },
+        {
+          "old": "Spawn all N workers in one message with `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Use `environment: \"local\"` only when the worker needs access to something on the user's computer.",
+          "new": "Spawn all N workers with the native local subagent API and the step 4 model and reasoning effort, left unset for `auto` or `inherit-parent`. Run concurrently in batches when the host limits slots.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace unsupported Cursor cloud launch fields with native local scheduling while preserving N."
+        },
+        {
+          "old": "When a worker must start from a non-default pushed branch, pass `cloud_base_branch`.",
+          "new": "When a worker must start from a non-default pushed branch, prepare its local worktree from that branch.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Map cloud branch selection to a local checkout of the same ref."
+        }
+      ],
+      "source_sha256": "bdcee4168e22428036e93d7cdeec3f391dbc4132f927f6db2540328c22db0273"
+    },
+    {
+      "source": "pstack/skills/tdd/SKILL.md",
+      "target": "skills/tdd/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        }
+      ],
+      "source_sha256": "eeb868e2dfebee528d730a67d7b17498fac4bb85dec2e38bc5c5176aca4d5d2f"
+    },
+    {
+      "source": "pstack/skills/technical-writing/SKILL.md",
+      "target": "skills/technical-writing/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /technical-writing",
+          "new": " $technical-writing",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        }
+      ],
+      "source_sha256": "f5c512ffeec70bc4e0dee50f7bb4c26742e1be77967a6e8b15d1921e1c209ceb"
+    },
+    {
+      "source": "pstack/skills/typescript-best-practices/SKILL.md",
+      "target": "skills/typescript-best-practices/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "paths: [\"**/*.ts\", \"**/*.tsx\"]",
+          "new": "metadata:\n  paths: [\"**/*.ts\", \"**/*.tsx\"]",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Preserve upstream path patterns as metadata; Codex has no paths trigger field."
+        }
+      ],
+      "source_sha256": "28f9e61710e205f6f3c5476f333483cff0e988f6a5b639e2faad536344b40c5e"
+    },
+    {
+      "source": "pstack/skills/typescript-best-practices/references/patterns.md",
+      "target": "skills/typescript-best-practices/references/patterns.md",
+      "edits": [],
+      "source_sha256": "faa1362055374452efccac1b629677c61acfb0bcc6c4e3311836b5715638ee18"
+    },
+    {
+      "source": "pstack/skills/unslop/SKILL.md",
+      "target": "skills/unslop/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        }
+      ],
+      "source_sha256": "195411d320b5b328f9f642baf59757ed19aaf0931c0838740e0aca273d538dc1"
+    },
+    {
+      "source": "pstack/skills/why/SKILL.md",
+      "target": "skills/why/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "# Why\n",
+          "new": "# Why\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
+        },
+        {
+          "old": "`pstack-models.mdc` rule",
+          "new": "Codex model configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Roles resolve through models.defaults.json and personal overrides as defined by Codex runtime."
+        },
+        {
+          "old": "`why investigators`",
+          "new": "`why_investigators`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "`why synthesizer`",
+          "new": "`why_synthesizer`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding unchanged JSON role key."
+        },
+        {
+          "old": "a role line in",
+          "new": "a role in",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex roles are JSON fields."
+        },
+        {
+          "old": "Set `model` to that line's value",
+          "new": "Set `model` and `reasoning_effort` to that role's values",
+          "count": 1,
+          "kind": "model",
+          "reason": "Keep model and reasoning effort separate."
+        },
+        {
+          "old": "Leave `model` unset",
+          "new": "Leave `model` and `reasoning_effort` unset",
+          "count": 1,
+          "kind": "model",
+          "reason": "Both fields inherit for auto and inherit-parent."
+        },
+        {
+          "old": "the Task tool",
+          "new": "the native subagent tool",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "- `model`: the",
+          "new": "- `model` and `reasoning_effort`: the",
+          "count": 2,
+          "kind": "model",
+          "reason": "Pass both fields from the resolved role configuration."
+        },
+        {
+          "old": "- `subagent_type`: `generalPurpose`",
+          "new": "- Use the native local subagent API.",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "the closest valid slug of the same family from its error message",
+          "new": "the closest supported configuration of the same GPT model from its error message",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex validates model and effort separately."
+        },
+        {
+          "old": "rejects a slug",
+          "new": "rejects a configuration",
+          "count": 1,
+          "kind": "model",
+          "reason": "Codex uses model and effort fields, not combined slugs."
+        },
+        {
+          "old": "`grok-4.7-xhigh-fast`",
+          "new": "`gpt-6.1-sol` with `reasoning_effort: xhigh`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the shipped explorer or investigator role default."
+        },
+        {
+          "old": "`claude-opus-5-5-xhigh`",
+          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the shipped explainer or synthesizer role default."
+        },
+        {
+          "old": "from the Cursor environment",
+          "new": "from the Codex host",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex host interface."
+        },
+        {
+          "old": "Otherwise inspect the `mcps/` directory Cursor exposes for enabled MCP servers.",
+          "new": "Otherwise use the host's supported tool-discovery interface for enabled MCP servers.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Codex does not expose Cursor mcps directory."
+        },
+        {
+          "old": "- `readonly`: `false` (agent mode). **Do not use readonly/Ask mode.** It strips MCP access, which disables MCP-backed investigators entirely. Investigators still shouldn't write anything.",
+          "new": "- Preserve MCP access in the native subagent assignment. Investigators still shouldn't write anything.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor Ask-mode restriction does not apply to Codex; preserve MCP access and no-write obligation."
+        },
+        {
+          "old": "- `readonly`: `false` (agent mode). The synthesizer's quality check spot-verifies citations, which can require MCP access. Readonly/Ask mode strips MCPs and defeats that.",
+          "new": "- Preserve MCP access in the native subagent assignment. The synthesizer's quality check spot-verifies citations, which can require MCP access.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Cursor Ask-mode restriction does not apply to Codex; preserve citation verification access."
+        }
+      ],
+      "source_sha256": "442215bf70e491d4d31bd200c197f2ec447445df38e074c40880fc4bf30a1f9e"
+    },
+    {
+      "source": "pstack/skills/why/references/epistemics.md",
+      "target": "skills/why/references/epistemics.md",
+      "edits": [],
+      "source_sha256": "fcc0f559c072832c869a5ada72434b4849320a637ae63c09e8ee14f7ad787059"
+    },
+    {
+      "source": "pstack/skills/why/references/investigator-prompt.md",
+      "target": "skills/why/references/investigator-prompt.md",
+      "edits": [],
+      "source_sha256": "6892956a7ab0b5ee6c4babaf4f793703abe89b350ea7cb9463b4a56eea1c8266"
+    },
+    {
+      "source": "pstack/skills/why/references/source-playbook.md",
+      "target": "skills/why/references/source-playbook.md",
+      "edits": [],
+      "source_sha256": "9ae9dcb9d09111c9facc68510331c5aba4aed9b1b057314ff1fc0e166ad3993a"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/code-archaeology.md",
+      "target": "skills/why/references/sources/code-archaeology.md",
+      "edits": [],
+      "source_sha256": "8c14aa382f0de40829b2668d43e3f54814480bb93a486c9282ada4003f6b9dbd"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/databricks.md",
+      "target": "skills/why/references/sources/databricks.md",
+      "edits": [],
+      "source_sha256": "236ede7aab6454662a992db088a5393537a5233a4c26719c93188f9e174488f6"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/datadog.md",
+      "target": "skills/why/references/sources/datadog.md",
+      "edits": [],
+      "source_sha256": "ebe9c07bac28e47757ee7f16fb93b0c01d427a08c501957d047f395a2f37b7e7"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/incident-postmortem.md",
+      "target": "skills/why/references/sources/incident-postmortem.md",
+      "edits": [],
+      "source_sha256": "a899470f05f86029630a13a2696491cc708ca7b56a6e822a69ff6e954d6ff8cf"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/linear.md",
+      "target": "skills/why/references/sources/linear.md",
+      "edits": [],
+      "source_sha256": "01304e7f1badfcfb78babbb0edcadeb3cc8dd3f713793420cdff24ba190f907c"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/notion.md",
+      "target": "skills/why/references/sources/notion.md",
+      "edits": [],
+      "source_sha256": "3bcfa695c49dfad4ac036d5d7181c12585f55ac04f1936198d16ab75a2788997"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/sentry.md",
+      "target": "skills/why/references/sources/sentry.md",
+      "edits": [],
+      "source_sha256": "6f292bc4fb1548e956f95e1900b9481abf5134254419f1cd9edec95428c82d73"
+    },
+    {
+      "source": "pstack/skills/why/references/sources/slack.md",
+      "target": "skills/why/references/sources/slack.md",
+      "edits": [],
+      "source_sha256": "58fee61d024b3700b407e7acbed367944720ff05adfddb6954d36c88368f3ba7"
+    },
+    {
+      "source": "pstack/skills/why/references/synthesizer-prompt.md",
+      "target": "skills/why/references/synthesizer-prompt.md",
+      "edits": [],
+      "source_sha256": "733a3e9cf897b1aca56aaddeae01a3832e4bfed024c2f602db2d1bf807d7a73b"
+    }
+  ],
+  "omitted": {
+    "pstack/skills/poteto-mode/playbooks/autopilot-full.md": {
+      "kind": "scope",
+      "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
+    },
+    "pstack/skills/poteto-mode/playbooks/autopilot-stack.md": {
+      "kind": "scope",
+      "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
+    },
+    "pstack/skills/poteto-mode/playbooks/orchestrate.md": {
+      "kind": "scope",
+      "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
+    },
+    "pstack/skills/poteto-mode/scripts/bootstrap.ts": {
+      "kind": "host",
+      "reason": "Dependencies are bundled at release build time; installed plugin cache must not install runtime packages"
+    },
+    "pstack/skills/poteto-mode/scripts/orch/orch.test.ts": {
+      "kind": "scope",
+      "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
+    },
+    "pstack/skills/poteto-mode/scripts/orch/orch.ts": {
+      "kind": "scope",
+      "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
+    },
+    "pstack/skills/poteto-mode/scripts/orch/store.ts": {
+      "kind": "scope",
+      "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
+    }
+  },
+  "local_only": {
+    "licenses/commander-MIT.txt": "License of the bundled Node runtime dependency",
+    "config/models.defaults.json": "Separate GPT model and reasoning defaults for the 17 upstream roles",
+    ".codex-plugin/plugin.json": "Codex plugin registration",
+    "skills/poteto-mode/references/codex-runtime.md": "Native Codex tool, path, configuration, and authorization contract",
+    "skills/poteto-mode/scripts/read-thread.mjs": "Codex App Server full-history reader replacing Cursor transcript access",
+    "skills/poteto-mode/scripts/read-thread.test.ts": "Behavior tests for the Codex history adapter",
+    "skills/poteto-mode/scripts/dist/watch-pr.mjs": "Generated standalone Node bundle of the upstream PR helper"
+  },
+  "codex_metadata": {
+    "skills/architect/agents/openai.yaml": "68c29cb08921bf99c94f4e9c9f17a9ed9da2e9872d1bc7b7029856ed0df3d8d6",
+    "skills/arena/agents/openai.yaml": "007a0815629c0527b09c08406706ab0f012ad0d9bbbae7ef2525c025ebbe1ea4",
+    "skills/benchmark-checklist/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+    "skills/control-cli/agents/openai.yaml": "a926583f06ca5a91bb353f01d23056585ca66657766ebcdacc075fd11f4a16a0",
+    "skills/control-ui/agents/openai.yaml": "2810348e7ced1389b0bf5c415699e709044cc490b375994fd6706bba1b9fd08e",
+    "skills/correct/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+    "skills/deslop/agents/openai.yaml": "30b301cbff2e3fcb0736a41755b01eab9ca56285ce0f198d278c0fdeb32f48c0",
+    "skills/figure-it-out/agents/openai.yaml": "eea4bd98d716480914557dcf58e006b9cb32bed565ff3d3abe4f7f8abea7b9c9",
+    "skills/how/agents/openai.yaml": "3b67b3517d6168ea42adf78cc8afef479f7e39b8be5ab735df0f54445ceb9a3f",
+    "skills/interrogate/agents/openai.yaml": "25e19b95eb54e1de4e07e73bcdb5b0bf31603e3358c8a6a3ec71452500a52e65",
+    "skills/no-comments/agents/openai.yaml": "7384ac6719b077671b5f35c99d9fd0f8204616e55c2ea067b505e24ad04acd00",
+    "skills/poteto-help/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+    "skills/poteto-mode/agents/openai.yaml": "ff640cc2fe974c232909f53c5443dddda565042422379d969f449c08622e962d",
+    "skills/principle-attack-the-premise/agents/openai.yaml": "392e30122cb68730a05d18ee7fc44529dda8db62fdb4930a38e69541bae69cc5",
+    "skills/principle-boundary-discipline/agents/openai.yaml": "8ecdfb592c54741529ecb27b0a7165c286b76d6b09ecd04576366f4ea8f2f5ef",
+    "skills/principle-build-the-lever/agents/openai.yaml": "6b12821758cdae5e06ca0180169a05d1911e0583e18ac667cf58f61634fe5795",
+    "skills/principle-encode-lessons-in-structure/agents/openai.yaml": "5f5565f3fb576f84bb721b04729a1569974e88e4a52a2f9c212871a03477b440",
+    "skills/principle-exhaust-the-design-space/agents/openai.yaml": "d9eed16caf9809bc1af0dda38d78cd9e4f307897e1fd3875ddf3c17a8200409d",
+    "skills/principle-experience-first/agents/openai.yaml": "54af9f8b1cc912671b34e1eef44baacb40ca5428d4e756af6ed0dcd6a5bce0de",
+    "skills/principle-explain-the-number/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+    "skills/principle-fix-root-causes/agents/openai.yaml": "d20203f87ceb5658bc6c79ab30d7774b9dc00348db5d093c51f9c97128677d1f",
+    "skills/principle-foundational-thinking/agents/openai.yaml": "42bb236fb63277561df2a24bf38b2f514daad68a58f449c1658ee4e96fb63982",
+    "skills/principle-guard-the-context-window/agents/openai.yaml": "98b3eb6e36c9aa39da73f53ca8fe822d4c6ada4d51b94dc8b2301bc82b6d2346",
+    "skills/principle-laziness-protocol/agents/openai.yaml": "c5e2e05cfe3715614095a31b28c2b3ac06bf3b9fb50ca51aea082327e50ac834",
+    "skills/principle-make-operations-idempotent/agents/openai.yaml": "9b3e8f4dacbc3f4304442b8ee735bb007359daa42f20c9f4c3a4bc7f33814762",
+    "skills/principle-migrate-callers-then-delete-legacy-apis/agents/openai.yaml": "f712c8cc1b7222ef6ce5711bc0e6b244f641ba5038e1badc04876ee1a5182048",
+    "skills/principle-minimize-reader-load/agents/openai.yaml": "d74c59cf349f5f2783348ccda7deba1d1094eb32274f1495be96364db3bb1358",
+    "skills/principle-model-the-domain/agents/openai.yaml": "a09b5be51cb1a164fb62d9b95b8333c17b37c96861d9b8d124fc8e43e5a318c3",
+    "skills/principle-never-block-on-the-human/agents/openai.yaml": "e66b7f62007cb5a89d224d8093246b45be9448ac590165b6ec15743b04310258",
+    "skills/principle-outcome-oriented-execution/agents/openai.yaml": "58accdc2c0809425a989c82471d0d9e2b26ebeeb5ad3f7fe58d720dda17a36dc",
+    "skills/principle-prove-it-works/agents/openai.yaml": "0d15170a552324ab7450c254ff0e57ec4d94b49d3b66b614134d23751736d1fa",
+    "skills/principle-redesign-from-first-principles/agents/openai.yaml": "a1bc0caf69a452c9a2659fb1dcb4f764d30637938d91fe0179fc3b07c81a7edf",
+    "skills/principle-separate-before-serializing-shared-state/agents/openai.yaml": "85ae2d24bb7e458e143b72c8c6d801b7564a0d86ca4e8c0b6fcd638ba8b1fed8",
+    "skills/principle-sequence-verifiable-units/agents/openai.yaml": "d4dc28188d1052263f5f271b36279c9693ea69f1ef1786bc384476bf4689c744",
+    "skills/principle-subtract-before-you-add/agents/openai.yaml": "219cd8b04b0ee7d7ff33fb62d2336eaa091c09ac096245dc59e1bb47547a55d8",
+    "skills/principle-test-behavior-not-implementation/agents/openai.yaml": "11a1aaf1c70f53afa84fc311368eabdde611681886577ad88dc94c714e2a51fb",
+    "skills/principle-type-system-discipline/agents/openai.yaml": "305388fba7a06e7cb7d6efa324b57518b55e659839c715bc790f68d9bdb4a3d7",
+    "skills/reflect/agents/openai.yaml": "0643627e1f8b9f1701b78e7652e5bcc6c80607c8bce294a22e8c901d3e29ab5f",
+    "skills/setup-pstack/agents/openai.yaml": "793f619f472ac1fb825c4a730b4de3841d6a76c893c952bd73eb599cdaf6d4b9",
+    "skills/show-me-your-work/agents/openai.yaml": "b07a95640bc4773f41638a3ec887ea513732e5131192fc4d75a1f7d12314f1be",
+    "skills/swarm/agents/openai.yaml": "2298aff4858c7d95d413e129c54a9ba37cfa92a830405c6f0da1a623eff43499",
+    "skills/tdd/agents/openai.yaml": "a20101b244ebe5f3c69a94b3951c70cdfc23e06c07880f4a0ea4c5bee04aeecc",
+    "skills/technical-writing/agents/openai.yaml": "21ebb06bb28933b2cb1879ead57e1dc76263a2d6760ae4ce1743abdb5a8411c5",
+    "skills/typescript-best-practices/agents/openai.yaml": "4605c8c0c794cd7f673569f5602bd5a72c06b83e815fd042a9586d06350330de",
+    "skills/unslop/agents/openai.yaml": "28bf202c866bc7002fa563120fb557f7ac59f3bc704ab25014ee4dc665d22054",
+    "skills/why/agents/openai.yaml": "eaef031b6e464d43395396c07be0bd937fade89cdc618d9eee2b4ef63ce6b900"
+  }
+}

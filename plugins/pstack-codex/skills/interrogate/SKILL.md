@@ -1,13 +1,13 @@
 ---
 name: interrogate
-description: "Use for \"interrogate\", \"adversarial review\", \"multi-model review\", \"challenge this\", \"stress test this code\", \"find blind spots\", or \"tear this apart\". Independent GPT reviewers challenge code changes."
+description: "Use for \"interrogate\", \"adversarial review\", \"multi-model review\", \"challenge this\", \"stress test this code\", \"find blind spots\", or \"tear this apart\". Multiple LLM reviewers challenge changes from independent angles."
 ---
 
 # Interrogate
 
-Read [Codex runtime](../poteto-mode/references/codex-runtime.md) before using subagents, model settings, or conversation history. Resolve sibling skills from this plugin’s `skills/` directory.
+Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.
 
-Spawn three independent GPT reviewers to adversarially review code changes. Each gets the same evidence, prompt, and rubric. They do not see each other’s findings before submitting their own. Different reasoning efforts do not guarantee different blind spots.
+Spawn one reviewer per configured model to adversarially review code changes. Each model gets the same prompt and rubric. The adversarial signal comes from model diversity, not assigned personas.
 
 The deliverable is a synthesized verdict. Do NOT auto-apply changes.
 
@@ -16,7 +16,7 @@ The deliverable is a synthesized verdict. Do NOT auto-apply changes.
 Identify what to review from context:
 
 - If the user points at specific files or a diff, use that
-- If on a feature branch, run `git diff <base>...HEAD` (resolve the project’s actual base branch first) for the full changeset
+- If on a feature branch, run `git diff main...HEAD` (or the appropriate base branch) for the full changeset
 - If the user's message references recent work, gather the relevant files
 
 Package the diff (or file contents) plus any surrounding context files the reviewers need to understand the code.
@@ -34,15 +34,19 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Read the ordered `interrogate_reviewers` role. Its three default seats are:
+Launch all reviewers in a single message using the native subagent tool. Use the `interrogate_reviewers` line in the Codex model configuration, one reviewer per entry, extending or shrinking the Reviewer A/B labels below to the configured entry count. If the rule or that line is missing, use the table defaults.
 
-| Reviewer | Model | Reasoning effort |
-|---|---|---|
-| A | `gpt-6-astra` | `ultra` |
-| B | `gpt-6-astra` | `xhigh` |
-| C | `gpt-6-astra` | `high` |
+| Subagent | Default model |
+|----------|---------------|
+| Reviewer A | `gpt-6-astra` with `reasoning_effort: xhigh` |
+| Reviewer B | `gpt-6-astra` with `reasoning_effort: high` |
 
-Launch fresh local Codex subagents with explicit `model` and `reasoning_effort`, using the shared runtime. Launch concurrently when three slots are available; otherwise run all three seats in batches without exposing earlier findings. Each task is read-only. Do not modify the code under review. If a seat is unavailable, report the exact gap; do not silently lower its effort or claim a complete three-reviewer run.
+For each reviewer:
+- Use the native local subagent API.
+- `model` and `reasoning_effort`: the configured `interrogate_reviewers` entry, or the table default with no configured line. For an `auto` or `inherit-parent` entry, omit `model` and `reasoning_effort` so that reviewer runs on the parent model.
+- Read-only assignment; do not edit files or external records.
+
+If the native subagent tool rejects a configured entry, run that reviewer on its shipped table default and say so. With no matching default entry, use Reviewer A's default. If it rejects a table default, check the supported model and effort pairs in the native subagent tool's error message, pick the closest equivalent (prefer the same GPT model and reasoning effort), spawn with it, and, when the user authorizes it, open a separate PR to update the default table. Do not block the review on the slug issue. Never treat an alias entry as a rejected slug or apply either fallback to it.
 
 Read `references/reviewer-prompt.md` and fill in the template with:
 1. The stated intent
@@ -50,23 +54,23 @@ Read `references/reviewer-prompt.md` and fill in the template with:
 3. The review rubric from `references/rubric.md`
 4. The code-quality lens from `references/code-quality-review.md`
 
-The same filled template goes to all reviewers, so every reviewer applies the code-quality lens.
+The same filled template goes to all reviewers, so every model applies the code-quality lens.
 
 ## Step 4, Synthesize
 
 As results come back, build a unified picture:
 
 1. **Parse all findings** from the reviewers
-2. **Identify consensus**. Findings raised by 2+ reviewers independently are strong leads, not a vote.
-3. **Identify individual findings**. Check their evidence, especially correctness and security findings, even when neither other reviewer mentioned them.
-4. **Deduplicate**. Different reviewers may describe the same issue differently. Merge these and note which reviewers raised it.
-5. **Note disagreements**. If one reviewer flags something and another explicitly says the opposite, that's useful context for the verdict.
+2. **Identify consensus**. Findings raised by 2+ models independently are highest signal.
+3. **Identify lone-model findings**. Still worth reading, but weight accordingly.
+4. **Deduplicate**. Different models may describe the same issue differently. Merge these and note which models raised it.
+5. **Note disagreements**. If one model flags something and another explicitly says the opposite, that's useful context for the verdict.
 
 ## Step 5, Lead Judgment
 
 You are the lead reviewer, a pragmatic senior engineer, not a neutral aggregator.
 
-Read `references/lead-judgment.md` for the full framework. Decide from code evidence and actual behavior, never majority vote or reasoning rank. Agreement by two reviewers cannot dismiss a proven finding from another seat.
+Read `references/lead-judgment.md` for the full framework.
 
 Categorize every finding using these buckets:
 
@@ -76,7 +80,7 @@ Categorize every finding using these buckets:
 - **Dismissed**. Wrong, nitpicky, or missing context. Brief explanation why.
 
 For each finding, include:
-- Which reviewer(s) raised it
+- Which model(s) raised it
 - The category (act on / consider / noted / dismissed)
 - A one-line rationale for the categorization
 
@@ -88,13 +92,13 @@ Present the verdict in this structure:
 > [The stated intent paragraph from Step 2]
 
 ### Reviewers
-- Reviewer [label]: [model name], [reasoning effort], [N findings] (one bullet per reviewer)
+- Reviewer [label]: [model name], [N findings] (one bullet per reviewer)
 
 ### Act On
-[Findings that should be addressed. For each: description, which reviewers raised it, why it matters.]
+[Findings that should be addressed. For each: description, which models raised it, why it matters.]
 
 ### Consider
-[Findings worth thinking about. For each: description, which reviewers raised it, tradeoff involved.]
+[Findings worth thinking about. For each: description, which models raised it, tradeoff involved.]
 
 ### Noted
 [Valid but low-priority. Brief list.]
@@ -103,4 +107,4 @@ Present the verdict in this structure:
 [Rejected findings with brief rationale.]
 
 ### Agreement Map
-[Where did reviewers agree, where did they diverge, and what does the pattern of agreement/disagreement tell us?]
+[Where did models agree, where did they diverge, and what does the pattern of agreement/disagreement tell us?]

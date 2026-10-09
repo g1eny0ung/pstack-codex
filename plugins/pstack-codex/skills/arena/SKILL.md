@@ -5,7 +5,7 @@ description: "Spawn N parallel candidates at the same task, pick a base, graft t
 
 # Arena
 
-Read [Codex runtime](../poteto-mode/references/codex-runtime.md) before using subagents, model settings, or conversation history. Resolve sibling skills from this plugin’s `skills/` directory.
+Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.
 
 Fan out N parallel attempts at the same task. Read every candidate end to end. Pick the strongest as the base. Graft the best ideas from the others into it. Verify the synthesized result.
 
@@ -26,12 +26,12 @@ The N candidates will receive the same prompt, so the prompt is the contract.
 
 1. State the artifact each candidate is producing.
 2. Derive the rubric. State what success looks like for *this* task, then turn it into 3-6 concrete gradeable criteria. The rubric is the picker's tool in Phase D. Candidates only see the task.
-3. Pick the runners from the `arena_runners` role, or the caller’s named runner role. The default is three independent GPT candidates at high effort. Use the shared runtime for configuration and explicit launch parameters. A caller may request a different candidate count; keep each candidate’s configuration explicit.
+3. Pick the runners. Use the `arena_runners` line in the Codex model configuration. If the rule or that line is missing, default to one each on `gpt-6-astra` with `reasoning_effort: xhigh` and `gpt-6-astra` with `reasoning_effort: high`. An `auto` or `inherit-parent` entry in this line or the cross-judge line means the parent model, so omit `model` and `reasoning_effort` for it. If the native subagent tool rejects a configured entry, run that seat on its shipped role default and say so. With no matching default entry, use `gpt-6-astra` with `reasoning_effort: xhigh`. If it rejects a default, use the closest supported configuration of the same GPT model from its error message. Spawn more when the arena covers multiple design directions. Same model N times when the work is generation-bound rather than judgment-sensitive.
 4. Assign output paths. Each candidate writes to its own location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
 
 ## Phase B: Fan out
 
-Launch N independent local subagents, in batches when slots are limited, each with the task, the path to the shared grounding, its own output path, and instructions to produce both the artifact and a short rationale.
+Spawn all N local subagents concurrently, in batches when the host limits slots, each with the task, the path to the shared grounding, its own output path, and instructions to produce both the artifact and a short rationale.
 
 Each rationale names the alternatives the candidate considered and what it rejected.
 
@@ -39,7 +39,7 @@ If a candidate fails to produce output, proceed with N-1 and note the dropout in
 
 ## Phase C: Cross-judge
 
-After all Phase B candidates complete, spawn one independent, read-only judge using `arena_judge`. Give it a fresh context so it does not inherit the parent’s preferred candidate. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, not with the candidates themselves. Don't spawn the judge while candidates are still writing.
+After all Phase B candidates complete, choose one model from the `arena_cross_judge_pool` line in the Codex model configuration. If the rule or that line is missing, choose from `gpt-6-astra` with `reasoning_effort: xhigh` and `gpt-6-astra` with `reasoning_effort: high`. Prefer a different reasoning effort from the parent's. Spawn one readonly judge subagent on that model. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, not with the candidates themselves. Don't spawn the judge while candidates are still writing.
 
 ## Phase D: Pick a base
 

@@ -54,24 +54,36 @@ Skills activate only when explicitly invoked. An invoked workflow can read relat
 
 ## Configure models
 
-Subagents default to GPT-6 Astra, `gpt-6-astra`. The main chat keeps its own model settings.
+Subagents use GPT-6.1 Sol or GPT-6 Astra according to their role. The main chat keeps its own model settings.
 
-| Task | Default reasoning effort |
-|---|---|
-| Delegated writing | `medium` |
-| Ordinary implementation, exploration, and judgment | `high` |
-| Complex synthesis and judging | `xhigh` |
-| Three independent `interrogate` reviewers | `ultra`, `xhigh`, `high` |
+| Task | Default model | Reasoning effort |
+|---|---|---|
+| Source exploration and tooling reflection | `gpt-6.1-sol` | `high` |
+| Judgment, prose, code explanations, and cause investigation | `gpt-6.1-sol` | `xhigh` |
+| Implementation, refactoring, bug fixes, performance work, and swarm workers | `gpt-6-astra` | `high` |
+| Hardest tasks and complex synthesis | `gpt-6-astra` | `xhigh` |
+| Arena cross-judge pool, select one | `gpt-6-astra` | `xhigh`, `high` |
+| Two default `arena` or `architect` candidates | `gpt-6-astra` | `xhigh`, `high` |
+| Two default `interrogate` reviewers | `gpt-6-astra` | `xhigh`, `high` |
 
 Use `$setup-pstack` to inspect or change these settings. For example:
 
 ```text
-$setup-pstack Set the writing role's reasoning effort to high.
+$setup-pstack Set the reasoning budget to medium.
+$setup-pstack Set judgment_and_prose to inherit-parent.
 ```
 
-Personal overrides live in `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` and survive plugin updates. To restore a role's default, ask `$setup-pstack` to reset that role. Changes apply to subsequent subagent launches.
+Budget choices are `unlimited` (`max`), `large` (`xhigh`), `medium` (`high`), and `small` (`medium`). A budget updates explicit configurations across roles and lists, using the highest supported effort at or below the target. Both `auto` and `inherit-parent` preserve the parent model and effort. They work as scalar role values and list entries.
 
-You need access to the configured GPT models and reasoning levels. The plugin reports unavailable settings and asks you to choose a replacement. See the [default role configuration](plugins/pstack-codex/config/models.defaults.json) for every role.
+Personal overrides live in `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` and survive plugin updates. To restore a role's default, ask `$setup-pstack` to reset that role. Changes apply to subsequent subagent launches. The main chat's configuration remains unchanged.
+
+Each entry in `arena_runners`, `architect_runners`, or `interrogate_reviewers` launches one agent. Change a list to change its count. Arena selects one judge from `arena_cross_judge_pool`, preferring an effort different from the main chat's. Pool size does not change the number of judges.
+
+Role boundaries match upstream. Judgment and prose share `judgment_and_prose`. Reflect's judgment, divergent, and synthesis agents share `reflect_judgment_divergent_synthesizer`. See the [default role configuration](plugins/pstack-codex/config/models.defaults.json) for all 17 roles.
+
+For older personal overrides, run `$setup-pstack` to review the migration. Replace separate `judgment` and `writing` entries with `judgment_and_prose`, and the three separate Reflect entries with their shared role. Conflicting values need one chosen shared setting. Move the former `arena_judge` object into a one-entry `arena_cross_judge_pool` array. Remove `comment_review` and `audit_reviewer`; those roles do not exist upstream. Comment Sicko inherits its parent's configuration. Upstream's `show-me-your-work` review step has no dedicated role or fixed effort.
+
+You need access to the configured GPT models and reasoning levels. Setup validates settings before saving. A workflow that specifies a launch fallback reports the configuration it actually used.
 
 ## Requirements and compatibility
 
@@ -80,7 +92,7 @@ Additional tools depend on the workflow you use:
 | Workflow | Requirements |
 |---|---|
 | Node helper scripts | Node.js 22+ |
-| Git and worktree operations | Bash, Git, and standard system utilities |
+| Git and worktree operations | Bash, Git, `jq` for the worktree audit, and standard system utilities |
 | GitHub pull requests | GitHub CLI, `gh`, authenticated with your account |
 | Browser or interactive CLI verification | Suitable tools provided by your Codex host or project |
 | Session-history workflows | A Codex CLI on `PATH` that supports the experimental App Server `thread/turns/list` API |
@@ -88,6 +100,8 @@ Additional tools depend on the workflow you use:
 The release includes the built PR helper and its runtime dependency. You do not need Bun or an npm dependency installation to use it.
 
 Target platforms are macOS, Linux, and Windows through WSL. Native Windows is outside the current target. Version 0.1.0 was checked for installation and basic skill invocation on macOS. Full workflows and Linux/WSL execution were not verified.
+
+This port maps the cross-model reviews in Arena and `show-me-your-work` to GPT-6 Astra at different reasoning efforts. Arena prefers a different effort for its judge. `show-me-your-work` selects a different supported effort from the agent that did the work, without a dedicated reviewer role or fixed effort.
 
 ## Update
 

@@ -1,46 +1,44 @@
 # Prompts worth copying
 
-Replace the placeholders with real paths and done checks. Informal wording works.
+Swap in the real paths, skills, and done checks. Informal wording works.
 
 ## Understand
 
-- `$poteto-mode Read <specific chat reference>. Restate the underlying issue in plain words.`
-- `$poteto-mode Investigate why <symptom>. Give me what we know, the evidence, and your hypotheses. Don't change code yet.`
-- `Use $how to understand <subsystem>, then $why to find out why it broke recently.`
-- `Explain why you implemented this change this way and what you traded off.`
-- `$poteto-mode Take over this branch. Read the decision log, find what is done, and continue. Don't redo finished work.`
+- `$poteto-mode read <thread>. restate the underlying issue in your own words, in plain english.`
+- `$poteto-mode investigate why <symptom>. give me what we know, what data you used, and your best hypotheses. don't change any code yet.`
+- `use $how to understand <subsystem>. then use $why to find out why it broke recently.`
+- `read my relevant earlier chats on <topic> from last week using the host thread-history tools, then read <issue>.`
+- `explain why you implemented it this way and not <other way>. what did you trade off?`
+- `$poteto-mode take over this branch. read the decision log, find what's done, and continue. don't redo finished work.`
 
 ## Build
 
-- `$poteto-mode <Symptom>. Reproduce it first, then fix and verify.`
-- `$poteto-mode Reproduce <bug> using the project's verification tools. If it occurs on main, fix it and show the actual flow as proof.`
-- `$poteto-mode Reproduce <bug> first. If there is a cheap test path, use $tdd. Then fix and rerun.`
-- `$poteto-mode Add <behavior>. <Current output> stays byte-identical. Verify both.`
-- `$poteto-mode Move <code> into one module with zero behavior change. Record the current output first and prove it stays unchanged.`
-- `$poteto-mode <Operation> takes <time> on <fixture>. Trace it, fix the measured cause, and show before and after.`
+- Bug: `$poteto-mode <symptom>. repro first, then fix and verify.`
+- Bug in an app: `$poteto-mode repro this with $verify-<app>. if it repros on main, fix it and show me a video as proof.`
+- Bug with a cheap test: `$poteto-mode repro <bug> first. if there's a cheap test path, $tdd it. then fix and rerun.`
+- Feature: `$poteto-mode add <behavior>. <current output> stays byte-identical. verify both.`
+- Refactor: `$poteto-mode move <code> into one module, zero behavior change. record the current output first and prove it's unchanged after.`
+- Perf: `$poteto-mode <operation> takes <time> on <fixture>. trace it, fix the measured cause, show me before and after.`
 
 ## Design and plan
 
-- `$poteto-mode Prototype a few options for <feature>. Capture screenshots or recordings for comparison.`
-- `$poteto-mode We need <feature>. Use $architect with checkpoint. Answer open questions with prototypes and let me review before implementation.`
-- `$poteto-mode Write a tutorial for <new package> first. Explain why the proposed interface is better for its callers.`
-- `Use $arena to compare alternatives for this approach.`
-- `$poteto-mode Turn this design into a plan of small verifiable PRs, each with its own checks. Don't implement yet.`
-- `$poteto-mode Plan the migration of <library> to <target>. Use small verifiable steps. Preserve existing behavior exactly, including known bugs.`
+- `$poteto-mode prototype a few options for <feature>. take screenshots or videos for me to compare.`
+- `$poteto-mode we need <feature>. $architect it first, and answer open questions with prototypes. let me review before proceeding.`
+- `$poteto-mode write a tutorial for how i would use <new package> first. then explain why it beats the current one.`
+- `ask $arena for a second opinion on this thread and our approach.`
+- `$poteto-mode turn this design into a plan. small verifiable PRs, each with its own verification steps.`
+- `$poteto-mode plan the migration of <library> to <target>. small verifiable PRs. the result must match the original exactly, bugs included.`
 
 ## Review and ship
 
-- `$interrogate Review the whole branch skeptically. Don't change anything. Report real bugs or regressions, not style preferences.` Read the dismissals too.
-- `$swarm Check every package under <dir> with its check script. One worker per package within available slots. Return one report.`
-- `$correct Find repeated agent mistakes in this repo. Prevent the supported classes and prove each check catches a past mistake.`
-- `$poteto-mode Open the PR. Use small ordered commits and put verification evidence in the description.`
-- `$poteto-mode Babysit this PR. Get it green.` For status only, use `$poteto-mode Check on PR <number>. Anything outstanding?`
-- `$poteto-mode Land the stack.`
+- `$interrogate the whole branch, but skeptically. don't change anything yet. no nitpicks unless it's a real bug or regression.` Read the dismissals too.
+- `$swarm check every package under <dir> against its check script. one worker per package. one report.`
+- `$poteto-mode open the pr. small ordered commits, evidence in the description.`
+- `$poteto-mode babysit this pr. get it green.` For status only: `$poteto-mode check on pr <number>. anything outstanding?`
+- `$poteto-mode land the stack.`
 
 ## Away and back
 
-- `$poteto-mode I'm stepping away. Complete <goal> in a fresh worktree off <base>. Done means <checks>. Keep a decision log. You may commit locally. If blocked, stop and report the evidence and what is needed.`
-- `$show-me-your-work Catch me up on the decision log from the last run.` Read its attention notes first.
-- `$poteto-mode Plan these changes as a stack of PRs. Don't implement or merge yet.`
-- `$reflect Capture what we learned so the next run avoids the same mistakes.` Approve edits that change a future decision.
-- `Restate the last reply in plain words.`
+- `$poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. continue until done; use the host scheduler if a later wakeup is needed. if you're truly stuck after a few hours, stop and write up why.`
+- `$show-me-your-work catch me up on what you did last night.` Read its Attention section first.
+- `$reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.

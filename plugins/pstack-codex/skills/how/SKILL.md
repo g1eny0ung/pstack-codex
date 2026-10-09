@@ -5,11 +5,11 @@ description: "Use for \"how does X work\", code walkthroughs before changing som
 
 # How
 
-Read [Codex runtime](../poteto-mode/references/codex-runtime.md) before using subagents, model settings, or conversation history. Resolve sibling skills from this plugin’s `skills/` directory.
+Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Each spawn uses the role named below, resolved through the shared Codex runtime and model configuration. Pass `model` and `reasoning_effort` separately. An unavailable model or effort is a reported capability gap, not permission to substitute.
+Each spawn below names a role in the Codex model configuration and a default. Set `model` and `reasoning_effort` to that role's values, or to the default if the rule or the line is missing. Leave `model` and `reasoning_effort` unset when the value is `auto` or `inherit-parent`. If the native subagent tool rejects a configuration, use the default and say so. If it rejects the default, use the closest supported configuration of the same GPT model from its error message.
 
 ## Step 1. Assess Complexity
 
@@ -22,28 +22,31 @@ When in doubt, take the simple path.
 
 ## Step 2a. Explore (complex questions only)
 
-Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Launch explorers concurrently within the available local slots:
+Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Spawn all explorers in a single message:
 
-- Role: `how_explorer`.
-- Read-only task: inspect files and report; do not edit.
+- Use the native local subagent API.
+- `model` and `reasoning_effort`: the `how_explorer` line, default `gpt-6.1-sol` with `reasoning_effort: high`
+- Read-only assignment; do not edit files or external records.
 
 Each explorer gets the prompt in `references/explorer-prompt.md` with its angle filled in. Then go to Step 3.
 
 ## Step 2b. Direct Explain (simple questions)
 
-Spawn one independent Codex subagent that explores and explains in one pass:
+Spawn one native subagent that explores and explains in one pass:
 
-- Role: `how_explainer`.
-- Read-only task: inspect files and report; do not edit.
+- Use the native local subagent API.
+- `model` and `reasoning_effort`: the `how_explainer` line, default `gpt-6.1-sol` with `reasoning_effort: xhigh`
+- Read-only assignment; do not edit files or external records.
 
 Build its prompt from `references/explainer-prompt.md` without the explorer-findings section. Go to Step 4.
 
 ## Step 3. Synthesize (complex questions only)
 
-Once all explorers have returned, spawn one independent Codex subagent to synthesize their findings into one explanation:
+Once all explorers have returned, spawn one native subagent to synthesize their findings into one explanation:
 
-- Role: `how_explainer`.
-- Read-only task: inspect files and report; do not edit.
+- Use the native local subagent API.
+- `model` and `reasoning_effort`: the `how_explainer` line, default `gpt-6.1-sol` with `reasoning_effort: xhigh`
+- Read-only assignment; do not edit files or external records.
 
 Build its prompt from `references/explainer-prompt.md` with every explorer's findings filled in.
 

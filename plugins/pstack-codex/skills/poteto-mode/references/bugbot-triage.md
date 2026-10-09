@@ -1,6 +1,8 @@
 # Bugbot triage
 
-Use this reference when the Babysit playbook (`../playbooks/babysit.md`) handles Bugbot or review-automation comments. External replies, comment resolution, pushes, and PR changes require authorization from the current user request; the classifications below do not grant it. When only review is requested, return the classification and proposed action. The goal is not to ignore Bugbot by default. The goal is to stop treating every comment as a required code change.
+External replies and mutations require authorization from the current request. Apply approved skill edits to the maintained source checkout, never the installed plugin cache.
+
+Use this reference when the Babysit playbook (`../playbooks/babysit.md`) handles Bugbot or review-automation comments. The goal is not to ignore Bugbot by default. The goal is to stop treating every comment as a required code change.
 
 ## Decision rubric
 
@@ -14,7 +16,7 @@ When in doubt, ask. Skipping a noisy code-quality comment is cheap; skipping a r
 
 ## Learned pattern format
 
-Propose future patterns in this shape. Persist them only to a maintained source checkout when that edit is requested; leave the installed plugin read-only:
+Add future patterns in this shape:
 
 ```markdown
 ### <short pattern name>
@@ -85,7 +87,7 @@ Historical data showed humans sometimes dismiss security/data-flow comments. Tre
 
 ## Candidate learnings from recent babysits
 
-Propose candidate learnings during or after babysitting when they look team-useful but not yet mature. Do not append them to an installed plugin file. Prefer promoting recurring candidates into the section above once several PRs confirm the pattern.
+Append new candidate learnings here during or after babysitting when they look team-useful but not yet mature. Prefer promoting recurring candidates into the section above once several PRs confirm the pattern.
 
 ### Manual reimplementations of native browser behavior
 

@@ -63,11 +63,14 @@ The standalone skills `automate-me`, `blast-radius`, `bro`, `create-verification
 
 ## Adaptation rules to preserve
 
+Within the selected port scope, copy the upstream files first. Preserve their wording, order, examples, workflow steps, role boundaries, counts, verification gates, and review responsibilities. Change only the exact text required for GPT model substitution, Codex host interfaces, explicit invocation metadata, and the exclusions above. Do not paraphrase or reorganize the remaining text. A tool limit changes scheduling, not required coverage. Do not weaken a workflow or add roles as part of model substitution.
+
 - Native Codex local subagents replace Cursor Task APIs. Role instructions are references, not global agent installations.
 - Explicit-only `agents/openai.yaml` metadata applies to all 46 entries.
-- Model defaults remain GPT-6 Astra; interrogate uses `ultra/xhigh/high`, writing `medium`, normal work `high`, complex synthesis and judges `xhigh`. User overrides remain outside the cache.
-- Review findings are adjudicated by evidence, without vote counting or tier precedence.
-- The 20 retained playbooks use local execution, actual available tools, and task-specific concurrency.
+- Preserve all 17 upstream configuration roles one-to-one. Normalize punctuation and spaces to underscores in JSON keys. Use the GPT model and effort pairs in `plugins/pstack-codex/config/models.defaults.json`; the current mapping uses Sol for exploration, explanation, cause investigation, judgment, prose, and tooling reflection, and Astra for implementation, complex synthesis, and review. Preserve the two-entry defaults for candidates, reviewers, and the cross-judge pool. Keep configurable list lengths, budgets, and `auto` / `inherit-parent`. Personal overrides remain outside the cache.
+- Preserve Arena's `arena cross-judge pool` as the `arena_cross_judge_pool` array and select one judge from it. Map upstream's different model families to different GPT-6 Astra reasoning efforts. Arena prefers a different effort from its parent. `show-me-your-work` requires a different effort from the work agent, without adding a named reviewer role or fixed effort.
+- Preserve upstream review synthesis, including its treatment of consensus and individual findings. Model substitution does not authorize a different judgment policy.
+- The 20 retained playbooks use local execution and actual available tools. Batch work within host concurrency limits without changing the upstream scenario count or evidence requirements.
 - Read session history through `read-thread.mjs`; do not restore Cursor paths or scan unrelated conversations.
 - Keep `worktree-audit.sh` and `scripts/upstream.sh` in Bash. Preserve portable quoting and command choices.
 - Bundle watch-pr with Bun at release time for Node; do not install runtime dependencies in the plugin cache.
@@ -87,6 +90,21 @@ The standalone skills `automate-me`, `blast-radius`, `bro`, `create-verification
 `changes.txt` records the comparison. Upstream snapshots intentionally include excluded content for review; they are not installable plugin output. The script never overwrites source files or edits the lock. Repeated preparation creates a separate directory rather than overwriting earlier work.
 
 Review changes using the mappings above, port selected fixes, check renames/deletions and references, rebuild changed runtime code, and validate the affected behavior. Update the lock and this log only when synchronization is complete. If interrupted, leave the previous baseline in place. No scheduled upstream monitor is installed.
+
+## Verify the copy and adaptations
+
+`scripts/port-adaptations.json` maps every retained upstream file to its local file. Each necessary replacement records the exact old and new text, its category, and its reason. It also records excluded files and Codex-only adapters. The source hashes are pinned to `last_synced_commit`.
+
+After preparing the upstream snapshot, run:
+
+```bash
+python3 scripts/check-port.py --upstream <prepared-directory>/base-upstream
+python3 scripts/check-port.test.py --upstream <prepared-directory>/base-upstream
+```
+
+The checker reconstructs each file from upstream plus its recorded replacements. It rejects unrecorded edits, missing files, unexpected additions, changed source hashes, and reintroduced exclusions. Review each replacement against the source before updating the manifest. Passing reconstruction proves that all textual differences are accounted for; it does not by itself prove that an adaptation is necessary or behaviorally equivalent.
+
+For a new upstream revision, copy its selected files first, reapply only necessary adaptations, inspect each remaining difference, and update source hashes and replacements together with the synchronized baseline. Keep generated review reports in ignored `.work/`.
 
 ## Synchronization log
 
