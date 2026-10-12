@@ -2086,9 +2086,6 @@ Expecting one of '${allowedValues.join("', '")}'`);
   exports.useColor = useColor;
 });
 
-// watch-pr/cli.ts
-import { setTimeout as delay } from "node:timers/promises";
-
 // node_modules/commander/index.js
 var exports_commander = {};
 __exportCjs(exports_commander, {
@@ -2116,6 +2113,11 @@ __exportCjs(exports_commander, {
   InvalidArgumentError: (value) => $InvalidArgumentError = value,
   InvalidOptionArgumentError: (value) => $InvalidOptionArgumentError = value
 });
+
+// watch-pr/cli.ts
+import { setTimeout as delay } from "node:timers/promises";
+
+// node_modules/commander/index.js
 var { Argument } = require_argument();
 var { Command } = require_command();
 var { CommanderError, InvalidArgumentError } = require_error();
@@ -2163,10 +2165,14 @@ function parsePrNumber(value, label = "PR number") {
 
 // watch-pr/github.ts
 var REVIEW_THREADS_QUERY = `
-query ReviewThreads($owner: String!, $repo: String!, $pr: Int!) {
+query ReviewThreads($owner: String!, $repo: String!, $pr: Int!, $after: String) {
   repository(owner: $owner, name: $repo) {
     pullRequest(number: $pr) {
-      reviewThreads(first: 100) {
+      reviewThreads(first: 100, after: $after) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           id
           isResolved
@@ -2506,8 +2512,9 @@ function passKey(comment) {
   }
   return null;
 }
-function parseReviewThreads(value) {
-  const nodes = list(at(value, ["data", "repository", "pullRequest", "reviewThreads", "nodes"]), "reviewThreads.nodes");
+function parseReviewThreadPage(value) {
+  const reviewThreads = record(at(value, ["data", "repository", "pullRequest", "reviewThreads"]), "reviewThreads");
+  const nodes = list(reviewThreads.nodes, "reviewThreads.nodes");
   const threads = [];
   for (const node of nodes) {
     const thread = record(node, "review thread");
@@ -2520,6 +2527,13 @@ function parseReviewThreads(value) {
       resolved: thread.isResolved
     });
   }
+  const page = record(reviewThreads.pageInfo, "reviewThreads.pageInfo");
+  if (typeof page.hasNextPage !== "boolean")
+    missing("reviewThreads.pageInfo.hasNextPage", page.hasNextPage);
+  const cursor = optionalString(page.endCursor, "reviewThreads.pageInfo.endCursor");
+  return { threads, endCursor: page.hasNextPage && cursor ? cursor : null };
+}
+function buildReviewThreads(threads) {
   const keys = new Set;
   let keyless = false;
   for (const thread of threads) {
@@ -2666,8 +2680,11 @@ class GhGitHubReader {
     const cursor = optionalString(page.endCursor, "contexts.pageInfo.endCursor");
     return { checks, endCursor: page.hasNextPage && cursor ? cursor : null };
   }
-  async reviewThreads(context) {
-    return parseReviewThreads(await runJson(graphqlArgs(REVIEW_THREADS_QUERY, context)));
+  async reviewThreadPage(context, after) {
+    const argv = graphqlArgs(REVIEW_THREADS_QUERY, context);
+    if (after !== null)
+      argv.push("-f", `after=${after}`);
+    return parseReviewThreadPage(await runJson(argv));
   }
   async commitRollups(context) {
     const value = await runJson(graphqlArgs(PR_COMMIT_STATUS_QUERY, context));
@@ -2699,6 +2716,16 @@ async function resolveChecks(reader, context) {
     return { source: "graphql-rollup", checks: fallback };
   const suffix = fast.kind === "unusable" ? `fast path exit=${fast.exitCode}; GraphQL rollup was empty${firstLine(fast.stderr) ? `; ${firstLine(fast.stderr)}` : ""}` : "fast path and GraphQL rollup were empty";
   throw new ChecksUnavailable(`could not read PR checks: ${suffix}`);
+}
+async function resolveReviewThreads(reader, context) {
+  const threads = [];
+  let after = null;
+  do {
+    const page = await reader.reviewThreadPage(context, after);
+    threads.push(...page.threads);
+    after = page.endCursor;
+  } while (after !== null);
+  return buildReviewThreads(threads);
 }
 async function resolveContext(args) {
   if (args.pr !== null && args.owner !== null && args.repo !== null)
@@ -2809,7 +2836,7 @@ async function readSnapshot(args) {
     return { kind: "merged", context: args.context, facts };
   if (facts.state === "CLOSED")
     return { kind: "closed", context: args.context, facts };
-  const threads = await args.reader.reviewThreads(args.context);
+  const threads = await resolveReviewThreads(args.reader, args.context);
   const checks = await resolveChecks(args.reader, args.context);
   const failed = nonEmpty(checks.checks.filter((check) => check.kind === "failed"));
   const pending = nonEmpty(checks.checks.filter((check) => check.kind === "pending"));

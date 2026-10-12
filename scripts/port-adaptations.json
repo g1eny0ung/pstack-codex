@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "d0ef80d86795816da932a153458c5dbe192d294e",
+  "upstream_commit": "c49b37a2c0e7bede60a71ad7322e3f12c337a3da",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -82,7 +82,7 @@
           "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
         }
       ],
-      "source_sha256": "922238947195f2fb825e90688bb6cfa520b81a35a7bee12223c73a6cf96ae64b"
+      "source_sha256": "31f8e97a52bfa5432edd61f68ade2a8632ef0bacbc2d2a6802d7a0e6821944ac"
     },
     {
       "source": "pstack/skills/architect/references/design-red-flags.md",
@@ -219,7 +219,7 @@
           "reason": "Use the documented GPT cross-judge effort mapping."
         }
       ],
-      "source_sha256": "6e17736b5228b661569c3af054f8302c55cf9bf1649447652d53705cce38bed6"
+      "source_sha256": "f15524f216c1c63804b89edb4ff8e53bb21a7b8ed367368dedeb9468eeec6a92"
     },
     {
       "source": "pstack/skills/benchmark-checklist/SKILL.md",
@@ -240,7 +240,7 @@
           "reason": "Use the platform core-count command on supported macOS hosts without GNU coreutils."
         }
       ],
-      "source_sha256": "6a767e788a60428fa14e645ee10fe2e49896e514ff654f668b1d824deb9038e8"
+      "source_sha256": "ba109e96c8f6c1c391baccf19e5d11e14370df7b3f2605e1572cd565a6c0fca0"
     },
     {
       "source": "pstack/skills/blast-radius/SKILL.md",
@@ -342,7 +342,7 @@
           "reason": "Use Codex skill invocation notation."
         }
       ],
-      "source_sha256": "0eb9485f0e7d84fee56b5d0f0af0faf4635e3ca87c8cba3970c01293b76ecc19"
+      "source_sha256": "d9574cc24929773d5c23f40626ae1e09660afddd7de48e08dd6494d9fff9bbf0"
     },
     {
       "source": "pstack/skills/how/SKILL.md",
@@ -379,16 +379,9 @@
         {
           "old": "`how explainer`",
           "new": "`how_explainer`",
-          "count": 2,
-          "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
-        },
-        {
-          "old": "a role line in",
-          "new": "a role in",
           "count": 1,
           "kind": "model",
-          "reason": "Codex roles are JSON fields."
+          "reason": "Use the corresponding unchanged JSON role key."
         },
         {
           "old": "Set `model` to that line's value",
@@ -410,34 +403,6 @@
           "count": 1,
           "kind": "host",
           "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "Task subagent",
-          "new": "native subagent",
-          "count": 2,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "- `model`: the",
-          "new": "- `model` and `reasoning_effort`: the",
-          "count": 3,
-          "kind": "model",
-          "reason": "Pass both fields from the resolved role configuration."
-        },
-        {
-          "old": "- `subagent_type`: `generalPurpose`",
-          "new": "- Use the native local subagent API.",
-          "count": 3,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "- `readonly`: `true`",
-          "new": "- Read-only assignment; do not edit files or external records.",
-          "count": 3,
-          "kind": "host",
-          "reason": "Native Codex schema has no readonly field; preserve the review-only assignment."
         },
         {
           "old": "the closest valid slug of the same family from its error message",
@@ -463,12 +428,26 @@
         {
           "old": "`claude-opus-5-5-xhigh`",
           "new": "`gpt-6.1-sol` with `reasoning_effort: xhigh`",
-          "count": 2,
+          "count": 1,
           "kind": "model",
           "reason": "Use the shipped explainer or synthesizer role default."
+        },
+        {
+          "old": "Every spawn is a Task subagent with `subagent_type: generalPurpose` and `readonly: true`.",
+          "new": "Every spawn uses the native asynchronous local subagent API with a read-only assignment. Do not edit files or external records.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace Cursor launch fields with native asynchronous delegation and preserve read-only assignments."
+        },
+        {
+          "old": "Spawn all explorers in a single message",
+          "new": "Spawn all explorers concurrently, in batches when the host limits slots",
+          "count": 1,
+          "kind": "host",
+          "reason": "Host concurrency limits change scheduling, not the required two to four exploration angles."
         }
       ],
-      "source_sha256": "7e0d902484a90eba73dcf518bff478dc5b962b456d23c3d0a188c2ce36b236d8"
+      "source_sha256": "47cfe3e6fe55c49c3bdf8ad1b645dcd5fece8f0c36fd22d2e7221f9faa71f648"
     },
     {
       "source": "pstack/skills/how/references/explainer-prompt.md",
@@ -487,16 +466,8 @@
     {
       "source": "pstack/skills/how/references/explorer-prompt.md",
       "target": "skills/how/references/explorer-prompt.md",
-      "edits": [
-        {
-          "old": "Use Glob to find directories and files, Grep to find key symbols, Read to understand the actual implementation.",
-          "new": "Use `rg --files` to find directories and files, `rg` to find key symbols, and file-reading tools to understand the actual implementation.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Map named Cursor tools to available Codex file tools."
-        }
-      ],
-      "source_sha256": "a3b44a6e5bb16a6d4d1cac19db8ed5322ffd5f5f5d45baca4e73990ca096f8be"
+      "edits": [],
+      "source_sha256": "6300128385ee940fd42ecb84b0e623435440a2dc283eae54ee4a52ba56947ba1"
     },
     {
       "source": "pstack/skills/interrogate/SKILL.md",
@@ -526,44 +497,16 @@
         {
           "old": "`interrogate reviewers`",
           "new": "`interrogate_reviewers`",
-          "count": 2,
+          "count": 1,
           "kind": "model",
           "reason": "Use the corresponding unchanged JSON role key."
         },
         {
-          "old": "omit `model`",
-          "new": "omit `model` and `reasoning_effort`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Both fields inherit for auto and inherit-parent."
-        },
-        {
           "old": "the Task tool",
           "new": "the native subagent tool",
-          "count": 3,
+          "count": 2,
           "kind": "host",
           "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "- `model`: the",
-          "new": "- `model` and `reasoning_effort`: the",
-          "count": 1,
-          "kind": "model",
-          "reason": "Pass both fields from the resolved role configuration."
-        },
-        {
-          "old": "- `subagent_type`: `generalPurpose`",
-          "new": "- Use the native local subagent API.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "- `readonly`: `true`",
-          "new": "- Read-only assignment; do not edit files or external records.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Native Codex schema has no readonly field; preserve the review-only assignment."
         },
         {
           "old": "`claude-opus-5-5-xhigh`",
@@ -578,13 +521,6 @@
           "count": 1,
           "kind": "model",
           "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
-        },
-        {
-          "old": "run that reviewer on the table default of its family",
-          "new": "run that reviewer on its shipped table default",
-          "count": 1,
-          "kind": "model",
-          "reason": "Fallback uses the corresponding GPT configuration."
         },
         {
           "old": "Families go by prefix: `claude-*` and `grok-*`. ",
@@ -620,9 +556,30 @@
           "count": 1,
           "kind": "scope",
           "reason": "Review invocation does not authorize publishing an unrelated PR."
+        },
+        {
+          "old": "Launch all reviewers in a single message with the native subagent tool",
+          "new": "Launch all reviewers concurrently with the native asynchronous local subagent API, in batches when the host limits slots",
+          "count": 1,
+          "kind": "host",
+          "reason": "Native delegation is asynchronous; preserve one reviewer per configured entry within host concurrency limits."
+        },
+        {
+          "old": "Each reviewer gets `subagent_type: generalPurpose`, `readonly: true`, and `model` set to its configured entry, or its table default when there is no configured line. Omit `model` for an `auto` or `inherit-parent` entry, so that reviewer runs on the parent model.",
+          "new": "Each reviewer gets a read-only assignment and `model` and `reasoning_effort` set to its configured entry, or its table default when there is no configured line. Do not edit files or external records. Omit `model` and `reasoning_effort` for an `auto` or `inherit-parent` entry, so that reviewer runs on the parent configuration.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace unsupported Cursor type and readonly fields while preserving separate model and effort fields and alias inheritance."
+        },
+        {
+          "old": "run that reviewer on its family's table default",
+          "new": "run that reviewer on its shipped table default",
+          "count": 1,
+          "kind": "model",
+          "reason": "Fallback uses the corresponding unchanged GPT configuration."
         }
       ],
-      "source_sha256": "2f7e570ec23791ed2e485a09c98ed0597c46035e2050b351b84d3dc760ddd71f"
+      "source_sha256": "25341c393f515c1e1fa9bce668b7551e9f98c195113a460ff524d3c1f7f50cd9"
     },
     {
       "source": "pstack/skills/interrogate/references/code-quality-review.md",
@@ -640,7 +597,7 @@
       "source": "pstack/skills/interrogate/references/reviewer-prompt.md",
       "target": "skills/interrogate/references/reviewer-prompt.md",
       "edits": [],
-      "source_sha256": "e0598e254792b56de39bb16b1e6db559b03a522fdc54b98f942d254090920ae6"
+      "source_sha256": "f6005cc2b535006fca97a96c5bfda49df57312eedf1ffd8d1aaaf3eb33817c25"
     },
     {
       "source": "pstack/skills/interrogate/references/rubric.md",
@@ -654,7 +611,7 @@
           "reason": "Use Codex file tools."
         }
       ],
-      "source_sha256": "a85aa801abbaf14434f00579440abc0d8e2723227ba8bf57de7cca8d6e7d2f25"
+      "source_sha256": "0f9c6bdb0b96e26dbde5f6407f417e0c02f54080e7a1268d8994f3c3ec6c5ac0"
     },
     {
       "source": "pstack/skills/no-comments/SKILL.md",
@@ -703,14 +660,14 @@
           "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
         },
         {
-          "old": "Spawn `Task` with `subagent_type: \"Comment Sicko\"`.",
+          "old": "Spawn `Task` with `subagent_type: \"comment-sicko\"`.",
           "new": "Spawn a native local subagent that reads `references/comment-sicko.md`, inheriting the parent model and effort.",
           "count": 1,
           "kind": "host",
           "reason": "Role references replace Cursor custom agent types; no new model role is added."
         }
       ],
-      "source_sha256": "5c5b0882297d704c3a9720c52b7a793c68b013eaf717989f0945624efdfe2b05"
+      "source_sha256": "08b9c769040c104ef7fb1902ebac97047edbb89b58c7e113e53c918287b092e6"
     },
     {
       "source": "pstack/agents/comment-sicko.md",
@@ -731,7 +688,7 @@
           "reason": "Use Codex skill invocation notation."
         }
       ],
-      "source_sha256": "c0fd0383008da45fc78cfac17b9007d62c42f87ad1c8d5c2fb658b1fd01f7c82"
+      "source_sha256": "3e239e40b7b4b9beb2cf7f3ccc57f2388eb8b69bd1ba8ae888ef87ef6e0e2116"
     },
     {
       "source": "pstack/skills/poteto-help/SKILL.md",
@@ -1226,9 +1183,23 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "| Catch up on everything in this chat since their last message, with enough context to decide each action item | [`/ketchup`](../ketchup/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "The user excluded the new ketchup skill from this synchronization."
+        },
+        {
+          "old": "`/ketchup` covers only this chat since the user's last message. ",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit only the excluded ketchup route; keep Session pickup guidance."
         }
       ],
-      "source_sha256": "ea71bcb15c023a5d9cc70686e4812144687ffe03bf80d85cc480af3e0b181d1e"
+      "source_sha256": "3fe669c7c3b8f52c18b7c68ecce01c8691e844b9d2b41a8a6ff6432341451986"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",
@@ -1459,8 +1430,8 @@
           "reason": "Cursor AskQuestion API is unavailable"
         },
         {
-          "old": "Under the grant, apply a default for a call that only the operator can make.",
-          "new": "Under the grant, apply a default only for a call the operator delegated.",
+          "old": "Under the grant, for a call only the operator can make, apply a default,",
+          "new": "Under the grant, for a call the operator delegated, apply a default,",
           "count": 1,
           "kind": "host",
           "reason": "A skill cannot override user-reserved decisions"
@@ -1494,7 +1465,7 @@
           "reason": "Selected control skills are bundled locally"
         },
         {
-          "old": ", and not Cursor's built-in babysit skill, whose description matches the same words",
+          "old": ", not Cursor's built-in babysit skill, whose description matches the same words",
           "new": "",
           "count": 1,
           "kind": "host",
@@ -1522,8 +1493,8 @@
           "reason": "Existing user authorization persists in Codex"
         },
         {
-          "old": "**Use `subagent_type: \"poteto-agent\"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). `/poteto-mode` and `poteto-agent` route through the same wrapper.",
-          "new": "**Pass [poteto-agent](references/poteto-agent.md) to any local subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). `$poteto-mode` and the delegate read the same skill.",
+          "old": "**Use `subagent_type: \"poteto-agent\"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `/poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself. `/poteto-mode` and `poteto-agent` route through the same wrapper.",
+          "new": "**Pass [poteto-agent](references/poteto-agent.md) to any local subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `$poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself. `$poteto-mode` and the delegate read the same skill.",
           "count": 1,
           "kind": "host",
           "reason": "Native Codex agents accept a brief rather than Cursor custom agent types"
@@ -1599,21 +1570,21 @@
           "reason": "Orchestrate is explicitly excluded from the selected port"
         },
         {
-          "old": "- **Orchestrate.** A standing project handed to one coordinator chat: multi-day, many stacked PRs, dozens to hundreds of subagents, minimal human turns (\"run this whole project\", \"own this migration until it lands\"). Distinct from Autonomous run, which drives one task to a predicate. Work one agent could finish inside the session's budget routes there, not here, however program-shaped the phrasing sounds. `playbooks/orchestrate.md`.\n",
+          "old": "- **Orchestrate.** A standing project handed to one coordinator chat: multi-day, many stacked PRs, dozens to hundreds of subagents, minimal human turns (\"run this whole project\", \"own this migration until it lands\"). Distinct from Autonomous run, which drives one task to a predicate. Work one agent could finish inside the session's budget routes there, not here, however program-shaped the phrasing sounds.\n",
           "new": "",
           "count": 1,
           "kind": "scope",
           "reason": "Excluded cloud orchestration playbook is not shipped"
         },
         {
-          "old": "- **Autopilot-full.** A queue of independent PRs run to merged with full autonomy. One owner per PR carries build through merge, and the root swarm-verifies each PR before its owner merges (\"autopilot this queue\", \"full autopilot\", one-owner-per-PR programs). `playbooks/autopilot-full.md`.\n",
+          "old": "- **Autopilot-full.** A queue of independent PRs run to merged with full autonomy. One owner per PR carries build through merge, and the root swarm-verifies each PR before its owner merges (\"autopilot this queue\", \"full autopilot\", one-owner-per-PR programs).\n",
           "new": "",
           "count": 1,
           "kind": "scope",
           "reason": "Excluded cloud orchestration playbook is not shipped"
         },
         {
-          "old": "- **Autopilot-stack.** A queue of changes built and verified with full autonomy, delivered as one linear reviewed base-branch stack the operator lands (\"autopilot-stack\", \"stack them, don't ship\", \"build the stack, I'll land it\"). `playbooks/autopilot-stack.md`.\n",
+          "old": "- **Autopilot-stack.** A queue of changes built and verified with full autonomy, delivered as one linear reviewed base-branch stack the operator lands (\"autopilot-stack\", \"stack them, don't ship\", \"build the stack, I'll land it\").\n",
           "new": "",
           "count": 1,
           "kind": "scope",
@@ -1669,7 +1640,7 @@
           "reason": "Codex explicit skill invocation syntax"
         }
       ],
-      "source_sha256": "31cd02290360ce63564ef22b74d69fc6d90e62181d05a644cbed8f6c47cc9412"
+      "source_sha256": "c5900f379a4582cd2980b45b82c419baffc11929a37e7bb463d77dd0569d37a5"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/authoring-a-skill.md",
@@ -1762,7 +1733,7 @@
         {
           "old": "playbooks/shipping.md",
           "new": "$POTETO_SKILL_ROOT/playbooks/shipping.md",
-          "count": 3,
+          "count": 2,
           "kind": "host",
           "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
         },
@@ -1781,7 +1752,7 @@
           "reason": "Resolve reference files from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "a0346c37c2313f36a863b80f66ee7b98059c2242adf74fc7b3e48abdb9ec6f5a"
+      "source_sha256": "e261c1ff5581e0f8fc6c686f34de4b535f87473e77beabea7dd8323021214610"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/bug-fix.md",
@@ -2144,14 +2115,14 @@
           "reason": "Replace the Cursor Task tool name without changing worktree isolation."
         },
         {
-          "old": "Then it returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report and reports merge-ready or STACK-READY as its playbook says. The rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built do not apply to that owner.",
-          "new": "Then it returns to the parent without babysitting.",
+          "old": "It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready or STACK-READY per its playbook, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.",
+          "new": "It returns to the parent without babysitting.",
           "count": 1,
           "kind": "scope",
           "reason": "Remove only excluded Autopilot owner exceptions; ordinary PR and babysit duties remain unchanged."
         }
       ],
-      "source_sha256": "ab40de7163c1c6e274f46ee559b2e53ef45673703f601f13f4931c199e6fb90f"
+      "source_sha256": "931070f5674e81a191277253d4e02b1c45d091b223f93bf506d3896a428a5967"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/pause-safely.md",
@@ -2280,7 +2251,7 @@
       "source": "pstack/skills/poteto-mode/playbooks/trace-forensics.md",
       "target": "skills/poteto-mode/playbooks/trace-forensics.md",
       "edits": [],
-      "source_sha256": "137ce3984fb96e45971fdff4d3c79fa4ccc647c5b30ae4945783b9fb23f8cec7"
+      "source_sha256": "e8a671fd5511a894f90c933bca75815e7a1d730cb53333075a80b0927e81acfc"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/visual-parity.md",
@@ -2308,8 +2279,8 @@
       "target": "skills/poteto-mode/playbooks/worktree-cleanup.md",
       "edits": [
         {
-          "old": "`scripts/worktree-audit.sh`",
-          "new": "`bash \"$POTETO_SKILL_ROOT/scripts/worktree-audit.sh\"`",
+          "old": "`scripts/worktree-audit.sh [-b <pr-base-ref>] [repo-path]`",
+          "new": "`bash \"$POTETO_SKILL_ROOT/scripts/worktree-audit.sh\" [-b <pr-base-ref>] [repo-path]`",
           "count": 1,
           "kind": "host",
           "reason": "Run the shipped Bash audit from its resolved plugin path."
@@ -2376,9 +2347,16 @@
           "count": 1,
           "kind": "scope",
           "reason": "Preserve ignored content omitted by Codex archive and prevent ordinary cleanup from bypassing Git removal protections with force or recursive deletion."
+        },
+        {
+          "old": "Without `-b` it checks `MERGED` against `origin/HEAD`, so pass `-b origin/<branch>` when PRs target another branch.",
+          "new": "Without `-b` it resolves the preferred remote's default branch and checks its locally available ref; pass `-b <pr-base-ref>` when PRs target another branch. `MERGED` and `REMOTE` use local snapshots, including configured non-origin remotes. An unresolved automatic base yields `MERGED=?`; resolve it before cleanup.",
+          "count": 1,
+          "kind": "host",
+          "reason": "The local Bash audit supports configured non-origin remotes and reports an unknown automatic base rather than assuming origin/HEAD."
         }
       ],
-      "source_sha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6"
+      "source_sha256": "ffecceb6d2fa7e07ca5703c968f4b7c5947309ed695d51fc73a55c3da5906480"
     },
     {
       "source": "pstack/skills/poteto-mode/references/bugbot-triage.md",
@@ -2401,7 +2379,7 @@
         {
           "old": "/poteto-mode",
           "new": "$poteto-mode",
-          "count": 1,
+          "count": 3,
           "kind": "host",
           "reason": "Codex explicit skill syntax"
         },
@@ -2425,9 +2403,16 @@
           "count": 1,
           "kind": "host",
           "reason": "Resolve role-relative skill and native host contract"
+        },
+        {
+          "old": "every Task spawn",
+          "new": "every native subagent launch",
+          "count": 1,
+          "kind": "host",
+          "reason": "Map the main chat's spawn ownership to the native Codex subagent interface."
         }
       ],
-      "source_sha256": "abe41c169ecbfe65641f1725f4188d568e046c0dec7fd2dc271abb594c299201"
+      "source_sha256": "5cbeb2c1fea67b28ea9ef95c3416dca3c3f8be278b9654acbf2ea87c7877440a"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/bun.lock",
@@ -2455,7 +2440,7 @@
           "reason": "Match resolved plugin source reads and authorized native audit scheduling in the copied plan"
         }
       ],
-      "source_sha256": "4f9432d9989880b6afc2bdda503d5b12a9d07d357ecf31936b7ab5e83bc80523"
+      "source_sha256": "e58c3d871b09d477be00628d69dd23ffa6c2e3a1728f5b867a841baa8e90278b"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/package.json",
@@ -2469,8 +2454,8 @@
           "reason": "Codex package identity"
         },
         {
-          "old": "bun test orch watch-pr",
-          "new": "bun test watch-pr read-thread.test.ts",
+          "old": "bun test orch watch-pr check-plan.test.ts",
+          "new": "bun test watch-pr read-thread.test.ts check-plan.test.ts",
           "count": 1,
           "kind": "scope",
           "reason": "Exclude cloud orch tests and include Codex host history adapter tests"
@@ -2483,7 +2468,7 @@
           "reason": "Bundle for Node without runtime installation in plugin cache"
         }
       ],
-      "source_sha256": "d1f815091209d49763775cc188e8e06ff32d5fec648bffd2272bc25a165e87c3"
+      "source_sha256": "fd511a0c01f522e0c781ddd8eccea0e91697a0856c6e6a3261de78a6a0287c72"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/cli.test.ts",
@@ -2501,31 +2486,31 @@
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/fakes.test-helper.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/fakes.test-helper.ts",
       "edits": [],
-      "source_sha256": "e53e31b7f03068063f53a99a3591b052aaed66e4e2b196b3a364980f60324ab1"
+      "source_sha256": "cf0c5ee61b4a73444c1b775cfb6c81a40d312e055dd21a1f5eae6276e54de13f"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.test.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/github.test.ts",
       "edits": [],
-      "source_sha256": "0cbce011050522938523e36bb42a260e92b812dcd2076930fa681672ad316b24"
+      "source_sha256": "035f4a0f1ab5a17ebf94ad1f7c14d1abd948852be30987c0e9d107b5ea5028ab"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/github.ts",
       "edits": [],
-      "source_sha256": "d1bbbafbe8e2c703c84da2029de7f2c4011412512f8cf65a42100f46bcb92c8a"
+      "source_sha256": "9ea8de77e019de19929fbe4a86bc88492ffbecd89d6816d9857ed49db904c151"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/policy.test.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/policy.test.ts",
       "edits": [],
-      "source_sha256": "a9fedb25feefd1f57ef6a662f80c99018690170a3a8070773a08eaf694d1d3d9"
+      "source_sha256": "146acabcfee9b6fa3342358eb0a9504aa65fd081bbc15b10adf9c1c5485067d2"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/policy.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/policy.ts",
       "edits": [],
-      "source_sha256": "68d240505852cf23c9b2dea463342e9e61243f486b3cc86c735d140f9ee7be49"
+      "source_sha256": "f2a3e31223d05edc05e5473cc3f8f3cb9bd20c202c30c6abe7f21f0f7aee8fbb"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/render.ts",
@@ -2549,7 +2534,7 @@
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/types.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/types.ts",
       "edits": [],
-      "source_sha256": "64ba6221e3bfe61bbb292337d199cdec6309455477280efb060203dba34e0e91"
+      "source_sha256": "0cac435294dc85ce1ba755e8e67f6c5ab163dfa252f2722d6e3a2d68c58fec59"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/watch-pr",
@@ -2619,32 +2604,25 @@
           "reason": "Report absent host ownership evidence instead of treating it as inactivity"
         },
         {
-          "old": "# origin/main drives the merge check. Best-effort; stale is fine for a first pass.\ngit fetch origin main --quiet 2>/dev/null || echo \"warn: could not fetch origin/main; merged column may be stale\" >&2\n",
-          "new": "preferred_remote=$(git remote | sed -n '1p')\nif git remote | grep -qx origin; then preferred_remote=origin; fi\ndefault_ref=\"\"\nif [ -n \"$preferred_remote\" ]; then\n\tdefault_ref=$(git symbolic-ref --quiet \"refs/remotes/$preferred_remote/HEAD\" 2>/dev/null || true)\n\tif [ -z \"$default_ref\" ]; then\n\t\tdefault_branch=$(git ls-remote --symref \"$preferred_remote\" HEAD 2>/dev/null | awk '$1 == \"ref:\" && $3 == \"HEAD\" { sub(/^refs\\/heads\\//, \"\", $2); print $2; exit }')\n\t\tif [ -n \"$default_branch\" ]; then default_ref=\"refs/remotes/$preferred_remote/$default_branch\"; fi\n\tfi\nfi\nif [ -z \"$default_ref\" ] || ! git rev-parse --verify \"$default_ref^{commit}\" >/dev/null 2>&1; then\n\tdefault_ref=\"\"\n\techo \"warn: default branch could not be resolved locally; MERGED is unknown\" >&2\nelse\n\tprintf 'Merge base: %s (local snapshot; this audit does not fetch)\\n' \"$default_ref\" >&2\nfi\n",
+          "old": "if [ -z \"$base\" ]; then\n\tfor cand in \"$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null)\" origin/main origin/master; do\n\t\t[ -n \"$cand\" ] && git rev-parse --verify --quiet \"$cand^{commit}\" >/dev/null && { base=\"$cand\"; break; }\n\tdone\n\t[ -z \"$base\" ] && { echo \"error: no base ref (origin/HEAD, origin/main, origin/master all missing); pass -b <ref>\" >&2; exit 1; }\n\techo \"warn: no -b given; MERGED checks against $base\" >&2\nfi\n\n# The base drives the merge check. The fetch is best-effort (stale is fine for\n# a first pass) and runs before the check, since -b may name a branch not\n# fetched yet. The explicit refspec creates it even in a single-branch clone.\ncase \"$base\" in\norigin/*) git fetch origin \"+refs/heads/${base#origin/}:refs/remotes/$base\" --quiet 2>/dev/null \\\n\t|| echo \"warn: could not fetch $base; merged column may be stale\" >&2 ;;\nesac\ngit rev-parse --verify --quiet \"$base^{commit}\" >/dev/null 2>&1 || { echo \"error: base ref not found: $base\" >&2; exit 1; }\n\n",
+          "new": "if [ -z \"$base\" ]; then\n\tpreferred_remote=$(git remote | sed -n '1p')\n\tif git remote | grep -qx origin; then preferred_remote=origin; fi\n\tif [ -n \"$preferred_remote\" ]; then\n\t\tbase=$(git symbolic-ref --quiet \"refs/remotes/$preferred_remote/HEAD\" 2>/dev/null || true)\n\t\tif [ -z \"$base\" ]; then\n\t\t\tdefault_branch=$(git ls-remote --symref \"$preferred_remote\" HEAD 2>/dev/null | awk '$1 == \"ref:\" && $3 == \"HEAD\" { sub(/^refs\\/heads\\//, \"\", $2); print $2; exit }')\n\t\t\tif [ -n \"$default_branch\" ]; then base=\"refs/remotes/$preferred_remote/$default_branch\"; fi\n\t\tfi\n\tfi\n\tif [ -z \"$base\" ] || ! git rev-parse --verify \"$base^{commit}\" >/dev/null 2>&1; then\n\t\tbase=\"\"\n\t\techo \"warn: default branch could not be resolved locally; MERGED is unknown\" >&2\n\tfi\nelse\n\tgit rev-parse --verify --quiet \"$base^{commit}\" >/dev/null 2>&1 || { echo \"error: base ref not found: $base\" >&2; exit 1; }\nfi\n\n",
           "count": 1,
           "kind": "host",
-          "reason": "Resolve the actual default branch of arbitrary Codex repositories using local refs and read-only remote discovery; preserve unknown merge state when no local default commit is available."
+          "reason": "Preserve read-only default-remote discovery, non-origin support and unknown automatic merge state; validate explicit bases locally without fetching."
         },
         {
-          "old": "\t# Squash-merged branches are not ancestors of main, so PR state is the\n",
-          "new": "\t# Squash-merged branches are not ancestors of the default branch, so PR state is the\n",
+          "old": "\tgit merge-base --is-ancestor \"$head\" \"$base\" 2>/dev/null && merged=YES || merged=no\n",
+          "new": "\tmerged=\"?\"\n\tif [ -n \"$base\" ] && [ -n \"$head\" ]; then\n\t\tgit merge-base --is-ancestor \"$head\" \"$base\" 2>/dev/null && merged=YES || merged=no\n\tfi\n",
           "count": 1,
           "kind": "host",
-          "reason": "Resolve the actual default branch of arbitrary Codex repositories using local refs and read-only remote discovery; preserve unknown merge state when no local default commit is available."
+          "reason": "Use the resolved base for merge checks and preserve unknown state when no automatic base commit is available."
         },
         {
-          "old": "\tgit merge-base --is-ancestor \"$head\" origin/main 2>/dev/null && merged=YES || merged=no\n",
-          "new": "\tmerged=\"?\"\n\tif [ -n \"$default_ref\" ] && [ -n \"$head\" ]; then\n\t\tgit merge-base --is-ancestor \"$head\" \"$default_ref\" 2>/dev/null && merged=YES || merged=no\n\tfi\n",
-          "count": 1,
-          "kind": "host",
-          "reason": "Resolve the actual default branch of arbitrary Codex repositories using local refs and read-only remote discovery; preserve unknown merge state when no local default commit is available."
-        },
-        {
-          "old": "# Usage: worktree-audit.sh [repo-path]   (defaults to the current repo)\nset -u\n\nrepo=\"${1:-$(git rev-parse --show-toplevel 2>/dev/null)}\"\n[ -z \"$repo\" ] && { echo \"not in a git repo; pass a repo path\" >&2; exit 1; }\ncd \"$repo\" || exit 1\n\n# Main worktree is the first entry; everything else is a candidate.\n",
-          "new": "# Usage: worktree-audit.sh [repo-path]   (defaults to the current repo)\nset -u\nexport GIT_OPTIONAL_LOCKS=0\n\nrepo=\"${1:-$(git rev-parse --show-toplevel 2>/dev/null)}\"\n[ -z \"$repo\" ] && { echo \"not in a git repo; pass a repo path\" >&2; exit 1; }\ncd \"$repo\" || exit 1\ngit rev-parse --git-dir >/dev/null 2>&1 || { echo \"not a git repository: $repo\" >&2; exit 1; }\n\n# Main worktree is the first entry; everything else is a candidate.\n",
+          "old": "set -u\n",
+          "new": "set -u\nexport GIT_OPTIONAL_LOCKS=0\n",
           "count": 1,
           "kind": "scope",
-          "reason": "Keep the Codex audit read-only by disabling optional index refreshes, and reject invalid repository input before reporting results."
+          "reason": "Keep the Codex audit read-only by disabling optional index refreshes; upstream already validates repository input."
         },
         {
           "old": "\tfi\n\n\t# Distinguish real WIP (tracked edits) from disposable untracked scratch.\n\tporcelain=$(git -C \"$wt\" status --porcelain 2>/dev/null)\n\tif [ -z \"$porcelain\" ]; then dirty=clean\n\telif printf '%s\\n' \"$porcelain\" | grep -qv '^??'; then\n\t\tdirty=\"wip:$(printf '%s\\n' \"$porcelain\" | grep -cv '^??')\"\n\telse dirty=\"scratch:$(printf '%s\\n' \"$porcelain\" | grep -c '^??')\"; fi\n\n\tbranch=$(git -C \"$wt\" symbolic-ref --quiet --short HEAD 2>/dev/null || echo \"\")\n\tif [ -z \"$branch\" ]; then remote=detached\n\telif git -C \"$wt\" show-ref --verify --quiet \"refs/remotes/origin/$branch\"; then\n\t\t[ \"$(git -C \"$wt\" rev-parse \"origin/$branch\" 2>/dev/null)\" = \"$head\" ] \\\n\t\t\t&& remote=pushed \\\n\t\t\t|| remote=\"ahead$(git -C \"$wt\" rev-list --count \"origin/$branch..HEAD\" 2>/dev/null)\"\n\telse remote=no-remote; fi\n\n\tpr=$([ -n \"$branch\" ] && jq -r --arg b \"$branch\" \\\n",
@@ -2666,9 +2644,23 @@
           "count": 1,
           "kind": "host",
           "reason": "Shell-escape displayed paths containing tabs or newlines so each linked worktree occupies one nine-cell TSV row; preserve ordinary path display."
+        },
+        {
+          "old": "#   Without it the base is origin/HEAD, then origin/main, then origin/master.\n#   origin/HEAD is the remote's default branch, not necessarily the branch PRs\n#   merge into; pass -b when they differ.",
+          "new": "#   Without it the base is the preferred remote's default branch, using a\n#   local snapshot. origin is preferred when configured. Unknown bases leave\n#   MERGED unknown; pass -b when PRs merge into a different branch.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Describe preserved default-remote discovery and local-only merge evidence instead of origin-only fallback rules."
+        },
+        {
+          "old": "echo \"# base: $base\"",
+          "new": "printf 'Merge base: %s (local snapshot; this audit does not fetch)\\n' \"${base:-unknown}\" >&2",
+          "count": 1,
+          "kind": "host",
+          "reason": "Report the selected base on stderr so stdout remains a nine-column TSV with exactly one header."
         }
       ],
-      "source_sha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc"
+      "source_sha256": "9faa9a2534ad64069dec67ac5b5ce1dc23b8fe635ecfd7f6557b1e3ada61fd2f"
     },
     {
       "source": "pstack/skills/principle-attack-the-premise/SKILL.md",
@@ -2710,7 +2702,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "458b269eab8e95a1573276955312f7d2a13ae8599879a9efc748248f6bc34b56"
+      "source_sha256": "3434b0ad0c640c6f1d7960be7a8986c3bcdc14e26060360dec29903df60074ff"
     },
     {
       "source": "pstack/skills/principle-encode-lessons-in-structure/SKILL.md",
@@ -2724,7 +2716,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "77044c83a9ac6df78fc643887ea5f1f11f082adaf14b717c060cdaed03cce863"
+      "source_sha256": "228963799189f481827d6f28065f278bc2008ffa37030b1234cbd5814d36b9e9"
     },
     {
       "source": "pstack/skills/principle-exhaust-the-design-space/SKILL.md",
@@ -2738,7 +2730,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "8583310d7297b7823d75494faa57b003564d436807febecdecbd8321abe5cf6e"
+      "source_sha256": "2de83d99f93f60ec6313455b0bc9aa9f0bfb93dd59f414f403691322db00d4db"
     },
     {
       "source": "pstack/skills/principle-experience-first/SKILL.md",
@@ -2766,7 +2758,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "5aac99e7ce0bb1b37e2579acf4fe88c32a1456d9d46afd4a57cfe1df9092e89c"
+      "source_sha256": "cd5a25f9e7cf023627ccb470dc5faa97542f29b4319496a32b839a8e1e988047"
     },
     {
       "source": "pstack/skills/principle-fix-root-causes/SKILL.md",
@@ -2808,7 +2800,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "d2cef147862576e3d709b7afc149d85196245e8338b9c7eef337c95fba412b3e"
+      "source_sha256": "af0b9dd70b43628ce4a59a4d332e9d9ad055084e460f430e7a757495c627e81a"
     },
     {
       "source": "pstack/skills/principle-laziness-protocol/SKILL.md",
@@ -2822,7 +2814,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "9006579e9e3f33955d17569733db688ae65f22577dc3b21803d219a5a8445aff"
+      "source_sha256": "1be6e7a435f26a75a76eb848b9c3d611b9977d0f5822361753244da25ca3ca45"
     },
     {
       "source": "pstack/skills/principle-make-operations-idempotent/SKILL.md",
@@ -2864,7 +2856,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "42551c5dc74cd578163c148da552db3ff67d29b78600ef216bfd311fb828fe69"
+      "source_sha256": "1ea2b7fef2391cae5844c4efdbd59031f775e8a52d06b7495d707229a200dcca"
     },
     {
       "source": "pstack/skills/principle-model-the-domain/SKILL.md",
@@ -2878,7 +2870,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "bbadbb9a723fac3f76e782ae45665eb94058ec10993e4bae36d4dc6b0e4eac07"
+      "source_sha256": "52c0d85e0c3827c41c18299b642657d7b47eaf77b7b31609e42e0df42b84c75f"
     },
     {
       "source": "pstack/skills/principle-never-block-on-the-human/SKILL.md",
@@ -2892,7 +2884,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "f2764bb9338cbfc788c903cf4b9cd0a5f4042d3a04dd6d59cbd525d9beaadd0a"
+      "source_sha256": "05030a7a083c337676f793881b4e93cd218e8f1dd676529f56e6ac1d3efb8d1f"
     },
     {
       "source": "pstack/skills/principle-outcome-oriented-execution/SKILL.md",
@@ -2934,7 +2926,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "a1c7fd0a96b40e12a74bceb0e6bb20a9666dd844dcabfb624acb27da23b929fe"
+      "source_sha256": "170e0a658783e43fee8ec5a8c2422a4abb8f69cef621dd1819a95910b8207034"
     },
     {
       "source": "pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md",
@@ -2976,7 +2968,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "a983a50e732c1ed315eba7aaf47a61329e31c4794eb1ab9d25d9945265b31e03"
+      "source_sha256": "8c93bb9d1a7f38e2ef37655d93f0e790fa59903105af3d500cc8a663ebe45f3f"
     },
     {
       "source": "pstack/skills/principle-test-behavior-not-implementation/SKILL.md",
@@ -2990,7 +2982,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "87e40efe4e486f7ea639d2ed1fc0abe6c93b8fd0e89a81218086909d2470a52e"
+      "source_sha256": "b2b73ba42920f9c3174ecdf808ec6e4591b3a9266ada9a05814f386004266d3a"
     },
     {
       "source": "pstack/skills/principle-type-system-discipline/SKILL.md",
@@ -3004,7 +2996,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "c83da8031ffb4c86410030d3e261f659598fca2b7d8158fd9dc269d70a3a025e"
+      "source_sha256": "2e492cef34bb25a20b9115df61f9ef3a9837e3fda144ffda8079e5f45a1b72e8"
     },
     {
       "source": "pstack/skills/reflect/SKILL.md",
@@ -3123,60 +3115,11 @@
           "reason": "Name the actual host supplying skill-creator."
         },
         {
-          "old": "The system prompt names the active workspace's `agent-transcripts/` directory. Use that path.",
-          "new": "Resolve the current thread ID from the host context and export it with `read-thread.mjs` as described in Codex runtime.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use scoped Codex history export."
-        },
-        {
-          "old": "Do not glob across `~/.cursor/projects/*/`.",
-          "new": "Do not scan unrelated Codex conversations.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Preserve current-conversation privacy boundary."
-        },
-        {
           "old": "ls -t <agent-transcripts>/*.jsonl <agent-transcripts>/*/*.jsonl <agent-transcripts>/*/subagents/*.jsonl 2>/dev/null | head -10",
           "new": "node \"$POTETO_SKILL_ROOT/scripts/read-thread.mjs\" --thread-id <thread-id> > <task-dir>/transcript.json",
           "count": 1,
           "kind": "host",
           "reason": "Execute the existing Codex App Server reader."
-        },
-        {
-          "old": "Three transcript layouts: legacy flat (`<id>.jsonl`), current nested (`<id>/<id>.jsonl`), and subagent (`<parent>/subagents/<child>.jsonl`).",
-          "new": "The export preserves thread, turn, item, and tool-result associations.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Describe the actual reader output rather than Cursor filesystem layouts."
-        },
-        {
-          "old": "For each candidate, read the first JSONL line and check that `message.content[0].text` contains the conversation's opening user prompt. Take the matching path.",
-          "new": "Check the exported thread ID and opening user prompt against the current conversation. Take the matching path.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Verify the exported Codex history identity."
-        },
-        {
-          "old": "If no path resolves, write a tight digest of the session and pass that instead.",
-          "new": "If no path resolves, write a tight digest of the session and pass that instead, marking the missing transcript as a coverage gap.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Preserve digest fallback without claiming full history coverage."
-        },
-        {
-          "old": "One message, three `Task` calls, `subagent_type: generalPurpose`, with `model` set as below, agent mode (`readonly: false`).",
-          "new": "Three concurrent native local subagent launches, with `model` and `reasoning_effort` set as below.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Replace unsupported Cursor launch fields; preserve three reviewers."
-        },
-        {
-          "old": "Readonly strips MCPs.",
-          "new": "Preserve MCP access while prohibiting writes.",
-          "count": 2,
-          "kind": "host",
-          "reason": "Codex read-only assignment is an instruction; Cursor mode limitation is inapplicable."
         },
         {
           "old": "in the `Task` response body",
@@ -3186,91 +3129,84 @@
           "reason": "Native delegation returns terminal reports."
         },
         {
-          "old": "One `Task` call, `subagent_type: generalPurpose`, with `model` from",
-          "new": "One native local subagent launch, with `model` and `reasoning_effort` from",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use native delegation with separate launch fields."
-        },
-        {
-          "old": ", agent mode (`readonly: false`).",
-          "new": ".",
-          "count": 1,
-          "kind": "host",
-          "reason": "Remove unsupported Cursor mode parameter."
-        },
-        {
-          "old": "Backlog items file to whatever devex / backlog tracker your team uses automatically.",
-          "new": "Backlog items file to whatever devex / backlog tracker your team uses automatically when the user has authorized filing them.",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Skill invocation alone does not authorize external tracker writes."
-        },
-        {
           "old": "run its description-optimization loop.",
           "new": "run its description-optimization loop if available; otherwise report that missing capability.",
           "count": 1,
           "kind": "host",
           "reason": "Codex skill-creator lacks a dedicated description-optimization loop; surface the gap."
+        },
+        {
+          "old": "Before fanning out, find this conversation's transcript in the `agent-transcripts/` directory the system prompt names. Do not glob across `~/.cursor/projects/*/`. That crosses workspace boundaries and reads private chats from unrelated projects.",
+          "new": "Before fanning out, resolve the current thread ID from the host context and export it with `read-thread.mjs` as described in Codex runtime. Do not scan unrelated Codex conversations. That crosses workspace boundaries and reads private chats from unrelated projects.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Export the current Codex conversation by known thread ID while preserving the unrelated-conversation privacy boundary."
+        },
+        {
+          "old": "That covers the legacy flat (`<id>.jsonl`), current nested (`<id>/<id>.jsonl`), and subagent (`<parent>/subagents/<child>.jsonl`) layouts. For each candidate, read the first JSONL line. Take the file whose `message.content[0].text` contains the conversation's opening user prompt. If none matches, pass a tight digest of the session instead.",
+          "new": "The export preserves thread, turn, item, and tool-result associations. Check the exported thread ID and opening user prompt against the current conversation. Take the matching path. If no path resolves, pass a tight digest of the session instead, marking the missing transcript as a coverage gap.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the actual Codex reader output and identity checks; retain the digest fallback without claiming full transcript coverage."
+        },
+        {
+          "old": "One message, three `Task` calls, `subagent_type: generalPurpose`, agent mode (`readonly: false`). Reviewers need MCP access to look up the tickets, chat threads, and observability traces the transcript references, and readonly strips MCPs.",
+          "new": "Three concurrent native asynchronous local subagent launches, in batches when the host limits slots. Reviewers need read-only MCP access to look up the tickets, chat threads, and observability traces the transcript references. Do not edit files or external records.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace Cursor launch fields and Ask-mode restrictions; preserve all three reviewers and read-only evidence access."
+        },
+        {
+          "old": "One `Task` call, `subagent_type: generalPurpose`, `model` from",
+          "new": "One native asynchronous local subagent launch, with `model` and `reasoning_effort` from",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use native delegation with separate model and effort fields for the unchanged shared synthesizer role."
+        },
+        {
+          "old": ", agent mode (`readonly: false`). It spot-verifies citations through MCP, and readonly strips MCPs.",
+          "new": ". It spot-verifies citations through read-only MCP access. Do not edit files or external records.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Replace unsupported Cursor mode parameters while preserving read-only citation verification."
+        },
+        {
+          "old": "File each Backlog item to your team's devex or backlog tracker without waiting. Only the Accepted list waits for approval.",
+          "new": "File each Backlog item to your team's devex or backlog tracker without waiting when the user has authorized filing them. Otherwise, present the Backlog items for authorization. Accepted edits always wait for explicit approval.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Skill invocation does not authorize external tracker writes; preserve explicit approval for every Accepted edit."
         }
       ],
-      "source_sha256": "31b8fb866ebe084e7fb7f16dc0ea46ab84ffdc838d54f948edc78556f301a497"
+      "source_sha256": "f5e9200f37e2a4567c0eeb0ba244fde66c1b3f35e3b7a883de2f85b3bda7365a"
     },
     {
       "source": "pstack/skills/reflect/references/divergent-reviewer.md",
       "target": "skills/reflect/references/divergent-reviewer.md",
       "edits": [
         {
-          "old": "`Read` tool calls",
-          "new": "File-reading tool calls",
+          "old": "a `Read` of its `SKILL.md` (under `.cursor/skills/`, `~/.cursor/skills/`, or `~/.cursor/plugins/`), a `Task` prompt naming its path, or a tool call (Shell, Grep, MCP, etc.)",
+          "new": "a file-reading tool call for its `SKILL.md` (under workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths), a native subagent prompt naming its path, or a tool call (shell, `rg`, MCP, etc.)",
           "count": 1,
           "kind": "host",
-          "reason": "Read tool is not a Codex API."
-        },
-        {
-          "old": "(workspace `.cursor/skills/`, user-level `~/.cursor/skills/`, or plugin-installed paths under `~/.cursor/plugins/`)",
-          "new": "(workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths)",
-          "count": 1,
-          "kind": "host",
-          "reason": "Inspect Codex skill paths instead of Cursor installation paths."
-        },
-        {
-          "old": "`Task` prompts",
-          "new": "Native subagent prompts",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use native Codex delegation evidence."
+          "reason": "Map the consolidated skill-use evidence paragraph to actual Codex file reads, skill paths, native subagent prompts, and tools."
         }
       ],
-      "source_sha256": "221dfc0abf7cbcd25e1da3cd87323f5d1050fc3bf652e096d093584e183c98fb"
+      "source_sha256": "f6030d88e20e906ef5e2d9ba44cb013ce610c49c2fe2ef74c377d32e0dc9e939"
     },
     {
       "source": "pstack/skills/reflect/references/judgment-reviewer.md",
       "target": "skills/reflect/references/judgment-reviewer.md",
       "edits": [
         {
-          "old": "`Read` tool calls",
-          "new": "File-reading tool calls",
+          "old": "a `Read` of its `SKILL.md` (under `.cursor/skills/`, `~/.cursor/skills/`, or `~/.cursor/plugins/`), a `Task` prompt naming its path, or a tool call (Shell, Grep, MCP, etc.)",
+          "new": "a file-reading tool call for its `SKILL.md` (under workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths), a native subagent prompt naming its path, or a tool call (shell, `rg`, MCP, etc.)",
           "count": 1,
           "kind": "host",
-          "reason": "Read tool is not a Codex API."
-        },
-        {
-          "old": "(workspace `.cursor/skills/`, user-level `~/.cursor/skills/`, or plugin-installed paths under `~/.cursor/plugins/`)",
-          "new": "(workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths)",
-          "count": 1,
-          "kind": "host",
-          "reason": "Inspect Codex skill paths instead of Cursor installation paths."
-        },
-        {
-          "old": "`Task` prompts",
-          "new": "Native subagent prompts",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use native Codex delegation evidence."
+          "reason": "Map the consolidated skill-use evidence paragraph to actual Codex file reads, skill paths, native subagent prompts, and tools."
         }
       ],
-      "source_sha256": "a40ecb9b28bd2a3491e11a541157fe58efe158e0eda7b61a5006c14590aabe61"
+      "source_sha256": "38f917619fbf346062d643e0ad6b12fc952d58678dfcbbf42ffcf6d8b9c08307"
     },
     {
       "source": "pstack/skills/reflect/references/synthesizer.md",
@@ -3291,35 +3227,21 @@
           "reason": "Use the available Codex skill authoring skill."
         }
       ],
-      "source_sha256": "2f76c847eb45b182dc6fbcbf7d96c8ee7e2986ecfd9e0d640fec44e3cc5a617c"
+      "source_sha256": "6af816963de74d1a1aef4070273c1ff533d2072732e488e159ddc0b299fec3cd"
     },
     {
       "source": "pstack/skills/reflect/references/tooling-reviewer.md",
       "target": "skills/reflect/references/tooling-reviewer.md",
       "edits": [
         {
-          "old": "`Read` tool calls",
-          "new": "File-reading tool calls",
+          "old": "a `Read` of its `SKILL.md` (under `.cursor/skills/`, `~/.cursor/skills/`, or `~/.cursor/plugins/`), a `Task` prompt naming its path, or a tool call (Shell, Grep, MCP, etc.)",
+          "new": "a file-reading tool call for its `SKILL.md` (under workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths), a native subagent prompt naming its path, or a tool call (shell, `rg`, MCP, etc.)",
           "count": 1,
           "kind": "host",
-          "reason": "Read tool is not a Codex API."
-        },
-        {
-          "old": "(workspace `.cursor/skills/`, user-level `~/.cursor/skills/`, or plugin-installed paths under `~/.cursor/plugins/`)",
-          "new": "(workspace `.agents/skills/`, user-level `${CODEX_HOME:-$HOME/.codex}/skills/`, or plugin-installed paths)",
-          "count": 1,
-          "kind": "host",
-          "reason": "Inspect Codex skill paths instead of Cursor installation paths."
-        },
-        {
-          "old": "`Task` prompts",
-          "new": "Native subagent prompts",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use native Codex delegation evidence."
+          "reason": "Map the consolidated skill-use evidence paragraph to actual Codex file reads, skill paths, native subagent prompts, and tools."
         }
       ],
-      "source_sha256": "bc49ced90fa81eaba3083b88aeb430d900a6d8f14ff40c1d6b52263bacfc77b6"
+      "source_sha256": "f81b8697e7366fbbc18feba52c6e3253a101f751091364ebc4396a1d9b5753b4"
     },
     {
       "source": "pstack/skills/setup-pstack/SKILL.md",
@@ -3786,7 +3708,7 @@
           "reason": "Use Codex skill invocation notation."
         }
       ],
-      "source_sha256": "f5c512ffeec70bc4e0dee50f7bb4c26742e1be77967a6e8b15d1921e1c209ceb"
+      "source_sha256": "61fe9c424a798ebf36ad94941f87be049cb8827bdf86d21474a0dde37b513c43"
     },
     {
       "source": "pstack/skills/typescript-best-practices/SKILL.md",
@@ -3827,7 +3749,7 @@
           "reason": "Explicit-only invocation is declared in agents/openai.yaml."
         }
       ],
-      "source_sha256": "195411d320b5b328f9f642baf59757ed19aaf0931c0838740e0aca273d538dc1"
+      "source_sha256": "ccab208e315ce05e2fab8eeee2f7879f1289b5c6844840b2d307adf31c79144f"
     },
     {
       "source": "pstack/skills/why/SKILL.md",
@@ -3897,20 +3819,6 @@
           "reason": "Use the Codex host interface."
         },
         {
-          "old": "- `model`: the",
-          "new": "- `model` and `reasoning_effort`: the",
-          "count": 2,
-          "kind": "model",
-          "reason": "Pass both fields from the resolved role configuration."
-        },
-        {
-          "old": "- `subagent_type`: `generalPurpose`",
-          "new": "- Use the native local subagent API.",
-          "count": 2,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
           "old": "the closest valid slug of the same family from its error message",
           "new": "the closest supported configuration of the same GPT model from its error message",
           "count": 1,
@@ -3953,33 +3861,40 @@
           "reason": "Codex does not expose Cursor mcps directory."
         },
         {
-          "old": "- `readonly`: `false` (agent mode). **Do not use readonly/Ask mode.** It strips MCP access, which disables MCP-backed investigators entirely. Investigators still shouldn't write anything.",
-          "new": "- Preserve MCP access in the native subagent assignment. Investigators still shouldn't write anything.",
+          "old": "Every spawn is `generalPurpose` with `readonly: false` (agent mode). **Do not use readonly/Ask mode.** It strips MCP access, which disables the MCP-backed investigators and the synthesizer's citation spot-checks. Investigators still shouldn't write anything.",
+          "new": "Every spawn uses the native asynchronous local subagent API with a read-only assignment. Preserve MCP access for investigators and the synthesizer's citation spot-checks. Do not edit files or external records.",
           "count": 1,
           "kind": "host",
-          "reason": "Cursor Ask-mode restriction does not apply to Codex; preserve MCP access and no-write obligation."
+          "reason": "Codex has no Cursor Ask-mode restriction; preserve native delegation, read-only MCP investigation, and citation verification."
         },
         {
-          "old": "- `readonly`: `false` (agent mode). The synthesizer's quality check spot-verifies citations, which can require MCP access. Readonly/Ask mode strips MCPs and defeats that.",
-          "new": "- Preserve MCP access in the native subagent assignment. The synthesizer's quality check spot-verifies citations, which can require MCP access.",
+          "old": "all in a single message so they run concurrently",
+          "new": "concurrently, in batches when the host limits slots",
           "count": 1,
           "kind": "host",
-          "reason": "Cursor Ask-mode restriction does not apply to Codex; preserve citation verification access."
+          "reason": "Host concurrency limits change scheduling, not required evidence-category coverage."
+        },
+        {
+          "old": "`model`: the",
+          "new": "`model` and `reasoning_effort`: the",
+          "count": 2,
+          "kind": "model",
+          "reason": "Pass both fields from the resolved role configuration in the consolidated launch paragraphs."
         }
       ],
-      "source_sha256": "442215bf70e491d4d31bd200c197f2ec447445df38e074c40880fc4bf30a1f9e"
+      "source_sha256": "fa1d1e9dec14b15381c1ccccad74044d6b6ea3b4af56821f59ba2d8e59b07545"
     },
     {
       "source": "pstack/skills/why/references/epistemics.md",
       "target": "skills/why/references/epistemics.md",
       "edits": [],
-      "source_sha256": "fcc0f559c072832c869a5ada72434b4849320a637ae63c09e8ee14f7ad787059"
+      "source_sha256": "d54a2361b2d5973bc3fe2edf62f446d87935974d4b40d47f23b9529f956ca758"
     },
     {
       "source": "pstack/skills/why/references/investigator-prompt.md",
       "target": "skills/why/references/investigator-prompt.md",
       "edits": [],
-      "source_sha256": "6892956a7ab0b5ee6c4babaf4f793703abe89b350ea7cb9463b4a56eea1c8266"
+      "source_sha256": "c44afba186f899094f3694e6c9d6de5d14ff7c4ce28b787a9f50fc789c9a7fc3"
     },
     {
       "source": "pstack/skills/why/references/source-playbook.md",
@@ -3991,7 +3906,7 @@
       "source": "pstack/skills/why/references/sources/code-archaeology.md",
       "target": "skills/why/references/sources/code-archaeology.md",
       "edits": [],
-      "source_sha256": "8c14aa382f0de40829b2668d43e3f54814480bb93a486c9282ada4003f6b9dbd"
+      "source_sha256": "a4a3970e9db448054aed676f3f7feeee667b4b69f0bd57c8fd72b751be687cc7"
     },
     {
       "source": "pstack/skills/why/references/sources/databricks.md",
@@ -4003,13 +3918,13 @@
       "source": "pstack/skills/why/references/sources/datadog.md",
       "target": "skills/why/references/sources/datadog.md",
       "edits": [],
-      "source_sha256": "ebe9c07bac28e47757ee7f16fb93b0c01d427a08c501957d047f395a2f37b7e7"
+      "source_sha256": "b139faac5dc11b8f26c8255dce6033c1a6ac143b038d3dd103f2034c5dbec9cd"
     },
     {
       "source": "pstack/skills/why/references/sources/incident-postmortem.md",
       "target": "skills/why/references/sources/incident-postmortem.md",
       "edits": [],
-      "source_sha256": "a899470f05f86029630a13a2696491cc708ca7b56a6e822a69ff6e954d6ff8cf"
+      "source_sha256": "bf2661f1a81c37700884a45b77d6289be0c802b065febced31990e6564510839"
     },
     {
       "source": "pstack/skills/why/references/sources/linear.md",
@@ -4027,19 +3942,40 @@
       "source": "pstack/skills/why/references/sources/sentry.md",
       "target": "skills/why/references/sources/sentry.md",
       "edits": [],
-      "source_sha256": "6f292bc4fb1548e956f95e1900b9481abf5134254419f1cd9edec95428c82d73"
+      "source_sha256": "2d4f83048eac1df530b399e2aed75dd7c9c18577b7665420aaeb96d0ceb0b702"
     },
     {
       "source": "pstack/skills/why/references/sources/slack.md",
       "target": "skills/why/references/sources/slack.md",
       "edits": [],
-      "source_sha256": "58fee61d024b3700b407e7acbed367944720ff05adfddb6954d36c88368f3ba7"
+      "source_sha256": "3bc6309f5c7b26ace3b919dbd7f7b048861dd2020f910fe24f656cc74b3b661c"
     },
     {
       "source": "pstack/skills/why/references/synthesizer-prompt.md",
       "target": "skills/why/references/synthesizer-prompt.md",
       "edits": [],
-      "source_sha256": "733a3e9cf897b1aca56aaddeae01a3832e4bfed024c2f602db2d1bf807d7a73b"
+      "source_sha256": "11c62671aa7b7a6e3d36929ffe2b59bf95e6ca664eee4d93e6ee527dd3390ddb"
+    },
+    {
+      "source": "pstack/skills/poteto-mode/scripts/check-plan.test.ts",
+      "target": "skills/poteto-mode/scripts/check-plan.test.ts",
+      "edits": [
+        {
+          "old": "git show origin/main:",
+          "new": "Read these from the resolved plugin and repository",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex plan source-reading marker in the valid fixture."
+        },
+        {
+          "old": "/loop 1h",
+          "new": "arm the audit tick with native automation",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use the Codex authorized native scheduling marker in the valid fixture."
+        }
+      ],
+      "source_sha256": "c80f3ea043b81f219b92c4c8a3af6bdd4f8d32ea596ec15b5b9e0252645f2ae8"
     }
   ],
   "omitted": {
@@ -4070,6 +4006,10 @@
     "pstack/skills/poteto-mode/scripts/orch/store.ts": {
       "kind": "scope",
       "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
+    },
+    "pstack/skills/ketchup/SKILL.md": {
+      "kind": "scope",
+      "reason": "User excluded the new ketchup skill from the 0.15.19 synchronization."
     }
   },
   "local_only": {

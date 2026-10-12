@@ -81,6 +81,67 @@ for branch in master main trunk unresolved; do
     "$branch" "$(awk -F '\t' -v path="$fixture/$branch-merged" '$9 == path { print $3 }' "$fixture/report")" "$actual"
 done
 
+repo="$fixture/main-repo"
+git -C "$repo" update-ref refs/remotes/origin/integration unmerged
+printf 'existing fetch record\n' > "$repo/.git/FETCH_HEAD"
+git -C "$repo" show-ref > "$fixture/before-refs"
+cp "$repo/.git/FETCH_HEAD" "$fixture/before-fetch-head"
+bash "$audit_script" "$repo" > "$fixture/report" 2> "$fixture/stderr"
+assert_row main-unmerged 3 'default base excludes integration commit' no
+assert_equal 'default base diagnostic' \
+  'Merge base: refs/remotes/origin/main (local snapshot; this audit does not fetch)' \
+  "$(sed -n '/^Merge base:/p' "$fixture/stderr")"
+for option in -b --base; do
+  bash "$audit_script" "$option" origin/integration "$repo" > "$fixture/report" 2> "$fixture/stderr"
+  assert_row main-unmerged 3 "$option integration base includes commit" YES
+  assert_equal "$option base diagnostic" \
+    'Merge base: origin/integration (local snapshot; this audit does not fetch)' \
+    "$(sed -n '/^Merge base:/p' "$fixture/stderr")"
+  assert_equal "$option TSV has nine columns" 9 "$(awk -F '\t' '{ print NF }' "$fixture/report" | sort -u)"
+  assert_equal "$option one header and two worktrees" 3 "$(awk 'END { print NR }' "$fixture/report")"
+  bash "$audit_script" "$option" origin/main "$repo" > "$fixture/report" 2> "$fixture/stderr"
+  assert_row main-unmerged 3 "$option main base excludes commit" no
+done
+git -C "$repo" show-ref > "$fixture/after-refs"
+assert_unchanged 'explicit base local refs' "$fixture/before-refs" "$fixture/after-refs"
+assert_unchanged 'explicit base FETCH_HEAD' "$fixture/before-fetch-head" "$repo/.git/FETCH_HEAD"
+bash "$audit_script" -b unresolved "$fixture/unresolved-repo" > "$fixture/report" 2> "$fixture/stderr"
+assert_row unresolved-merged 3 'explicit local base resolves unknown automatic base' YES
+assert_row unresolved-unmerged 3 'explicit local base excludes later commit' no
+
+for option in -h --help; do
+  (cd "$fixture" && bash "$audit_script" "$option") > "$fixture/report" 2> "$fixture/stderr"
+  assert_equal "$option works outside a repository" \
+    'Usage: worktree-audit.sh [-b|--base <ref>] [repo-path]' \
+    "$(sed -n '/^Usage:/p' "$fixture/report")"
+  assert_equal "$option has no stderr" '' "$(cat "$fixture/stderr")"
+done
+for option in -b --base --unknown; do
+  if bash "$audit_script" "$option" > "$fixture/report" 2> "$fixture/stderr"; then
+    status=0
+  else
+    status=$?
+  fi
+  assert_equal "$option usage error exit" 2 "$status"
+  case "$option" in
+    --unknown) expected='error: unknown option: --unknown' ;;
+    *) expected="error: $option needs a ref" ;;
+  esac
+  assert_equal "$option usage error message" "$expected" "$(cat "$fixture/stderr")"
+  assert_equal "$option usage error has no report" '' "$(cat "$fixture/report")"
+done
+if bash "$audit_script" --base origin/missing "$repo" > "$fixture/report" 2> "$fixture/stderr"; then
+  status=0
+else
+  status=$?
+fi
+assert_equal 'missing explicit base exit' 1 "$status"
+assert_equal 'missing explicit base diagnostic' 'error: base ref not found: origin/missing' "$(cat "$fixture/stderr")"
+assert_equal 'missing explicit base has no report' '' "$(cat "$fixture/report")"
+git -C "$repo" show-ref > "$fixture/after-refs"
+assert_unchanged 'missing base local refs' "$fixture/before-refs" "$fixture/after-refs"
+assert_unchanged 'missing base FETCH_HEAD' "$fixture/before-fetch-head" "$repo/.git/FETCH_HEAD"
+
 mkdir "$fixture/not-a-repo"
 if bash "$audit_script" "$fixture/not-a-repo" > "$fixture/report" 2> "$fixture/stderr"; then
   printf 'FAIL invalid repository reported success\n' >&2

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "bun test watch-pr read-thread.test.ts",
+    "test": "bun test watch-pr read-thread.test.ts check-plan.test.ts",
     "typecheck": "tsc --project watch-pr/tsconfig.json --noEmit --strict",
     "build": "bash ../../../../../scripts/build.sh"
   },

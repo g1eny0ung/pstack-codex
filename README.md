@@ -1,6 +1,6 @@
 # pstack-codex
 
-Bring [Cursor pstack](https://github.com/cursor/plugins/tree/d0ef80d86795816da932a153458c5dbe192d294e/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
+Bring [Cursor pstack](https://github.com/cursor/plugins/tree/c49b37a2c0e7bede60a71ad7322e3f12c337a3da/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
 
 ## Install
 
@@ -69,6 +69,7 @@ This plugin includes selected upstream skills. The following pstack skills are n
 | `create-verification-skill` | Generate a project-specific skill that runs the app and captures verification evidence. |
 | `maintain-verification-skill` | Check and update a project's verification skill and feature map. |
 | `make-bot-ui` | Build a custom interface that triggers a Grok Bot through a webhook. |
+| `ketchup` | Summarize the current chat's progress and decisions for the user. |
 | `recall` | Reconstruct recent working context from chat history, current project state, and shared records. |
 
 The cloud orchestration workflows `orchestrate`, `autopilot-full`, and `autopilot-stack`, and their `scripts/orch/` helpers are also excluded. The Benny automation pack for triaging and reproducing Slack issue reports is not included.

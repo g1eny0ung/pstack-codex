@@ -6,7 +6,7 @@ Branch: `main`
 
 Initial commit: `ecc249f1e306fc64ddf83c7bed16cacf7c2239db`
 
-Last synced commit: `d0ef80d86795816da932a153458c5dbe192d294e`
+Last synced commit: `c49b37a2c0e7bede60a71ad7322e3f12c337a3da`
 
 `upstream.lock.json` is the machine-readable baseline. `initial_commit` is immutable. Update `last_synced_commit` only after actually integrating and validating a chosen revision. Merely checking upstream never advances it.
 
@@ -59,7 +59,7 @@ Do not reintroduce these cloud orchestration resources:
 - `pstack/skills/poteto-mode/playbooks/autopilot-stack.md`
 - `pstack/skills/poteto-mode/scripts/orch/`
 
-The standalone skills `automate-me`, `create-verification-skill`, `maintain-verification-skill`, `make-bot-ui`, and `recall` are outside this port's scope. Other cursor-team-kit skills are also excluded. New upstream skills must be reported for selection, not added automatically.
+The standalone skills `automate-me`, `create-verification-skill`, `maintain-verification-skill`, `make-bot-ui`, `ketchup`, and `recall` are outside this port's scope. Other cursor-team-kit skills are also excluded. New upstream skills must be reported for selection, not added automatically.
 
 ## Adaptation rules to preserve
 
@@ -74,6 +74,7 @@ Within the selected port scope, copy the upstream files first. Preserve their wo
 - Map explicitly requested `/loop until <condition>` continuation to Codex Goal tools. Map timed checks such as `/loop 1h` to native automation. Preserve completion predicates, event watchers, verification, and checkpoints. Follow the [Codex runtime](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#goals-tools-and-authorization) for authorization and lifecycle handling.
 - Read session history through `read-thread.mjs`; do not restore Cursor paths or scan unrelated conversations.
 - Keep `worktree-audit.sh` and `scripts/upstream.sh` in Bash. Preserve portable quoting and command choices.
+- Keep the worktree audit read-only. `-b` or `--base` selects an existing local ref; automatic resolution supports the configured remote's default branch. Do not fetch during the audit. An unresolved automatic base leaves `MERGED` unknown. Report the base on stderr to preserve the TSV format.
 - Bundle watch-pr with Bun at release time for Node; do not install runtime dependencies in the plugin cache.
 - Preserve the user's authorization boundaries. Skills do not grant themselves permission to publish, message others, schedule work, or mutate unrelated resources.
 - Keep source and dependency license notices. Mentions of Cursor in attribution or bot recognition are not runtime dependencies.
@@ -118,3 +119,4 @@ For a new upstream revision, copy its selected files first, reapply only necessa
 | 2026-09-26 | `ecc249f1e306fc64ddf83c7bed16cacf7c2239db` | Initial local-workflow Codex port. |
 | 2026-10-03 | `23e4138daa01c42d4969f7a5465f82704e64f798` | Synced pstack 0.15.6. Added the selected `benchmark-checklist` and `principle-explain-the-number` skills. Ported fresh-subagent rules, PR guidance, writing cleanup, and schema-first TypeScript examples. Preserved local plan checks and cloud exclusions. |
 | 2026-10-07 | `d0ef80d86795816da932a153458c5dbe192d294e` | Synced pstack 0.15.15. Added the selected `correct` and `poteto-help` skills with Codex instructions and examples. Ported agent-aware design checks and ordered performance strategies. Preserved Codex model roles, local execution, and cloud exclusions. |
+| 2026-10-12 | `c49b37a2c0e7bede60a71ad7322e3f12c337a3da` | Synced pstack 0.15.19 after the user approved the affected adaptations. Ported review-thread pagination, plan fence checks, explicit worktree bases, main-chat workflow ownership, and skill instruction changes. Preserved Codex model roles, authorization and read-only audit behavior. Excluded `ketchup`. |
