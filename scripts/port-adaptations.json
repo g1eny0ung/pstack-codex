@@ -1185,18 +1185,11 @@
           "reason": "Use Codex skill invocation notation."
         },
         {
-          "old": "| Catch up on everything in this chat since their last message, with enough context to decide each action item | [`/ketchup`](../ketchup/SKILL.md) |\n",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "The user excluded the new ketchup skill from this synchronization."
-        },
-        {
-          "old": "`/ketchup` covers only this chat since the user's last message. ",
-          "new": "",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Omit only the excluded ketchup route; keep Session pickup guidance."
+          "old": "`/ketchup`",
+          "new": "`$ketchup`",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex invocation notation for the newly selected ketchup skill."
         }
       ],
       "source_sha256": "3fe669c7c3b8f52c18b7c68ecce01c8691e844b9d2b41a8a6ff6432341451986"
@@ -3976,6 +3969,48 @@
         }
       ],
       "source_sha256": "c80f3ea043b81f219b92c4c8a3af6bdd4f8d32ea596ec15b5b9e0252645f2ae8"
+    },
+    {
+      "source": "pstack/skills/ketchup/SKILL.md",
+      "target": "skills/ketchup/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "/ketchup",
+          "new": "$ketchup",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation."
+        },
+        {
+          "old": "`/bro`",
+          "new": "`$bro`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation without changing the relative file path."
+        },
+        {
+          "old": "# Ketchup\n",
+          "new": "# Ketchup\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for current-thread history, native status tools, paths, and authorization.\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the shared Codex history, native tool, and authorization contract before gathering context."
+        },
+        {
+          "old": "Check the current state of each PR, CI run, or agent this chat touched.",
+          "new": "Use the history available in this chat. If it is incomplete, export only the current thread with `../poteto-mode/scripts/read-thread.mjs` as described in Codex runtime, and report any remaining coverage gap. Check the current state of each PR, CI run, or agent this chat touched through available forge tools and native Codex subagent or thread status tools.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use current-thread history and native status interfaces, and disclose unavailable or incomplete evidence without scanning unrelated chats."
+        }
+      ],
+      "source_sha256": "3b00c552fdb236ecfce85184000814bf62d7c518aac3acd1ba7ea8e02d8f2196"
     }
   ],
   "omitted": {
@@ -4006,10 +4041,6 @@
     "pstack/skills/poteto-mode/scripts/orch/store.ts": {
       "kind": "scope",
       "reason": "Cloud orchestration resource excluded in UPSTREAM.md"
-    },
-    "pstack/skills/ketchup/SKILL.md": {
-      "kind": "scope",
-      "reason": "User excluded the new ketchup skill from the 0.15.19 synchronization."
     }
   },
   "local_only": {
@@ -4070,6 +4101,7 @@
     "skills/technical-writing/agents/openai.yaml": "21ebb06bb28933b2cb1879ead57e1dc76263a2d6760ae4ce1743abdb5a8411c5",
     "skills/typescript-best-practices/agents/openai.yaml": "4605c8c0c794cd7f673569f5602bd5a72c06b83e815fd042a9586d06350330de",
     "skills/unslop/agents/openai.yaml": "28bf202c866bc7002fa563120fb557f7ac59f3bc704ab25014ee4dc665d22054",
-    "skills/why/agents/openai.yaml": "eaef031b6e464d43395396c07be0bd937fade89cdc618d9eee2b4ef63ce6b900"
+    "skills/why/agents/openai.yaml": "eaef031b6e464d43395396c07be0bd937fade89cdc618d9eee2b4ef63ce6b900",
+    "skills/ketchup/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94"
   }
 }

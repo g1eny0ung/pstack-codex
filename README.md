@@ -49,6 +49,7 @@ You can also invoke a focused skill directly:
 | Understand a design decision | `$why Explain why this module uses a queue.` |
 | Check impact beyond a diff | `$blast-radius What could this change break elsewhere?` |
 | Simplify the last answer | `$bro` |
+| Catch up on this chat's progress and decisions | `$ketchup` |
 | Understand how and why together | `$teach Explain this subsystem plainly.` |
 | Compare designs | `$architect Compare plausible designs for this module.` |
 | Review a change | `$interrogate Review this diff; report findings without changing code.` |
@@ -69,7 +70,6 @@ This plugin includes selected upstream skills. The following pstack skills are n
 | `create-verification-skill` | Generate a project-specific skill that runs the app and captures verification evidence. |
 | `maintain-verification-skill` | Check and update a project's verification skill and feature map. |
 | `make-bot-ui` | Build a custom interface that triggers a Grok Bot through a webhook. |
-| `ketchup` | Summarize the current chat's progress and decisions for the user. |
 | `recall` | Reconstruct recent working context from chat history, current project state, and shared records. |
 
 The cloud orchestration workflows `orchestrate`, `autopilot-full`, and `autopilot-stack`, and their `scripts/orch/` helpers are also excluded. The Benny automation pack for triaging and reproducing Slack issue reports is not included.
