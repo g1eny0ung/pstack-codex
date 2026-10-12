@@ -48,7 +48,7 @@ bun test
 bun run typecheck
 ```
 
-For upstream tracker changes, run `bash scripts/upstream.test.sh`.
+Upstream maintenance commands require Python 3, Bash, and Git. For upstream tracker changes, run `bash scripts/upstream.test.sh`.
 
 When PR helper source or dependencies change, run `bash scripts/build.sh` and include the generated `plugins/pstack-codex/skills/poteto-mode/scripts/dist/watch-pr.mjs` and any changed dependency license notice. Do not edit the generated bundle by hand.
 
