@@ -34,6 +34,10 @@ For `auto` and `inherit-parent`, omit both model and effort instead of adjusting
 
 If the native tool rejects an adjusted configuration, do not try another adjustment. Launch with the resolved role's original configuration or default and disclose the fallback. If that configuration is also rejected, follow the model-role fallback rules above.
 
+## GitHub pull requests
+
+Use GitHub CLI (`gh`) for retained PR workflows and worktree PR audits. Origin CLI integration is outside this port's scope. The audit must not probe or invoke Origin, including when `gh` is unavailable. Missing GitHub PR evidence stays unknown and cannot establish that a worktree is safe to remove. Git remotes named `origin` remain supported.
+
 ## Launch and supervise local subagents
 
 Use the host’s native subagent API, such as `collaboration.spawn_agent`, `send_message`, `followup_task`, `interrupt_agent`, and `wait_agent`. Inspect the available schema before calling it. A typical launch passes `task_name`, a self-contained `message`, `model`, `reasoning_effort`, and `fork_turns: "none"`. Full-history forks inherit the parent configuration on hosts that prohibit overrides; use an independent context when an explicit model or effort is required. Do not drop the requested parameters merely to use a full fork.

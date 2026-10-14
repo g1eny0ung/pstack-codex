@@ -1666,6 +1666,13 @@
           "count": 1,
           "kind": "host",
           "reason": "Codex explicit skill invocation syntax"
+        },
+        {
+          "old": "through `gh` by default or Origin when its CLI is available.",
+          "new": "through `gh`.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
       "source_sha256": "f234661471847cafc4ae9bcb4a9208eb32ed8154ac25b91b2b064ec71bd62167"
@@ -1778,6 +1785,55 @@
           "count": 1,
           "kind": "host",
           "reason": "Resolve reference files from the installed skill root, including generated plans."
+        },
+        {
+          "old": "GitHub CLI (`gh`) is the default. If `command -v origin` succeeds and Origin can resolve the repository, use `origin pr ...` for view, checks, threads, and later shipping. Otherwise stay on `gh` and record the fallback.",
+          "new": "Use GitHub CLI (`gh`) for view, checks, threads, and later shipping.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "On Origin, use `origin pr view <pr> --checks --comments`, `origin pr thread list <pr>`, and `origin pr checks <pr> --watch`. Re-read the PR and threads whenever the check watch returns. The public watcher remains GitHub-specific, so do not pretend it covers Origin or add an Origin implementation just to run this playbook. ",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "   Stop conditions are forge-specific. On Origin, stop `drive` when the frontier is merge-ready: checks are green, `origin pr view` reports mergeable with no blockers, and `origin pr thread list` has no unresolved blockers. Origin does not wait for `READY`, `WAITING`, `ADVANCE`, or `COMPLETE`. Those are GitHub watcher verdicts.\n\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": " On Origin, that is the merge-ready state defined above.",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "On Origin, reply with `origin pr thread reply <thread-id> <pr> --body-file <reply-file>`. ",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "On Origin, derive the pass count from `origin pr thread list` and the review history. ",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": ", or after Origin reports the frontier merge-ready",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
       "source_sha256": "e261c1ff5581e0f8fc6c686f34de4b535f87473e77beabea7dd8323021214610"
@@ -2099,6 +2155,20 @@
           "count": 1,
           "kind": "host",
           "reason": "Resolve reference files from the installed skill root, including generated plans."
+        },
+        {
+          "old": "Resolve the forge once. Default to `gh`; if `command -v origin` succeeds and Origin can resolve the repository, use `origin pr` for every PR operation. Record any fallback to `gh`.",
+          "new": "Use GitHub CLI (`gh`) for every PR operation.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "else `origin pr create --status open --base <base-branch>` or `gh pr create --base <base-branch>` according to the resolved forge.",
+          "new": "else `gh pr create --base <base-branch>`.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
       "source_sha256": "5f239457bfdec3345c92caa06c59bf0257c662b89353f25a1c02ea942dcd00b1"
@@ -2155,6 +2225,41 @@
           "count": 1,
           "kind": "host",
           "reason": "Resolve the new Shipping cross-reference from the installed skill root rather than the containing playbook directory."
+        },
+        {
+          "old": "GitHub CLI (`gh`) is the default. If `command -v origin` succeeds and Origin can resolve the repository, prefer `origin pr ...`. If Origin is absent or cannot resolve the repository, stay on `gh` and record the fallback.",
+          "new": "Use GitHub CLI (`gh`).",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "With Origin, pass `--status open`. With `gh`, omit `--draft`.",
+          "new": "With `gh`, omit `--draft`.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "`origin pr ready <number>` or `gh pr ready <number>` according to the resolved forge.",
+          "new": "`gh pr ready <number>`.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "per the resolved forge, create a child with `origin pr create --status open --base <parent-branch>` or `gh pr create --base <parent-branch>`, and retarget one with `origin pr edit <pr> --base <parent-branch>` or `gh pr edit <pr> --base <parent-branch>`.",
+          "new": "create a child with `gh pr create --base <parent-branch>`, and retarget one with `gh pr edit <pr> --base <parent-branch>`.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "Run `origin pr view <number>` or `gh pr view <number>` before you refer to PR status.",
+          "new": "Run `gh pr view <number>` before you refer to PR status.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
       "source_sha256": "a5aef646de8b651306c2d10974623650e4a013a245aec1c00525bbe0e31bfa76"
@@ -2278,6 +2383,55 @@
           "count": 1,
           "kind": "host",
           "reason": "Resolve reference files from the installed skill root, including generated plans."
+        },
+        {
+          "old": "GitHub CLI (`gh`) is the default. If `command -v origin` succeeds and Origin can resolve the repository, use `origin pr` for every PR operation. Otherwise stay on `gh` and record the fallback.",
+          "new": "Use GitHub CLI (`gh`) for every PR operation.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "with `origin pr merge <pr>` or `gh pr merge <pr> --squash`.",
+          "new": "with `gh pr merge <pr> --squash`.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "On Origin the plain command also merges every PR below the one you name, and on GitHub a PR whose base is still its parent's branch merges into that branch, not trunk.",
+          "new": "On GitHub a PR whose base is still its parent's branch merges into that branch, not trunk.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "(`origin pr view <pr>` or `gh pr view <pr> --json state,mergedAt,baseRefName`)",
+          "new": "(`gh pr view <pr> --json state,mergedAt,baseRefName`)",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "(Origin merge-when-ready or GitHub auto-merge)",
+          "new": "(GitHub auto-merge)",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "(`origin pr edit <pr> --base <trunk>` or `gh pr edit <pr> --base <trunk>`)",
+          "new": "(`gh pr edit <pr> --base <trunk>`)",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "On Origin, re-read the current PR with `origin pr view <pr> --checks` each time `origin pr checks <pr> --watch` returns, until the ceiling reads merged. ",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
       "source_sha256": "bf56339bdf7e0223bcff5abf4e8599e3f5b547b3fcc3b4ce9475e6e7dda14a9f"
@@ -2700,6 +2854,20 @@
           "count": 1,
           "kind": "host",
           "reason": "Report the selected base on stderr so stdout remains a nine-column TSV with exactly one header."
+        },
+        {
+          "old": "# state. Origin when its CLI can read this repo's PRs, otherwise gh. Empty when\n# neither can.",
+          "new": "# state. Empty when gh cannot read this repo's PRs.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "if command -v origin >/dev/null 2>&1 \\\n\t&& raw=$(origin pr list --author \"@me\" --state all --limit 1000 \\\n\t\t--json number,status,headRef 2>/dev/null); then\n\tprintf '%s' \"$raw\" | jq '[.[] | {number, state: .status, head: .headRef}]' > \"$prs\" 2>/dev/null\nelif raw=$(gh pr list --author \"@me\" --state all --limit 1000 \\\n\t--json number,state,headRefName 2>/dev/null); then\n\tprintf '%s' \"$raw\" | jq '[.[] | {number, state: (.state | ascii_downcase), head: .headRefName}]' > \"$prs\" 2>/dev/null\nfi\n",
+          "new": "if raw=$(gh pr list --author \"@me\" --state all --limit 1000 \\\n\t--json number,state,headRefName 2>/dev/null); then\n\tprintf '%s' \"$raw\" | jq '[.[] | {number, state: (.state | ascii_downcase), head: .headRefName}]' > \"$prs\" 2>/dev/null\nfi\n",
+          "count": 1,
+          "kind": "host",
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
       "source_sha256": "e0a94e5e5b1ff60638916e440600e15851f7b79bc1a1d1f602fde05d465e2ec0"

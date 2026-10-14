@@ -53,8 +53,8 @@ Tests alone are not sufficient verification. A PR is verified only when its unit
 
 ### PR mechanics, for every PR
 
-- [ ] Resolve the forge once. Default to `gh`; if `command -v origin` succeeds and Origin can resolve the repository, use `origin pr` for every PR operation. Record any fallback to `gh`. Never require `gt`.
-- [ ] Open the PR ready, never draft, per **Opening a PR**. Use the run's built-in PR tool when it has one, else `origin pr create --status open --base <base-branch>` or `gh pr create --base <base-branch>` according to the resolved forge. A stack child targets its parent branch.
+- [ ] Use GitHub CLI (`gh`) for every PR operation. Never require `gt`.
+- [ ] Open the PR ready, never draft, per **Opening a PR**. Use the run's built-in PR tool when it has one, else `gh pr create --base <base-branch>`. A stack child targets its parent branch.
 - [ ] Run the repo's lint and typecheck once before the PR-facing push. Push with hooks on.
 - [ ] Run **deslop** before each commit and **no-comments** before review.
 - [ ] Triage every Bugbot and security-reviewer comment per `$POTETO_SKILL_ROOT/references/bugbot-triage.md`.

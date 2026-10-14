@@ -44,7 +44,7 @@ Skills activate only when explicitly invoked. An invoked workflow can read relat
 
 ## Differences from upstream
 
-This port includes selected upstream skills and runs workflows locally. Cloud orchestration is excluded. See [UPSTREAM.md](UPSTREAM.md#exclusions) for the port scope and exclusions.
+This port includes selected upstream skills and runs workflows locally. PR workflows and worktree PR audits use GitHub CLI (`gh`). Origin CLI integration and cloud orchestration are excluded. See [UPSTREAM.md](UPSTREAM.md#exclusions) for the port scope and exclusions.
 
 ## Configure models
 

@@ -13,13 +13,13 @@ mkdir "$fixture/bin"
 cat > "$fixture/bin/gh" <<'EOF'
 #!/usr/bin/env bash
 printf 'gh %s\n' "$*" >> "$PSTACK_TEST_CLI_LOG"
+[ "${PSTACK_TEST_GH_STATUS:-0}" = 0 ] || exit "$PSTACK_TEST_GH_STATUS"
 printf '%s\n' "${PSTACK_TEST_PRS:-[]}"
 EOF
 cat > "$fixture/bin/origin" <<'EOF'
 #!/usr/bin/env bash
 printf 'origin %s\n' "$*" >> "$PSTACK_TEST_CLI_LOG"
-[ "${PSTACK_TEST_ORIGIN_AVAILABLE:-no}" = yes ] || exit 1
-printf '%s\n' "${PSTACK_TEST_ORIGIN_PRS:-[]}"
+printf '%s\n' '[]'
 EOF
 chmod +x "$fixture/bin/gh" "$fixture/bin/origin"
 export PSTACK_TEST_CLI_LOG="$fixture/cli-log"
@@ -200,8 +200,8 @@ assert_row mixed 4 DIRTY wip:1,untracked:1,ignored:1
 assert_row mixed 8 BUCKET hold-wip
 assert_row corrupt 4 DIRTY unknown
 assert_row corrupt 8 BUCKET hold-unknown
-assert_equal 'unavailable Origin falls back to gh' \
-  $'origin pr list --author @me --state all --limit 1000 --json number,status,headRef\ngh pr list --author @me --state all --limit 1000 --json number,state,headRefName' \
+assert_equal 'GitHub-only audit never invokes installed Origin' \
+  'gh pr list --author @me --state all --limit 1000 --json number,state,headRefName' \
   "$(cat "$PSTACK_TEST_CLI_LOG")"
 assert_row closed 6 'gh closed state normalized' '#1/closed'
 assert_row merged-pr 6 'gh merged state normalized' '#2/merged'
@@ -222,26 +222,20 @@ for state in clean tracked untracked ignored mixed corrupt closed merged-pr open
     failures=$((failures + 1))
   fi
 done
-export PSTACK_TEST_ORIGIN_AVAILABLE=yes
-export PSTACK_TEST_ORIGIN_PRS='[{"number":11,"status":"closed","headRef":"closed"},{"number":12,"status":"merged","headRef":"merged-pr"},{"number":13,"status":"open","headRef":"open-pr"},{"number":14,"status":"draft","headRef":"draft-pr"}]'
+export PSTACK_TEST_GH_STATUS=1
 : > "$PSTACK_TEST_CLI_LOG"
 bash "$audit_script" "$repo" > "$fixture/report" 2> "$fixture/stderr"
-assert_equal 'usable Origin is preferred over gh' \
-  'origin pr list --author @me --state all --limit 1000 --json number,status,headRef' \
+assert_equal 'unavailable gh does not switch to Origin' \
+  'gh pr list --author @me --state all --limit 1000 --json number,state,headRefName' \
   "$(cat "$PSTACK_TEST_CLI_LOG")"
-assert_row closed 6 'Origin closed PR' '#11/closed'
-assert_row closed 8 'Origin closed unmerged PR' review
-assert_row merged-pr 6 'Origin merged PR' '#12/merged'
-assert_row merged-pr 8 'Origin merged clean PR' safe
-assert_row open-pr 6 'Origin open PR' '#13/open'
-assert_row open-pr 8 'Origin open PR holds' hold-open-pr
-assert_row draft-pr 6 'Origin draft PR' '#14/draft'
-assert_row draft-pr 8 'Origin draft PR holds' hold-open-pr
-assert_row tracked 8 'Origin preserves tracked hold' hold-wip
-assert_row untracked 8 'Origin preserves untracked hold' hold-untracked
-assert_row ignored 8 'Origin preserves ignored hold' hold-ignored
-assert_row corrupt 8 'Origin preserves unknown hold' hold-unknown
-unset PSTACK_TEST_PRS PSTACK_TEST_ORIGIN_AVAILABLE PSTACK_TEST_ORIGIN_PRS
+assert_row merged-pr 6 'unavailable GitHub PR evidence' '-'
+assert_row merged-pr 8 'unmerged work without GitHub evidence' review
+assert_row open-pr 8 'unavailable GitHub PR stays unverified' review
+assert_row tracked 8 'GitHub failure preserves tracked hold' hold-wip
+assert_row untracked 8 'GitHub failure preserves untracked hold' hold-untracked
+assert_row ignored 8 'GitHub failure preserves ignored hold' hold-ignored
+assert_row corrupt 8 'GitHub failure preserves unknown hold' hold-unknown
+unset PSTACK_TEST_PRS PSTACK_TEST_GH_STATUS
 
 git -C "$repo" remote add alternate "$source_repo"
 git -C "$repo" fetch -q alternate

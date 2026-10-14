@@ -61,6 +61,8 @@ Do not reintroduce these cloud orchestration resources:
 
 The standalone skills `automate-me`, `create-verification-skill`, `maintain-verification-skill`, `make-bot-ui`, and `recall` are outside this port's scope. Other cursor-team-kit skills are also excluded. New upstream skills must be reported for selection, not added automatically.
 
+Origin CLI integration is excluded under this port's Codex compatibility standard. Retained PR workflows and worktree PR audits use GitHub CLI (`gh`). During upstream synchronization, remove Origin CLI detection, commands, and workflow branches instead of importing them. Git remote names such as `origin` remain valid and are unrelated to this exclusion.
+
 ## Adaptation rules to preserve
 
 Within the selected port scope, copy the upstream files first. Preserve their wording, order, examples, workflow steps, role boundaries, counts, verification gates, and review responsibilities. Change only the exact text required for GPT model substitution, Codex host interfaces, explicit invocation metadata, and the exclusions above. Do not paraphrase or reorganize the remaining text. A tool limit changes scheduling, not required coverage. Do not weaken a workflow or add roles as part of model substitution.

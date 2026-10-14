@@ -136,7 +136,7 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Authoring or modifying a skill.** Writing or editing a SKILL.md. File: `playbooks/authoring-a-skill.md`.
 - **Eval.** Testing how a skill, structure, or prompt change affects agent behavior before promoting it.
 - **Babysit.** Driving a PR or a stack to merge-ready: conflicts, review threads, CI.
-- **Shipping.** The half after Babysit. Independently verifying a green stack, then landing the contiguous verified run bottom-up through `gh` by default or Origin when its CLI is available.
+- **Shipping.** The half after Babysit. Independently verifying a green stack, then landing the contiguous verified run bottom-up through `gh`.
 - **Autonomous run.** A long task to drive to completion without stopping ("run until done", "keep working until X").
 - **Session pickup.** Resuming or taking over a prior agent's in-flight work from a known Codex thread, checkpoint, or pushed branch.
 - **Pause safely.** Suspending in-flight work cleanly so it can be resumed, on an explicit pause, going offline, a Codex restart, or imminent context compaction. The complement to Session pickup.
