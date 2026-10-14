@@ -2429,23 +2429,25 @@ function parseFastCheck(value) {
   const details = checkDetails(object, "name");
   const state = string(object.state, "check.state").toUpperCase();
   const bucket = string(object.bucket, "check.bucket");
-  if (bucket === "fail" || ["FAILURE", "ERROR", "ACTION_REQUIRED"].includes(state))
+  if (state === "ACTION_REQUIRED")
+    return gateOr("failed", details, state);
+  if (bucket === "fail" || ["FAILURE", "ERROR"].includes(state))
     return { ...details, kind: "failed", reportedState: state };
   if (bucket === "pending")
-    return pendingOrGate(details, state);
+    return gateOr("pending", details, state);
   if (bucket === "pass")
     return { ...details, kind: "passed", reportedState: state };
   if (bucket === "skipping")
     return { ...details, kind: "skipped", reportedState: state };
   return { ...details, kind: "failed", reportedState: state };
 }
-function pendingOrGate(details, reportedState) {
+function gateOr(kind, details, reportedState) {
   return details.name === "Code Review Gate" ? {
     ...details,
     kind: "code-review-gate",
     name: "Code Review Gate",
     reportedState
-  } : { ...details, kind: "pending", reportedState };
+  } : { ...details, kind, reportedState };
 }
 function mapRollupNode(value) {
   const object = record(value, "rollup node");
@@ -2458,21 +2460,18 @@ function mapRollupNode(value) {
     const status = typeof object.status === "string" ? object.status.toUpperCase() : "";
     const conclusion = typeof object.conclusion === "string" ? object.conclusion.toUpperCase() : "";
     if (status !== "COMPLETED")
-      return pendingOrGate({ ...details, link }, "PENDING");
+      return gateOr("pending", { ...details, link }, "PENDING");
     if (conclusion === "SUCCESS")
       return { ...details, link, kind: "passed", reportedState: "SUCCESS" };
     if (conclusion === "NEUTRAL" || conclusion === "SKIPPED")
       return { ...details, link, kind: "skipped", reportedState: conclusion };
-    return {
-      ...details,
-      link,
-      kind: "failed",
-      reportedState: conclusion === "ACTION_REQUIRED" ? conclusion : "FAILURE"
-    };
+    if (conclusion === "ACTION_REQUIRED")
+      return gateOr("failed", { ...details, link }, conclusion);
+    return { ...details, link, kind: "failed", reportedState: "FAILURE" };
   }
   const state = typeof object.state === "string" ? object.state.toUpperCase() : "";
   if (state === "PENDING" || state === "EXPECTED")
-    return pendingOrGate({ ...details, link }, "PENDING");
+    return gateOr("pending", { ...details, link }, "PENDING");
   return state === "SUCCESS" ? { ...details, link, kind: "passed", reportedState: state } : { ...details, link, kind: "failed", reportedState: state || "FAILURE" };
 }
 function parseComment(value) {

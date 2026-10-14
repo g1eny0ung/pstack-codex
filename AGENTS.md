@@ -31,6 +31,8 @@ Edit source files in this checkout. Keep personal configuration and task artifac
 - Keep this file focused on instructions for AI agents modifying the repository.
 - Keep upstream mappings and synchronization rules in `UPSTREAM.md`. Link to existing rules instead of duplicating them.
 - Add documentation under `docs/` only for durable information needed to use or maintain the project. Put temporary plans, debug logs, and task validation records in ignored `.work/` or the task's external runtime directory.
+- Remove obsolete content from `.work/` after each release.
+- Do not include validation steps or a Validation section in release descriptions. Report actual verification results in the chat.
 - Update documentation when behavior changes. Do not describe planned checks as completed or old validation results as current guarantees.
 
 ## Verify the affected files

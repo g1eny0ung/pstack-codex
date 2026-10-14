@@ -1,6 +1,6 @@
 # pstack-codex
 
-Bring [Cursor pstack](https://github.com/cursor/plugins/tree/c49b37a2c0e7bede60a71ad7322e3f12c337a3da/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
+Bring [Cursor pstack](https://github.com/cursor/plugins/tree/1e5c90a4b6f249917bd21fe361b3a2a7deb741b8/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
 
 ## Install
 
@@ -48,7 +48,7 @@ This port includes selected upstream skills and runs workflows locally. Cloud or
 
 ## Configure models
 
-Subagents default to GPT-6.1 Sol for exploration, explanations, and writing, and GPT-6 Astra for implementation and reviews. You need access to the configured models and reasoning levels. The main chat keeps its own model settings.
+Subagent roles start with GPT-6.1 Sol for exploration, explanations, and writing, and GPT-6 Astra for implementation and reviews. Workflows adjust reasoning effort for each task from those starting settings. Your account and Codex environment must support the configured models and reasoning effort levels. These settings apply only to subagents and do not change your main chat's model or reasoning effort settings.
 
 Use `$setup-pstack` to inspect or change these settings. For example:
 
@@ -59,7 +59,7 @@ $setup-pstack Set judgment_and_prose to inherit-parent.
 
 Personal overrides live in `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` and survive plugin updates. Changes apply to subsequent subagent launches. Use `$setup-pstack` to reset a role or review older overrides.
 
-See [setup-pstack](plugins/pstack-codex/skills/setup-pstack/SKILL.md) for budget choices, [model role rules](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#resolve-model-roles) for configuration behavior, and [model defaults](plugins/pstack-codex/config/models.defaults.json) for every role's shipped settings.
+See [setup-pstack](plugins/pstack-codex/skills/setup-pstack/SKILL.md) for budget choices, [model role rules](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#resolve-model-roles) for configuration behavior, [task effort rules](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#choose-effort-and-speed-for-the-job) for launch adjustments, and [model defaults](plugins/pstack-codex/config/models.defaults.json) for every role's shipped settings.
 
 ## Requirements and compatibility
 

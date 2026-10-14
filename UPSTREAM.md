@@ -6,7 +6,7 @@ Branch: `main`
 
 Initial commit: `ecc249f1e306fc64ddf83c7bed16cacf7c2239db`
 
-Last synced commit: `c49b37a2c0e7bede60a71ad7322e3f12c337a3da`
+Last synced commit: `1e5c90a4b6f249917bd21fe361b3a2a7deb741b8`
 
 `upstream.lock.json` is the machine-readable baseline. `initial_commit` is immutable. Update `last_synced_commit` only after actually integrating and validating a chosen revision. Merely checking upstream never advances it.
 
@@ -23,7 +23,7 @@ Last synced commit: `c49b37a2c0e7bede60a71ad7322e3f12c337a3da`
 | `pstack/LICENSE` | `plugins/pstack-codex/licenses/pstack-MIT.txt` |
 | `cursor-team-kit/LICENSE` | `plugins/pstack-codex/licenses/cursor-team-kit-MIT.txt` |
 
-Selected pstack entries are `poteto-mode`, `poteto-help`, `correct`, `how`, `why`, `blast-radius`, `bro`, `ketchup`, `teach`, `architect`, `arena`, `swarm`, `interrogate`, `figure-it-out`, `show-me-your-work`, `reflect`, `tdd`, `no-comments`, `typescript-best-practices`, `technical-writing`, `unslop`, `setup-pstack`, `benchmark-checklist`, and the following 24 principles:
+Selected pstack entries are `poteto-mode`, `poteto-help`, `correct`, `in-your-own-words`, `sharpen`, `how`, `why`, `blast-radius`, `bro`, `ketchup`, `teach`, `architect`, `arena`, `swarm`, `interrogate`, `figure-it-out`, `show-me-your-work`, `reflect`, `tdd`, `no-comments`, `typescript-best-practices`, `technical-writing`, `unslop`, `setup-pstack`, `benchmark-checklist`, and the following 24 principles:
 
 - `principle-attack-the-premise`
 - `principle-boundary-discipline`
@@ -66,8 +66,9 @@ The standalone skills `automate-me`, `create-verification-skill`, `maintain-veri
 Within the selected port scope, copy the upstream files first. Preserve their wording, order, examples, workflow steps, role boundaries, counts, verification gates, and review responsibilities. Change only the exact text required for GPT model substitution, Codex host interfaces, explicit invocation metadata, and the exclusions above. Do not paraphrase or reorganize the remaining text. A tool limit changes scheduling, not required coverage. Do not weaken a workflow or add roles as part of model substitution.
 
 - Native Codex local subagents replace Cursor Task APIs. Role instructions are references, not global agent installations.
-- Explicit-only `agents/openai.yaml` metadata applies to all 50 entries. When a skill changes, check its display name, short description, and default prompt against the current workflow. Describe configurable reviewer or candidate counts without fixing a number in the metadata.
+- Explicit-only `agents/openai.yaml` metadata applies to all 52 entries. When a skill changes, check its display name, short description, and default prompt against the current workflow. Describe configurable reviewer or candidate counts without fixing a number in the metadata.
 - Preserve all 17 upstream configuration roles one-to-one. Normalize punctuation and spaces to underscores in JSON keys. Use the GPT model and effort pairs in `plugins/pstack-codex/config/models.defaults.json`; the current mapping uses Sol for exploration, explanation, cause investigation, judgment, prose, and tooling reflection, and Astra for implementation, complex synthesis, and review. Preserve the two-entry defaults for candidates, reviewers, and the cross-judge pool. Keep configurable list lengths, budgets, and `auto` / `inherit-parent`. Personal overrides remain outside the cache.
+- Role settings are launch starting points. Preserve upstream task-sensitive effort adjustments, direct fallback after an adjusted launch is rejected, verification model and speed exceptions, and cross-review effort differences. Keep GPT model names unchanged when adjusting effort. Use a speed field only if the native API supports it; otherwise report the capability gap and keep host speed. Follow the [task effort contract](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#choose-effort-and-speed-for-the-job).
 - Preserve Arena's `arena cross-judge pool` as the `arena_cross_judge_pool` array and select one judge from it. Map upstream's different model families to different GPT-6 Astra reasoning efforts. Arena prefers a different effort from its parent. `show-me-your-work` requires a different effort from the work agent, without adding a named reviewer role or fixed effort.
 - Preserve upstream review synthesis, including its treatment of consensus and individual findings. Model substitution does not authorize a different judgment policy.
 - The 20 retained playbooks use local execution and actual available tools. Batch work within host concurrency limits without changing the upstream scenario count or evidence requirements.
@@ -121,3 +122,4 @@ For a new upstream revision, copy its selected files first, reapply only necessa
 | 2026-10-07 | `d0ef80d86795816da932a153458c5dbe192d294e` | Synced pstack 0.15.15. Added the selected `correct` and `poteto-help` skills with Codex instructions and examples. Ported agent-aware design checks and ordered performance strategies. Preserved Codex model roles, local execution, and cloud exclusions. |
 | 2026-10-12 | `c49b37a2c0e7bede60a71ad7322e3f12c337a3da` | Synced pstack 0.15.19 after the user approved the affected adaptations. Ported review-thread pagination, plan fence checks, explicit worktree bases, main-chat workflow ownership, and skill instruction changes. Preserved Codex model roles, authorization and read-only audit behavior. Excluded `ketchup`. |
 | 2026-10-12 | `c49b37a2c0e7bede60a71ad7322e3f12c337a3da` | Selected `ketchup` at the user's request from the existing baseline. Added explicit Codex invocation, current-thread history and native status access, and the help route. Preserved the read-only summary and visual comparison requirements. |
+| 2026-10-14 | `1e5c90a4b6f249917bd21fe361b3a2a7deb741b8` | Synced pstack 0.15.24 after the user approved affected adaptations and selected `in-your-own-words` and `sharpen`. Ported task-sensitive subagent effort, short visual ketchup replies, Shipping and verification-frequency changes, Code Review Gate classification, Origin worktree audit support, and delegate skill lookup. Preserved explicit invocation, role defaults, local execution, audit safeguards, and cloud exclusions. |

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "c49b37a2c0e7bede60a71ad7322e3f12c337a3da",
+  "upstream_commit": "1e5c90a4b6f249917bd21fe361b3a2a7deb741b8",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -179,7 +179,7 @@
         {
           "old": "`grok-4.7-xhigh-fast`",
           "new": "`gpt-6-astra` with `reasoning_effort: high`",
-          "count": 2,
+          "count": 3,
           "kind": "model",
           "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
         },
@@ -191,7 +191,7 @@
           "reason": "Fallback follows the mapped role configuration."
         },
         {
-          "old": "Families go by prefix: `claude-*` and `grok-*`. ",
+          "old": "Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on `gpt-6-astra` with `reasoning_effort: high`. ",
           "new": "",
           "count": 1,
           "kind": "model",
@@ -219,7 +219,7 @@
           "reason": "Use the documented GPT cross-judge effort mapping."
         }
       ],
-      "source_sha256": "f15524f216c1c63804b89edb4ff8e53bb21a7b8ed367368dedeb9468eeec6a92"
+      "source_sha256": "ed72f6c132b1ce3974d949581d0adc5dade424fe20793ac3b4c4fae22ecb9354"
     },
     {
       "source": "pstack/skills/benchmark-checklist/SKILL.md",
@@ -342,7 +342,7 @@
           "reason": "Use Codex skill invocation notation."
         }
       ],
-      "source_sha256": "d9574cc24929773d5c23f40626ae1e09660afddd7de48e08dd6494d9fff9bbf0"
+      "source_sha256": "bdb23cdbd82a1e6af094b495691c832a6f7f3ab9706ba9edbeb664ef51a726e1"
     },
     {
       "source": "pstack/skills/how/SKILL.md",
@@ -447,7 +447,7 @@
           "reason": "Host concurrency limits change scheduling, not the required two to four exploration angles."
         }
       ],
-      "source_sha256": "47cfe3e6fe55c49c3bdf8ad1b645dcd5fece8f0c36fd22d2e7221f9faa71f648"
+      "source_sha256": "08a00079bb15b4258874ac3ff62d4ca7e94350ffedb521d0fd296dc9dd21904e"
     },
     {
       "source": "pstack/skills/how/references/explainer-prompt.md",
@@ -523,7 +523,7 @@
           "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
         },
         {
-          "old": "Families go by prefix: `claude-*` and `grok-*`. ",
+          "old": "Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on Reviewer B's default. ",
           "new": "",
           "count": 1,
           "kind": "model",
@@ -579,7 +579,7 @@
           "reason": "Fallback uses the corresponding unchanged GPT configuration."
         }
       ],
-      "source_sha256": "25341c393f515c1e1fa9bce668b7551e9f98c195113a460ff524d3c1f7f50cd9"
+      "source_sha256": "a16dfe179005abc22a4651b82f25b0c8ab953284276efe4e6dc341958fb63647"
     },
     {
       "source": "pstack/skills/interrogate/references/code-quality-review.md",
@@ -667,7 +667,7 @@
           "reason": "Role references replace Cursor custom agent types; no new model role is added."
         }
       ],
-      "source_sha256": "08b9c769040c104ef7fb1902ebac97047edbb89b58c7e113e53c918287b092e6"
+      "source_sha256": "078ecfe224eafbb017f6476870612838bf6dbe38c0b697e12f0c887d0313f17e"
     },
     {
       "source": "pstack/agents/comment-sicko.md",
@@ -1190,9 +1190,23 @@
           "count": 2,
           "kind": "host",
           "reason": "Use Codex invocation notation for the newly selected ketchup skill."
+        },
+        {
+          "old": "`/in-your-own-words`",
+          "new": "`$in-your-own-words`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Route the newly selected skill through Codex explicit invocation without changing its relative link."
+        },
+        {
+          "old": "`/sharpen`",
+          "new": "`$sharpen`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Route the newly selected skill through Codex explicit invocation without changing its relative link."
         }
       ],
-      "source_sha256": "3fe669c7c3b8f52c18b7c68ecce01c8691e844b9d2b41a8a6ff6432341451986"
+      "source_sha256": "1b0645c25200a19e5863583e117bad684b1b79ba8434823ebf4f6bbcc61e8a75"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",
@@ -1379,14 +1393,35 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex skill invocation notation within the restored prompt example."
+        },
+        {
+          "old": "`/in-your-own-words <long or messy ask>`",
+          "new": "`$in-your-own-words <long or messy ask>`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex invocation for the newly selected goal restatement recipe."
+        },
+        {
+          "old": "`/sharpen <your task>`",
+          "new": "`$sharpen <your task>`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex invocation for the newly selected task framing recipe."
         }
       ],
-      "source_sha256": "1872323419a3e5c7783b1933f7a180ca26c25a6e1f4ec83bd65e091ebbfb812b"
+      "source_sha256": "5fb97a805976a82db0aba5cc8943e88d0cb38b17a0d6b8e89a44633677febb1a"
     },
     {
       "source": "pstack/skills/poteto-mode/SKILL.md",
       "target": "skills/poteto-mode/SKILL.md",
       "edits": [
+        {
+          "old": "**Match the model to the job.** Before each spawn, start from the role's line or default and pick the reasoning level and speed the job needs. The `/setup-pstack` budget sets each role's starting level, xhigh by default. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed, the same slug without `-fast`. Verification is the exception and stays on the `swarm workers` model and speed (`grok-4.7-xhigh-fast` by default). Change only the effort level and whether the slug is fast, and keep the family the role names, so a diverse panel stays diverse. If the family has no slug at that level and speed, use its nearest slug. A role on `auto` or `inherit-parent` stays on the parent model. If the Task tool rejects the adjusted slug, do not try another adjusted slug. Use the role's line or default and say so.",
+          "new": "**Match the model to the job.** Before each spawn, start from the role's configuration or default and pick the reasoning level and speed the job needs. The `$setup-pstack` budget sets each role's starting level as recorded in its configuration. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use the supported levels of that GPT model in ascending order. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed. Set speed only if the native subagent API exposes a supported speed field. If it does not, report that speed selection is unavailable and keep the host's speed. Verification is the exception and stays on the `swarm_workers` model and host speed (`gpt-6-astra` with `reasoning_effort: high` by default). Change only the effort level and supported speed field, and keep the model the role names, so a diverse panel stays diverse. If the model has no supported level or speed, use its nearest supported configuration. A role on `auto` or `inherit-parent` stays on the parent configuration, so omit both model and effort. Comment Sicko also inherits the parent configuration. Preserve Arena's preferred cross-judge effort difference and show-me-your-work's required reviewer effort difference after adjustment. If the native subagent tool rejects the adjusted configuration, do not try another adjusted configuration. Use the role's configuration or default and say so. Follow [Codex runtime](references/codex-runtime.md#resolve-model-roles) for resolution and fallback.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Map task-sensitive effort and speed selection to separate supported Codex fields while preserving aliases, role defaults, review diversity, verification exceptions and direct fallback after adjustment rejection."
+        },
         {
           "old": "name: Poteto Mode",
           "new": "name: poteto-mode",
@@ -1402,7 +1437,7 @@
           "reason": "Codex explicit invocation and task-scoped activation"
         },
         {
-          "old": "disable-model-invocation: true\nmode: true\nicon: crown\ncolor: yellow\nreminder: New task? Playbook match or rigor needed -> apply /poteto-mode. Casual turn or user opts out -> don't.\n",
+          "old": "disable-model-invocation: true\nicon: crown\ncolor: yellow\n",
           "new": "",
           "count": 1,
           "kind": "metadata",
@@ -1486,8 +1521,8 @@
           "reason": "Existing user authorization persists in Codex"
         },
         {
-          "old": "**Use `subagent_type: \"poteto-agent\"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `/poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself. `/poteto-mode` and `poteto-agent` route through the same wrapper.",
-          "new": "**Pass [poteto-agent](references/poteto-agent.md) to any local subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `$poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself. `$poteto-mode` and the delegate read the same skill.",
+          "old": "**Use `subagent_type: \"poteto-agent\"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `/poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself.",
+          "new": "**Pass [poteto-agent](references/poteto-agent.md) to any local subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `$poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself.",
           "count": 1,
           "kind": "host",
           "reason": "Native Codex agents accept a brief rather than Cursor custom agent types"
@@ -1633,7 +1668,7 @@
           "reason": "Codex explicit skill invocation syntax"
         }
       ],
-      "source_sha256": "c5900f379a4582cd2980b45b82c419baffc11929a37e7bb463d77dd0569d37a5"
+      "source_sha256": "f234661471847cafc4ae9bcb4a9208eb32ed8154ac25b91b2b064ec71bd62167"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/authoring-a-skill.md",
@@ -1682,7 +1717,7 @@
           "reason": "Resolve reference files from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "15e54ad3ac92565613980772d8708de6e19cc4690bfd4bb3fb8836522407377b"
+      "source_sha256": "6ac974fd2b09748add56493e89f578a35a6a9289e1026515878d81ef3cf129d1"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/babysit.md",
@@ -1773,7 +1808,7 @@
           "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "018bbc146ae19145caa6c7e70591fee081b64447dda1c1c4b681c9974d928b13"
+      "source_sha256": "66e26542dad131cfd7df80ac0cdf81ed4d85e7b5e3f0eb65b933888760c4831f"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/eval.md",
@@ -1808,7 +1843,7 @@
           "reason": "Resolve reference files from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "b862bfa2fae2399abf047a8e80d3e3dddb64003af96fb1cebb625216131e36bb"
+      "source_sha256": "a93d449a908236afa6645179651844094b1547dbab4e484cffcdda630e4b90bf"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/feature.md",
@@ -1822,7 +1857,7 @@
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
         }
       ],
-      "source_sha256": "3a62cc4a8cbcf144bb9dd05f05420a15be0d38b784d3b141bb730a5852f50a62"
+      "source_sha256": "af8ce700b99953741cb547e34308fde0cf6b98ce67e1652c800d0deedf53aba1"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/hillclimb.md",
@@ -1850,7 +1885,7 @@
           "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "244f289898fe67a458065e90fe8217c916c5acf61cdee8975ade3f9831a12e91"
+      "source_sha256": "942c1565b75ad02a2cb6230dd7c1ebd87e19f59a00319ebac2b6616007bf018f"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/investigation.md",
@@ -2066,7 +2101,7 @@
           "reason": "Resolve reference files from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "27d310e3fc3937a60b8fcbe1318f9d249a7477a722907bf85b3e4eb3dc436b11"
+      "source_sha256": "5f239457bfdec3345c92caa06c59bf0257c662b89353f25a1c02ea942dcd00b1"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/opening-a-pr.md",
@@ -2113,9 +2148,16 @@
           "count": 1,
           "kind": "scope",
           "reason": "Remove only excluded Autopilot owner exceptions; ordinary PR and babysit duties remain unchanged."
+        },
+        {
+          "old": "As a parent merges, move its child onto trunk per `playbooks/shipping.md` step 4.",
+          "new": "As a parent merges, move its child onto trunk per `$POTETO_SKILL_ROOT/playbooks/shipping.md` step 4.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the new Shipping cross-reference from the installed skill root rather than the containing playbook directory."
         }
       ],
-      "source_sha256": "931070f5674e81a191277253d4e02b1c45d091b223f93bf506d3896a428a5967"
+      "source_sha256": "a5aef646de8b651306c2d10974623650e4a013a245aec1c00525bbe0e31bfa76"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/pause-safely.md",
@@ -2142,7 +2184,7 @@
           "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "2b88ad0f880e4d4d755ac19fe52414d6631d6baa816d060f53cf0a7429d7e14a"
+      "source_sha256": "c12aa2f82de7651a11676a3d5fea168f539b7f0faaa3a501d279255dd2a469c8"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/prototype.md",
@@ -2162,13 +2204,13 @@
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
         }
       ],
-      "source_sha256": "50f4f7d3d301551f8b8a57c3303c99958c5ca630ae0d0051823b6987c0eb5b96"
+      "source_sha256": "0f5dd38113379ea8cf61e2182eca0a7478eea9a869eb40c2dddab3335aeca197"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/runtime-forensics.md",
       "target": "skills/poteto-mode/playbooks/runtime-forensics.md",
       "edits": [],
-      "source_sha256": "594f02c40c243a346e1f57b688ecf2ed5e882f21b3d24ed2204d1ac6f1c24a8a"
+      "source_sha256": "3463372b578c28f27c236f2627f09b5c5b1e85e86db7399fb984f3892fb450f5"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/session-pickup.md",
@@ -2189,29 +2231,29 @@
           "reason": "Resolve reference files from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "1604fb463f7c7410d43fa024ca76c1c1824c166a01fd69d61f073d06fdca2a47"
+      "source_sha256": "d194f2a7ef392c1598ef3f0e3b561370ca25c2c7a78308007af4aa46ada8ee12"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/shipping.md",
       "target": "skills/poteto-mode/playbooks/shipping.md",
       "edits": [
         {
-          "old": "not batched, each a Cursor cloud agent",
-          "new": "not combined into one assignment, each a local agent in an isolated worktree",
+          "old": "each a Cursor cloud agent",
+          "new": "each a local agent in an isolated worktree",
           "count": 1,
           "kind": "host",
           "reason": "Keep one independent verifier per PR while replacing cloud execution."
         },
         {
-          "old": "against parent versus head.",
-          "new": "against parent versus head. Schedule batches within host concurrency limits.",
+          "old": "parent against head,",
+          "new": "parent against head, scheduled within host concurrency limits,",
           "count": 1,
           "kind": "host",
           "reason": "Finite local slots change scheduling, never the required independent PR coverage."
         },
         {
-          "old": "Hold the watch under `/loop` in dynamic mode.",
-          "new": "Hold the watch with native event waits. Use Codex Goal tools for an explicitly requested persistent objective and native automation for requested timed or later checks, per `../references/codex-runtime.md`.",
+          "old": "under `/loop` until it reports `COMPLETE` at the ceiling.",
+          "new": "with native event waits until it reports `COMPLETE` at the ceiling. Use Codex Goal tools for an explicitly requested persistent objective and native automation for requested timed or later checks, per `../references/codex-runtime.md`.",
           "count": 1,
           "kind": "host",
           "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
@@ -2238,13 +2280,13 @@
           "reason": "Resolve reference files from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "19f3f6803a7bbe9ff04f624b03e3b55f07ac0a05e991aa00d5fe51239b920b2a"
+      "source_sha256": "bf56339bdf7e0223bcff5abf4e8599e3f5b547b3fcc3b4ce9475e6e7dda14a9f"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/trace-forensics.md",
       "target": "skills/poteto-mode/playbooks/trace-forensics.md",
       "edits": [],
-      "source_sha256": "e8a671fd5511a894f90c933bca75815e7a1d730cb53333075a80b0927e81acfc"
+      "source_sha256": "ef0bbf79856a4ae1a8993d54c1a1da159cb97623941b652c0069cf75a017e0f5"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/visual-parity.md",
@@ -2349,7 +2391,7 @@
           "reason": "The local Bash audit supports configured non-origin remotes and reports an unknown automatic base rather than assuming origin/HEAD."
         }
       ],
-      "source_sha256": "ffecceb6d2fa7e07ca5703c968f4b7c5947309ed695d51fc73a55c3da5906480"
+      "source_sha256": "be04ae0afe19d4a4da5bcc4e94455f68dbebd1cda6eb0f456ca0d358ecf76c00"
     },
     {
       "source": "pstack/skills/poteto-mode/references/bugbot-triage.md",
@@ -2370,8 +2412,8 @@
       "target": "skills/poteto-mode/references/poteto-agent.md",
       "edits": [
         {
-          "old": "/poteto-mode",
-          "new": "$poteto-mode",
+          "old": "`/poteto-mode`",
+          "new": "`$poteto-mode`",
           "count": 3,
           "kind": "host",
           "reason": "Codex explicit skill syntax"
@@ -2403,9 +2445,16 @@
           "count": 1,
           "kind": "host",
           "reason": "Map the main chat's spawn ownership to the native Codex subagent interface."
+        },
+        {
+          "old": "Use the absolute path your parent gave you. With no path, before any other work, search `~/.cursor/plugins/` for a file whose path ends in `skills/poteto-mode/SKILL.md`. If more than one file matches, use the copy whose `.cursor-plugin/plugin.json` has the highest `version`. Your skill catalog hides this skill, so a missing catalog entry does not mean pstack is absent. If no such file exists, stop and tell your parent.",
+          "new": "Use the absolute path your parent gave you. With no path, before any other work, resolve `../SKILL.md` from this reference and read that copy from the same loaded plugin. An absent skill catalog entry does not mean pstack is absent. If that file does not exist, stop and tell your parent.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the delegate workflow from the parent-provided absolute path or the same loaded Codex plugin, never a Cursor installation or a different cache version."
         }
       ],
-      "source_sha256": "5cbeb2c1fea67b28ea9ef95c3416dca3c3f8be278b9654acbf2ea87c7877440a"
+      "source_sha256": "979f18abd000d185a0b4c41a2a4111c0910596a7f5c81cbb571885bc721b2bf7"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/bun.lock",
@@ -2485,13 +2534,13 @@
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.test.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/github.test.ts",
       "edits": [],
-      "source_sha256": "035f4a0f1ab5a17ebf94ad1f7c14d1abd948852be30987c0e9d107b5ea5028ab"
+      "source_sha256": "70c9f03d8738228763846f2abdd8c7de7be68dba3035041482386a69cbf5639b"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/github.ts",
       "edits": [],
-      "source_sha256": "9ea8de77e019de19929fbe4a86bc88492ffbecd89d6816d9857ed49db904c151"
+      "source_sha256": "a605b8531468dbe4c07b93663c0993a9c11dc7e9179adde970f5c740396451d9"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/policy.test.ts",
@@ -2625,11 +2674,11 @@
           "reason": "Restore authorized cleanup protections by holding unreadable, untracked, and ignored work; inspect the configured Git upstream instead of assuming an origin branch with the same name."
         },
         {
-          "old": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in wip:*) bucket=hold-wip ;; *)\n\t\tcase \"$pr\" in *OPEN*) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [ \"$pr\" != \"-\" ]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
-          "new": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in\n\t\tunknown) bucket=hold-unknown ;;\n\t\twip:*) bucket=hold-wip ;;\n\t\t*ignored:*) bucket=hold-ignored ;;\n\t\tuntracked:*) bucket=hold-untracked ;;\n\t\tclean)\n\t\tcase \"$pr\" in *OPEN*) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [[ \"$pr\" == */MERGED ]]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
+          "old": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in wip:*) bucket=hold-wip ;; *)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [ \"$pr\" != \"-\" ]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
+          "new": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in\n\t\tunknown) bucket=hold-unknown ;;\n\t\twip:*) bucket=hold-wip ;;\n\t\t*ignored:*) bucket=hold-ignored ;;\n\t\tuntracked:*) bucket=hold-untracked ;;\n\t\tclean)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [[ \"$pr\" == */merged ]]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
           "count": 1,
           "kind": "scope",
-          "reason": "Only a clean worktree with merge evidence may enter the advisory safe bucket; hold all non-clean states and do not treat a closed, unmerged PR as merge evidence."
+          "reason": "Only a clean worktree with merge evidence may enter the advisory safe bucket; hold all non-clean states and open or draft PRs, and do not treat a closed, unmerged PR as merge evidence. Match the upstream lowercase normalized PR states."
         },
         {
           "old": "\tprintf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n\" \\\n\t\t\"$size\" \"$age\" \"$merged\" \"$dirty\" \"$remote\" \"$pr\" \"$last\" \"$bucket\" \"$wt\"",
@@ -2653,7 +2702,7 @@
           "reason": "Report the selected base on stderr so stdout remains a nine-column TSV with exactly one header."
         }
       ],
-      "source_sha256": "9faa9a2534ad64069dec67ac5b5ce1dc23b8fe635ecfd7f6557b1e3ada61fd2f"
+      "source_sha256": "e0a94e5e5b1ff60638916e440600e15851f7b79bc1a1d1f602fde05d465e2ec0"
     },
     {
       "source": "pstack/skills/principle-attack-the-premise/SKILL.md",
@@ -2765,7 +2814,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "ba4cd38da1dcc8fe5432feb64457cba95594736a9b21b2ebf8f8c52aee068707"
+      "source_sha256": "2131069d285d82fb799458494f2e4ac8759c9c6a60f9e300828c17874f514c6e"
     },
     {
       "source": "pstack/skills/principle-foundational-thinking/SKILL.md",
@@ -3171,7 +3220,7 @@
           "reason": "Skill invocation does not authorize external tracker writes; preserve explicit approval for every Accepted edit."
         }
       ],
-      "source_sha256": "f5e9200f37e2a4567c0eeb0ba244fde66c1b3f35e3b7a883de2f85b3bda7365a"
+      "source_sha256": "1f5a8c246cdee8251f8667d85bd5d97f6c2801f505843c26ddbd6c621632519b"
     },
     {
       "source": "pstack/skills/reflect/references/divergent-reviewer.md",
@@ -3431,10 +3480,10 @@
         },
         {
           "old": "Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses.",
-          "new": "Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` with `\"version\": 1`, a `budget` field with the chosen label, and a `roles` object, using the role keys poteto-mode uses. Create the personal configuration directory if needed. The saved role values determine launches; the budget records the chosen label and does not overwrite later per-role edits.",
+          "new": "Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` with `\"version\": 1`, a `budget` field with the chosen label, and a `roles` object, using the role keys poteto-mode uses. Create the personal configuration directory if needed. The saved role values are launch starting settings; workflows adjust effort for the job per Codex runtime. The budget records the chosen label and does not overwrite later per-role edits.",
           "count": 1,
           "kind": "host",
-          "reason": "Write the established personal JSON contract."
+          "reason": "Write the established personal JSON contract and identify saved role settings as task-adjustable launch starting points."
         },
         {
           "old": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```\n",
@@ -3528,7 +3577,7 @@
           "reason": "Make the mapped cross-review distinction visible."
         }
       ],
-      "source_sha256": "bcff5f7f9fd23f92c12b251f9cd6b947e9485e1055cfacb6fdd9cae0789d7550"
+      "source_sha256": "920a8217cbb62f92a2222fb81fc9eab17ecd554a0277e444a95a927195139bd1"
     },
     {
       "source": "pstack/skills/show-me-your-work/references/decision-log-template.tsv",
@@ -3645,7 +3694,7 @@
           "reason": "Map cloud branch selection to a local checkout of the same ref."
         }
       ],
-      "source_sha256": "bdcee4168e22428036e93d7cdeec3f391dbc4132f927f6db2540328c22db0273"
+      "source_sha256": "c8fe1b28282e7a051a4041a146a11f076e0fd95252bb010106a58209805303d5"
     },
     {
       "source": "pstack/skills/tdd/SKILL.md",
@@ -3875,7 +3924,7 @@
           "reason": "Pass both fields from the resolved role configuration in the consolidated launch paragraphs."
         }
       ],
-      "source_sha256": "fa1d1e9dec14b15381c1ccccad74044d6b6ea3b4af56821f59ba2d8e59b07545"
+      "source_sha256": "144d42e7712723d763e607bc0a969e5f1cdf83ec7228519d87677cc534571bed"
     },
     {
       "source": "pstack/skills/why/references/epistemics.md",
@@ -4008,9 +4057,58 @@
           "count": 1,
           "kind": "host",
           "reason": "Use current-thread history and native status interfaces, and disclose unavailable or incomplete evidence without scanning unrelated chats."
+        },
+        {
+          "old": "`/visualize`",
+          "new": "`$visualize`",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex skill invocation notation for optional visualization tools supplied by the host."
         }
       ],
-      "source_sha256": "3b00c552fdb236ecfce85184000814bf62d7c518aac3acd1ba7ea8e02d8f2196"
+      "source_sha256": "d9704b154081af306b6583b2752498d454f9d761e9989ff1f037efd414f86bb4"
+    },
+    {
+      "source": "pstack/skills/in-your-own-words/SKILL.md",
+      "target": "skills/in-your-own-words/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Declare explicit-only invocation in agents/openai.yaml."
+        },
+        {
+          "old": "/in-your-own-words",
+          "new": "$in-your-own-words",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill invocation notation."
+        }
+      ],
+      "source_sha256": "fa8ba74e27d7be371dc270ec78bbf816411477d0dfab185356c861ac8dd413ad"
+    },
+    {
+      "source": "pstack/skills/sharpen/SKILL.md",
+      "target": "skills/sharpen/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Declare explicit-only invocation in agents/openai.yaml."
+        },
+        {
+          "old": "/sharpen",
+          "new": "$sharpen",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit skill invocation notation."
+        }
+      ],
+      "source_sha256": "6bcd73916696eb9c5b79b6f960983760c34bcc28937c11142dd8d86b5107aa46"
     }
   ],
   "omitted": {
@@ -4102,6 +4200,8 @@
     "skills/typescript-best-practices/agents/openai.yaml": "4605c8c0c794cd7f673569f5602bd5a72c06b83e815fd042a9586d06350330de",
     "skills/unslop/agents/openai.yaml": "28bf202c866bc7002fa563120fb557f7ac59f3bc704ab25014ee4dc665d22054",
     "skills/why/agents/openai.yaml": "eaef031b6e464d43395396c07be0bd937fade89cdc618d9eee2b4ef63ce6b900",
-    "skills/ketchup/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94"
+    "skills/ketchup/agents/openai.yaml": "c222bbe8d1ef516744575d0a5e2990066fe0ed5561c06946e7289d1afe09f0ff",
+    "skills/in-your-own-words/agents/openai.yaml": "622e257fa6a40192443e1a0f4e20d203ff601461e3cd8d615666002960854816",
+    "skills/sharpen/agents/openai.yaml": "b5d1d4adeb9e1f7335cb3e6e4f0f7ad97f45521c60b59872219de8e04176bb1d"
   }
 }

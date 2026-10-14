@@ -25,7 +25,7 @@ The export preserves thread, turn, item, and tool-result associations. Check the
 
 Three concurrent native asynchronous local subagent launches, in batches when the host limits slots. Reviewers need read-only MCP access to look up the tickets, chat threads, and observability traces the transcript references. Do not edit files or external records.
 
-Each reviewer and the synthesizer name a role in the Codex model configuration and a default. Set `model` and `reasoning_effort` to that role's values, or to the default if the rule or the line is missing. Leave `model` and `reasoning_effort` unset when the value is `auto` or `inherit-parent`. If the native subagent tool rejects a configuration, use the default and say so. If it rejects the default, use the closest supported configuration of the same GPT model from its error message.
+Each reviewer and the synthesizer name a role in the Codex model configuration and a default. Set `model` and `reasoning_effort` to that role's values, or to the default if the rule or the line is missing. Leave `model` and `reasoning_effort` unset when the value is `auto` or `inherit-parent`. If the native subagent tool rejects a configuration, use the default and say so. If it rejects the default, use the closest supported configuration of the same GPT model from its error message. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
 
 | Lens | Role line | Default `model` | Prompt template |
 |---|---|---|---|

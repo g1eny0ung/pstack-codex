@@ -1,0 +1,6 @@
+interface:
+  display_name: "Sharpen"
+  short_description: "Frame a task around expert methods and the real goal"
+  default_prompt: "Use $sharpen to approach this task with expert methods and focus on the result I need."
+policy:
+  allow_implicit_invocation: false

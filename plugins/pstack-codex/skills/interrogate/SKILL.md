@@ -36,7 +36,7 @@ Each reviewer gets a read-only assignment and `model` and `reasoning_effort` set
 
 If the native subagent tool rejects a configured entry, run that reviewer on its shipped table default and say so. With no matching default entry, use Reviewer A's default. If it rejects a table default, spawn with the closest equivalent from the supported model and effort pairs in its error message (prefer the same GPT model and reasoning effort), and, when the user authorizes it, open a separate PR to update the default table. Do not block the review on the slug issue. Never treat an alias entry as a rejected slug or apply either fallback to it.
 
-Read `references/reviewer-prompt.md` and fill in the same template for every reviewer with the stated intent, the diff or file contents, the rubric from `references/rubric.md`, and the code-quality lens from `references/code-quality-review.md`.
+Read `references/reviewer-prompt.md` and fill in the same template for every reviewer with the stated intent, the diff or file contents, the rubric from `references/rubric.md`, and the code-quality lens from `references/code-quality-review.md`. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
 
 ## Step 4, Synthesize
 

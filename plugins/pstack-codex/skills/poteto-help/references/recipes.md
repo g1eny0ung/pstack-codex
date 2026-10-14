@@ -5,6 +5,8 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 ## Understand
 
 - `$poteto-mode read <thread>. restate the underlying issue in your own words, in plain english.`
+- `$in-your-own-words <long or messy ask>`
+- `$sharpen <your task>`
 - `$poteto-mode investigate why <symptom>. give me what we know, what data you used, and your best hypotheses. don't change any code yet.`
 - `use $how to understand <subsystem>. then use $why to find out why it broke recently.`
 - `read my relevant earlier chats on <topic> from last week using the host thread-history tools, then read <issue>.`

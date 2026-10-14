@@ -22,6 +22,18 @@ Shipped defaults use `gpt-6.1-sol` at `high` for `how_explorer` and `reflect_too
 
 For Arena and `show-me-your-work`, this port maps upstream's cross-model-family review to GPT-6 Astra at different reasoning efforts. Preserve the upstream selection rule's strength. Arena prefers a different effort from the parent when selecting one entry from its pool. `show-me-your-work` requires a different effort from the work agent and does not use a dedicated reviewer role.
 
+## Choose effort and speed for the job
+
+Resolve the role before adjusting a launch. Its saved model and effort are starting settings. Do not rewrite the role or the user's personal configuration for one task.
+
+Use that model's supported effort levels in ascending order. Raise effort one step, capped at `max`, for the hardest or subtlest work. Lower it one step for judgment and at least two steps for routine work. Clamp to the supported levels. Keep the role's model unchanged. Verification keeps the `swarm_workers` model and speed while choosing its effort for the job.
+
+Use fast speed only when CI or trunk is red, or a person is blocked on the result now. Otherwise use standard speed. Pass a speed setting only when the native subagent API exposes a supported field. If the API has no such field, keep the host's speed and report that speed selection is unavailable. Do not encode speed into a GPT model name.
+
+For `auto` and `inherit-parent`, omit both model and effort instead of adjusting them. Comment Sicko also inherits both fields. After any adjustment, preserve Arena's preferred cross-judge effort difference and `show-me-your-work`'s required reviewer effort difference. If the work agent's effort is unknown, report that the required difference cannot be verified.
+
+If the native tool rejects an adjusted configuration, do not try another adjustment. Launch with the resolved role's original configuration or default and disclose the fallback. If that configuration is also rejected, follow the model-role fallback rules above.
+
 ## Launch and supervise local subagents
 
 Use the host’s native subagent API, such as `collaboration.spawn_agent`, `send_message`, `followup_task`, `interrupt_agent`, and `wait_agent`. Inspect the available schema before calling it. A typical launch passes `task_name`, a self-contained `message`, `model`, `reasoning_effort`, and `fork_turns: "none"`. Full-history forks inherit the parent configuration on hosts that prohibit overrides; use an independent context when an explicit model or effort is required. Do not drop the requested parameters merely to use a full fork.

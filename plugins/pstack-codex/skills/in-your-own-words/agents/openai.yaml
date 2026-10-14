@@ -1,0 +1,6 @@
+interface:
+  display_name: "In your own words"
+  short_description: "Restate the user goal and problem before starting"
+  default_prompt: "Use $in-your-own-words to restate my goal and the problem I am trying to solve."
+policy:
+  allow_implicit_invocation: false

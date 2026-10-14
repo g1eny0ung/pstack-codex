@@ -36,7 +36,7 @@ Every explicit model/effort pair written must be in the detected set. `inherit-p
 
 ### 5. Write the configuration
 
-Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` with `"version": 1`, a `budget` field with the chosen label, and a `roles` object, using the role keys poteto-mode uses. Create the personal configuration directory if needed. The saved role values determine launches; the budget records the chosen label and does not overwrite later per-role edits. Overwrite the whole file so re-runs stay idempotent. Shape:
+Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` with `"version": 1`, a `budget` field with the chosen label, and a `roles` object, using the role keys poteto-mode uses. Create the personal configuration directory if needed. The saved role values are launch starting settings; workflows adjust effort for the job per Codex runtime. The budget records the chosen label and does not overwrite later per-role edits. Overwrite the whole file so re-runs stay idempotent. Shape:
 
 The following shape shows all 17 shipped defaults. After a budget is chosen, record its label in `budget` and write the mapped role values. Remove a role override to fall back to its shipped default. Scalar objects may override either or both fields. Lists replace the whole ordered list and must be nonempty; each entry is a complete model/effort object or `"inherit-parent"` or `"auto"`. Aliases inherit both parent fields and still count toward panel fan-out.
 

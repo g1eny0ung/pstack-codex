@@ -12,9 +12,17 @@ export GIT_COMMITTER_NAME=Fixture GIT_COMMITTER_EMAIL=fixture@example.invalid
 mkdir "$fixture/bin"
 cat > "$fixture/bin/gh" <<'EOF'
 #!/usr/bin/env bash
+printf 'gh %s\n' "$*" >> "$PSTACK_TEST_CLI_LOG"
 printf '%s\n' "${PSTACK_TEST_PRS:-[]}"
 EOF
-chmod +x "$fixture/bin/gh"
+cat > "$fixture/bin/origin" <<'EOF'
+#!/usr/bin/env bash
+printf 'origin %s\n' "$*" >> "$PSTACK_TEST_CLI_LOG"
+[ "${PSTACK_TEST_ORIGIN_AVAILABLE:-no}" = yes ] || exit 1
+printf '%s\n' "${PSTACK_TEST_ORIGIN_PRS:-[]}"
+EOF
+chmod +x "$fixture/bin/gh" "$fixture/bin/origin"
+export PSTACK_TEST_CLI_LOG="$fixture/cli-log"
 export PATH="$fixture/bin:$PATH"
 
 assert_equal() {
@@ -158,12 +166,12 @@ printf 'ignored*\n' > "$source_repo/.gitignore"
 git -C "$source_repo" add .
 git -C "$source_repo" commit -qm baseline
 git clone -q "$source_repo" "$repo"
-for state in clean tracked untracked ignored mixed corrupt closed merged-pr open-pr; do
+for state in clean tracked untracked ignored mixed corrupt closed merged-pr open-pr draft-pr; do
   wt="$fixture/$state"
   git -C "$repo" worktree add -q -b "$state" "$wt"
   case "$state" in
     tracked|mixed) printf 'valuable tracked edits\n' > "$wt/tracked" ;;
-    closed|merged-pr|open-pr) git -C "$wt" commit -qm branch-work --allow-empty ;;
+    closed|merged-pr|open-pr|draft-pr) git -C "$wt" commit -qm branch-work --allow-empty ;;
   esac
   case "$state" in
     untracked|mixed) mkdir "$wt/notes"; printf 'valuable notes\n' > "$wt/notes/draft" ;;
@@ -178,6 +186,7 @@ for state in clean tracked untracked ignored mixed corrupt closed merged-pr open
   cp -R "$wt" "$fixture/$state-before"
 done
 export PSTACK_TEST_PRS='[{"number":1,"state":"CLOSED","headRefName":"closed"},{"number":2,"state":"MERGED","headRefName":"merged-pr"},{"number":3,"state":"OPEN","headRefName":"open-pr"}]'
+: > "$PSTACK_TEST_CLI_LOG"
 bash "$audit_script" "$repo" > "$fixture/report" 2> "$fixture/stderr"
 assert_row clean 4 DIRTY clean
 assert_row clean 8 BUCKET safe
@@ -191,11 +200,18 @@ assert_row mixed 4 DIRTY wip:1,untracked:1,ignored:1
 assert_row mixed 8 BUCKET hold-wip
 assert_row corrupt 4 DIRTY unknown
 assert_row corrupt 8 BUCKET hold-unknown
+assert_equal 'unavailable Origin falls back to gh' \
+  $'origin pr list --author @me --state all --limit 1000 --json number,status,headRef\ngh pr list --author @me --state all --limit 1000 --json number,state,headRefName' \
+  "$(cat "$PSTACK_TEST_CLI_LOG")"
+assert_row closed 6 'gh closed state normalized' '#1/closed'
+assert_row merged-pr 6 'gh merged state normalized' '#2/merged'
+assert_row open-pr 6 'gh open state normalized' '#3/open'
+assert_row draft-pr 8 'unmerged without PR evidence' review
 assert_row closed 8 BUCKET review
 assert_row merged-pr 8 BUCKET safe
 assert_row open-pr 8 BUCKET hold-open-pr
 assert_equal 'TSV has nine columns' 9 "$(awk -F '\t' '{ print NF }' "$fixture/report" | sort -u)"
-for state in clean tracked untracked ignored mixed corrupt closed merged-pr open-pr; do
+for state in clean tracked untracked ignored mixed corrupt closed merged-pr open-pr draft-pr; do
   wt="$fixture/$state"
   index=$(git -C "$wt" rev-parse --git-path index)
   assert_unchanged "$state index" "$fixture/$state-index-before" "$index"
@@ -206,7 +222,26 @@ for state in clean tracked untracked ignored mixed corrupt closed merged-pr open
     failures=$((failures + 1))
   fi
 done
-unset PSTACK_TEST_PRS
+export PSTACK_TEST_ORIGIN_AVAILABLE=yes
+export PSTACK_TEST_ORIGIN_PRS='[{"number":11,"status":"closed","headRef":"closed"},{"number":12,"status":"merged","headRef":"merged-pr"},{"number":13,"status":"open","headRef":"open-pr"},{"number":14,"status":"draft","headRef":"draft-pr"}]'
+: > "$PSTACK_TEST_CLI_LOG"
+bash "$audit_script" "$repo" > "$fixture/report" 2> "$fixture/stderr"
+assert_equal 'usable Origin is preferred over gh' \
+  'origin pr list --author @me --state all --limit 1000 --json number,status,headRef' \
+  "$(cat "$PSTACK_TEST_CLI_LOG")"
+assert_row closed 6 'Origin closed PR' '#11/closed'
+assert_row closed 8 'Origin closed unmerged PR' review
+assert_row merged-pr 6 'Origin merged PR' '#12/merged'
+assert_row merged-pr 8 'Origin merged clean PR' safe
+assert_row open-pr 6 'Origin open PR' '#13/open'
+assert_row open-pr 8 'Origin open PR holds' hold-open-pr
+assert_row draft-pr 6 'Origin draft PR' '#14/draft'
+assert_row draft-pr 8 'Origin draft PR holds' hold-open-pr
+assert_row tracked 8 'Origin preserves tracked hold' hold-wip
+assert_row untracked 8 'Origin preserves untracked hold' hold-untracked
+assert_row ignored 8 'Origin preserves ignored hold' hold-ignored
+assert_row corrupt 8 'Origin preserves unknown hold' hold-unknown
+unset PSTACK_TEST_PRS PSTACK_TEST_ORIGIN_AVAILABLE PSTACK_TEST_ORIGIN_PRS
 
 git -C "$repo" remote add alternate "$source_repo"
 git -C "$repo" fetch -q alternate
