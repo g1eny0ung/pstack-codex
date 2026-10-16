@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "1e5c90a4b6f249917bd21fe361b3a2a7deb741b8",
+  "upstream_commit": "99743e9c151c8537cbbf1f98bb38f34ef3368453",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -315,7 +315,7 @@
           "reason": "Use Codex skill invocation notation."
         }
       ],
-      "source_sha256": "bf482bacc972b3f124a4af8bf9364b4b3e280cb5845e44c326ea4f4565e5c904"
+      "source_sha256": "e347045d00c967a0b831ef883cc6ac79d21329aa10b5968637df95de7febf0ba"
     },
     {
       "source": "cursor-team-kit/skills/deslop/SKILL.md",
@@ -591,7 +591,7 @@
       "source": "pstack/skills/interrogate/references/lead-judgment.md",
       "target": "skills/interrogate/references/lead-judgment.md",
       "edits": [],
-      "source_sha256": "6e5bdf5670eb34017692e9b6c546f36ac7552e6bb9f3f2f3429164fcc46a9361"
+      "source_sha256": "355f5195a76bc75a655125292369f2a8231a2b61fabe5188d8f1386060922b87"
     },
     {
       "source": "pstack/skills/interrogate/references/reviewer-prompt.md",
@@ -1675,7 +1675,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "f234661471847cafc4ae9bcb4a9208eb32ed8154ac25b91b2b064ec71bd62167"
+      "source_sha256": "c5e6b605f46e5d9fbab31afa7a99d3d50680f2180d1fdfae3a924901bc52d99a"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/authoring-a-skill.md",
@@ -2884,7 +2884,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "c87bd7536f772f8a403ad8155535ee17a1bbec9a353156693eb3bb1520c87ae3"
+      "source_sha256": "6a932884daad4aa189e9b5d1665226bbc75621d4d2a398fd4003bebd382f4599"
     },
     {
       "source": "pstack/skills/principle-boundary-discipline/SKILL.md",
@@ -2982,7 +2982,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "2131069d285d82fb799458494f2e4ac8759c9c6a60f9e300828c17874f514c6e"
+      "source_sha256": "8df3c8c3fe57eb0055a5c8efab8ab144557fdf301da70b1cdc77a3a3ef3f3052"
     },
     {
       "source": "pstack/skills/principle-foundational-thinking/SKILL.md",
@@ -3038,7 +3038,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "540738217c3da7bf513b9886924ad6a2bc77e58be867f5bd2e1831c74bf2ce70"
+      "source_sha256": "7aa9327cf1f1aa057e95d47a0a78bd88a8f9d556b608866fee939d455a53a019"
     },
     {
       "source": "pstack/skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md",
@@ -3052,7 +3052,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "09978915a4a11990cf0a9a02d9c08cc59e0b7a04c5c24b83aa560fbe4146f75b"
+      "source_sha256": "580ad9bb1a0994ecb924321ba49efc38a2f85c64e22c76fb133f57a78272a2e6"
     },
     {
       "source": "pstack/skills/principle-minimize-reader-load/SKILL.md",
@@ -3192,7 +3192,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "b2b73ba42920f9c3174ecdf808ec6e4591b3a9266ada9a05814f386004266d3a"
+      "source_sha256": "f7223698623b6a26fea49c751e466b38e6691b1f32ce841d3983e7ffbe2b74a6"
     },
     {
       "source": "pstack/skills/principle-type-system-discipline/SKILL.md",
@@ -3206,7 +3206,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "2e492cef34bb25a20b9115df61f9ef3a9837e3fda144ffda8079e5f45a1b72e8"
+      "source_sha256": "5cdaf79785e3c12b2592b9469ee8c272143eb86ab7a18d8382197cea5fd30106"
     },
     {
       "source": "pstack/skills/reflect/SKILL.md",
@@ -3834,20 +3834,6 @@
           "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
         },
         {
-          "old": "parallel cloud workers",
-          "new": "parallel local workers",
-          "count": 1,
-          "kind": "host",
-          "reason": "Cloud orchestration is excluded from this port."
-        },
-        {
-          "old": "the cloud concurrency limit",
-          "new": "the local concurrency limit",
-          "count": 1,
-          "kind": "host",
-          "reason": "Preserve total worker count under local host scheduling."
-        },
-        {
           "old": "Spawn all N workers in one message with `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Use `environment: \"local\"` only when the worker needs access to something on the user's computer.",
           "new": "Spawn all N workers with the native local subagent API and the step 4 model and reasoning effort, left unset for `auto` or `inherit-parent`. Run concurrently in batches when the host limits slots.",
           "count": 1,
@@ -3862,7 +3848,7 @@
           "reason": "Map cloud branch selection to a local checkout of the same ref."
         }
       ],
-      "source_sha256": "c8fe1b28282e7a051a4041a146a11f076e0fd95252bb010106a58209805303d5"
+      "source_sha256": "031657cb81e490f9aed5c75d6ff2a4fda35ccafbaf72be604e59481cc4080cdc"
     },
     {
       "source": "pstack/skills/tdd/SKILL.md",
@@ -4234,7 +4220,7 @@
           "reason": "Use Codex skill invocation notation for optional visualization tools supplied by the host."
         }
       ],
-      "source_sha256": "d9704b154081af306b6583b2752498d454f9d761e9989ff1f037efd414f86bb4"
+      "source_sha256": "47b3fb0d5626a40fcb3bd016e68f1cb3d2d313351183e8f6c05d4c7abd76e665"
     },
     {
       "source": "pstack/skills/in-your-own-words/SKILL.md",
@@ -4368,7 +4354,7 @@
     "skills/typescript-best-practices/agents/openai.yaml": "4605c8c0c794cd7f673569f5602bd5a72c06b83e815fd042a9586d06350330de",
     "skills/unslop/agents/openai.yaml": "28bf202c866bc7002fa563120fb557f7ac59f3bc704ab25014ee4dc665d22054",
     "skills/why/agents/openai.yaml": "eaef031b6e464d43395396c07be0bd937fade89cdc618d9eee2b4ef63ce6b900",
-    "skills/ketchup/agents/openai.yaml": "c222bbe8d1ef516744575d0a5e2990066fe0ed5561c06946e7289d1afe09f0ff",
+    "skills/ketchup/agents/openai.yaml": "89eb5b16fff6036cabef65777ec3f4f06ac1a2660909d7434515aa2af8c89cc0",
     "skills/in-your-own-words/agents/openai.yaml": "622e257fa6a40192443e1a0f4e20d203ff601461e3cd8d615666002960854816",
     "skills/sharpen/agents/openai.yaml": "b5d1d4adeb9e1f7335cb3e6e4f0f7ad97f45521c60b59872219de8e04176bb1d"
   }

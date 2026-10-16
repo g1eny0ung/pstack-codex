@@ -1,6 +1,6 @@
 interface:
   display_name: "Ketchup"
-  short_description: "Catch up with a brief summary and small visuals"
-  default_prompt: "Use $ketchup to catch me up on this chat with a brief visual summary and any decisions I need to make."
+  short_description: "Explain chat changes with screenshots and short summaries"
+  default_prompt: "Use $ketchup to explain what changed in this chat, show available screenshots, videos, and diagrams, and list any decisions I need to make."
 policy:
   allow_implicit_invocation: false

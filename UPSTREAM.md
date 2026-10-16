@@ -6,7 +6,7 @@ Branch: `main`
 
 Initial commit: `ecc249f1e306fc64ddf83c7bed16cacf7c2239db`
 
-Last synced commit: `1e5c90a4b6f249917bd21fe361b3a2a7deb741b8`
+Last synced commit: `99743e9c151c8537cbbf1f98bb38f34ef3368453`
 
 `upstream.lock.json` is the machine-readable baseline. `initial_commit` is immutable. Update `last_synced_commit` only after actually integrating and validating a chosen revision. Merely checking upstream never advances it.
 
@@ -125,3 +125,4 @@ For a new upstream revision, copy its selected files first, reapply only necessa
 | 2026-10-12 | `c49b37a2c0e7bede60a71ad7322e3f12c337a3da` | Synced pstack 0.15.19 after the user approved the affected adaptations. Ported review-thread pagination, plan fence checks, explicit worktree bases, main-chat workflow ownership, and skill instruction changes. Preserved Codex model roles, authorization and read-only audit behavior. Excluded `ketchup`. |
 | 2026-10-12 | `c49b37a2c0e7bede60a71ad7322e3f12c337a3da` | Selected `ketchup` at the user's request from the existing baseline. Added explicit Codex invocation, current-thread history and native status access, and the help route. Preserved the read-only summary and visual comparison requirements. |
 | 2026-10-14 | `1e5c90a4b6f249917bd21fe361b3a2a7deb741b8` | Synced pstack 0.15.24 after the user approved affected adaptations and selected `in-your-own-words` and `sharpen`. Ported task-sensitive subagent effort, short visual ketchup replies, Shipping and verification-frequency changes, Code Review Gate classification, Origin worktree audit support, and delegate skill lookup. Preserved explicit invocation, role defaults, local execution, audit safeguards, and cloud exclusions. |
+| 2026-10-16 | `99743e9c151c8537cbbf1f98bb38f34ef3368453` | Synced pstack 0.15.25 after the user approved all affected adaptations. Ported screenshot and video ketchup summaries, revised reasoning principles, and upstream instruction removals. Preserved 63 existing adaptations in changed files and removed two obsolete swarm substitutions. |
