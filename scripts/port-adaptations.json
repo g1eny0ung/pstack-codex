@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "99743e9c151c8537cbbf1f98bb38f34ef3368453",
+  "upstream_commit": "8838150c6b4829ea3c01782631213776d86df14a",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -821,8 +821,8 @@
           "reason": "Cursor Auto is not a Codex model; preserve the cheaper-parent guidance."
         },
         {
-          "old": "pstack is built for Cursor. Its skills use the Agent Skills format, so other tools can read them. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.",
-          "new": "pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
+          "old": "Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.",
+          "new": "This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
           "count": 1,
           "kind": "host",
           "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
@@ -1204,9 +1204,30 @@
           "count": 1,
           "kind": "host",
           "reason": "Route the newly selected skill through Codex explicit invocation without changing its relative link."
+        },
+        {
+          "old": "../../docs/harness/claude-code.md",
+          "new": "https://github.com/cursor/plugins/blob/8838150c6b4829ea3c01782631213776d86df14a/pstack/docs/harness/claude-code.md",
+          "count": 1,
+          "kind": "host",
+          "reason": "The Claude Code guide is not shipped in this Codex plugin; preserve its pinned upstream reference."
+        },
+        {
+          "old": "It asks for a reasoning budget, maps a model to each role, and writes personal JSON configuration. The configuration applies to subsequent subagent launches. Then it offers once each to generate a verification skill and a formal verification skill for the project, unless the project already has one.",
+          "new": "It asks for a reasoning budget, maps a model to each role, and writes personal JSON configuration. The configuration applies to subsequent subagent launches. Then it offers once each to help author a verification skill and generate a formal verification skill for the project, unless the project already has one.",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Describe the retained authoring playbook for the excluded app-verification generator while preserving the selected formal-verification offer."
+        },
+        {
+          "old": "`/create-formal-verification-skill",
+          "new": "`$create-formal-verification-skill",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the selected formal-verification skill without changing its relative link."
         }
       ],
-      "source_sha256": "1b0645c25200a19e5863583e117bad684b1b79ba8434823ebf4f6bbcc61e8a75"
+      "source_sha256": "fbf39b5893516d56975d64633e67929da442af0b4253816fe1afc17d551f3c71"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",
@@ -1407,9 +1428,23 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex invocation for the newly selected task framing recipe."
+        },
+        {
+          "old": "`/create-formal-verification-skill",
+          "new": "`$create-formal-verification-skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the selected formal-verification recipe."
+        },
+        {
+          "old": "`/ketchup`",
+          "new": "`$ketchup`",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation in the new ketchup recipe."
         }
       ],
-      "source_sha256": "5fb97a805976a82db0aba5cc8943e88d0cb38b17a0d6b8e89a44633677febb1a"
+      "source_sha256": "d10e14afa59cf41ed67453bbd62cf711e9ec660e216d9bb32a88ad68f2b721d5"
     },
     {
       "source": "pstack/skills/poteto-mode/SKILL.md",
@@ -1421,13 +1456,6 @@
           "count": 1,
           "kind": "model",
           "reason": "Map task-sensitive effort and speed selection to separate supported Codex fields while preserving aliases, role defaults, review diversity, verification exceptions and direct fallback after adjustment rejection."
-        },
-        {
-          "old": "name: Poteto Mode",
-          "new": "name: poteto-mode",
-          "count": 1,
-          "kind": "metadata",
-          "reason": "Codex skill identifiers use lowercase hyphenated names"
         },
         {
           "old": "description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, /poteto-mode, or requests to work in this style.",
@@ -1675,7 +1703,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "c5e6b605f46e5d9fbab31afa7a99d3d50680f2180d1fdfae3a924901bc52d99a"
+      "source_sha256": "2755f102e7a6d0496b429d1031a22fb353e1f3d523543367caeaae5c4ed6f544"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/authoring-a-skill.md",
@@ -3687,9 +3715,23 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex explicit skill syntax."
+        },
+        {
+          "old": " /create-formal-verification-skill",
+          "new": " $create-formal-verification-skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation in the optional formal-verification offer."
+        },
+        {
+          "old": "`/create-formal-verification-skill` (resolves wherever pstack is installed: workspace, user, or plugin)",
+          "new": "[`$create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md)",
+          "count": 1,
+          "kind": "host",
+          "reason": "Resolve the selected formal-verification skill from the installed Codex plugin."
         }
       ],
-      "source_sha256": "d61b47256a18155a81c8e5ef95e3cc6569ce8c18317c35c4dd9c8015cf68cb59"
+      "source_sha256": "b45512f6ca5e96e81681984683b7472bfe892581da3a89a73cca4159438f29ed"
     },
     {
       "source": "pstack/skills/show-me-your-work/SKILL.md",
@@ -3925,13 +3967,13 @@
           "reason": "Preserve upstream path patterns as metadata; Codex has no paths trigger field."
         }
       ],
-      "source_sha256": "28f9e61710e205f6f3c5476f333483cff0e988f6a5b639e2faad536344b40c5e"
+      "source_sha256": "ec1dac086d3708e5940d45d250c30a37dd953b4e3cb2ca0692f5851d7a039e27"
     },
     {
       "source": "pstack/skills/typescript-best-practices/references/patterns.md",
       "target": "skills/typescript-best-practices/references/patterns.md",
       "edits": [],
-      "source_sha256": "faa1362055374452efccac1b629677c61acfb0bcc6c4e3311836b5715638ee18"
+      "source_sha256": "12e70c9419a8b3f5d6a1ab80e272c1f00a43ac0b3bbf72d68199033570e5de77"
     },
     {
       "source": "pstack/skills/unslop/SKILL.md",
@@ -4220,7 +4262,7 @@
           "reason": "Use Codex skill invocation notation for optional visualization tools supplied by the host."
         }
       ],
-      "source_sha256": "47b3fb0d5626a40fcb3bd016e68f1cb3d2d313351183e8f6c05d4c7abd76e665"
+      "source_sha256": "f2923ffd14f6fc778f75a47aaed1f317fb5fd00b5701ca769d6446c74106dead"
     },
     {
       "source": "pstack/skills/in-your-own-words/SKILL.md",
@@ -4262,7 +4304,28 @@
           "reason": "Use Codex explicit skill invocation notation."
         }
       ],
-      "source_sha256": "6bcd73916696eb9c5b79b6f960983760c34bcc28937c11142dd8d86b5107aa46"
+      "source_sha256": "d895695fcc29b832bf118b842c1d7cf356a69622d63c9d49b40a0c97d8496c80"
+    },
+    {
+      "source": "pstack/skills/create-formal-verification-skill/SKILL.md",
+      "target": "skills/create-formal-verification-skill/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": " /create-formal-verification-skill",
+          "new": " $create-formal-verification-skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the user-selected formal-verification skill."
+        }
+      ],
+      "source_sha256": "5f5c08d6f5787ce18ffc9f018113e9cc6e7ddcc7878aa7ae94ef56978978497b"
     }
   ],
   "omitted": {
@@ -4354,8 +4417,9 @@
     "skills/typescript-best-practices/agents/openai.yaml": "4605c8c0c794cd7f673569f5602bd5a72c06b83e815fd042a9586d06350330de",
     "skills/unslop/agents/openai.yaml": "28bf202c866bc7002fa563120fb557f7ac59f3bc704ab25014ee4dc665d22054",
     "skills/why/agents/openai.yaml": "eaef031b6e464d43395396c07be0bd937fade89cdc618d9eee2b4ef63ce6b900",
-    "skills/ketchup/agents/openai.yaml": "89eb5b16fff6036cabef65777ec3f4f06ac1a2660909d7434515aa2af8c89cc0",
+    "skills/ketchup/agents/openai.yaml": "214535b39cdba0fc130d7d2f36d05c1898d72ee5e3d47f9f589c7a585336ac11",
     "skills/in-your-own-words/agents/openai.yaml": "622e257fa6a40192443e1a0f4e20d203ff601461e3cd8d615666002960854816",
-    "skills/sharpen/agents/openai.yaml": "b5d1d4adeb9e1f7335cb3e6e4f0f7ad97f45521c60b59872219de8e04176bb1d"
+    "skills/sharpen/agents/openai.yaml": "b5d1d4adeb9e1f7335cb3e6e4f0f7ad97f45521c60b59872219de8e04176bb1d",
+    "skills/create-formal-verification-skill/agents/openai.yaml": "d8b619f2846ea3e625728db082803b00d83116a89b37526196f2cd908cc06466"
   }
 }

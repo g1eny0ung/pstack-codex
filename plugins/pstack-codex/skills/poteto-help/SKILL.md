@@ -25,6 +25,7 @@ Check the state that changes the answer, and mention it only when it does:
 
 - No `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` means `$setup-pstack` hasn't run for this user, so every role uses its default model.
 - No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention the missing harness when the question is about proving a change works. The upstream `create-verification-skill` skill is outside this port.
+- No formal verification skill in the project means no property is checked past what tests reach. Mention `$create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit.
 
 When the model configuration is missing and it matters, ask whether the user wants to pick a model for each role and a reasoning budget now. It matters when the user is new, the question is about setup or cost, or the answer depends on which models run. Ask at most once per chat. If the need is also unclear, ask both questions together. Offer two choices:
 
@@ -34,14 +35,16 @@ When the model configuration is missing and it matters, ask whether the user wan
 ## Get set up
 
 1. Install with `codex plugin marketplace add https://github.com/g1eny0ung/pstack-codex.git`, then `codex plugin add pstack-codex@pstack-codex`. Start a new chat after installation.
-2. Run [`$setup-pstack`](../setup-pstack/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes personal JSON configuration. The configuration applies to subsequent subagent launches.
+2. Run [`$setup-pstack`](../setup-pstack/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes personal JSON configuration. The configuration applies to subsequent subagent launches. Then it offers once each to help author a verification skill and generate a formal verification skill for the project, unless the project already has one.
 3. Start a real task with `$poteto-mode`, a goal, and a check that can pass or fail.
 
 Installing changes nothing until the user invokes a skill. All skills require explicit invocation or deliberate routing from an invoked workflow. The [README](https://github.com/g1eny0ung/pstack-codex/blob/main/README.md) and [guide page 1](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/01-setup.md) have the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, say where the tokens go and how to spend fewer. pstack spends extra tokens on subagents and review panels. Rerun `$setup-pstack` and pick a smaller budget or cheaper models. A role set to `auto` or `inherit-parent` runs on the chat's model, which saves tokens when the chat runs on a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `$poteto-mode` for work that needs rigor.
 
-pstack is built for Cursor. This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
+pstack is built for Cursor, and it also installs in Claude Code with `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. There, each command takes a `pstack:` prefix, such as `/pstack:poteto-mode`. The [Claude Code adapter](https://github.com/cursor/plugins/blob/8838150c6b4829ea3c01782631213776d86df14a/pstack/docs/harness/claude-code.md) maps the Cursor names, and a step that needs a Cursor-only feature, such as Bugbot or Automations, is skipped with a one-line note.
+
+This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
 
 ## Start a task with `$poteto-mode`
 
@@ -63,7 +66,7 @@ The default answer is `$poteto-mode`, which runs most of the others when its ste
 | Know how code works now, or where new code should live | [`$how`](../how/SKILL.md) |
 | Know why code is shaped this way, or where a number came from | [`$why`](../why/SKILL.md) |
 | Understand a change or subsystem, explained plainly | [`$teach`](../teach/SKILL.md) |
-| Catch up on what changed in this chat since their last message, in a few plain sentences and small visuals, with enough context to decide each action item | [`$ketchup`](../ketchup/SKILL.md) |
+| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`$ketchup`](../ketchup/SKILL.md) |
 | Know what a small diff could break outside itself | [`$blast-radius`](../blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`$architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`$arena`](../arena/SKILL.md) |
@@ -75,6 +78,7 @@ The default answer is `$poteto-mode`, which runs most of the others when its ste
 | Clean AI tells out of prose | [`$unslop`](../unslop/SKILL.md) |
 | Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`$technical-writing`](../technical-writing/SKILL.md) |
 | Hear the last reply again in plain words | [`$bro`](../bro/SKILL.md) |
+| Formally verify a race, invariant, or other property that tests rarely reach | [`$create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`$benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`$figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`$show-me-your-work`](../show-me-your-work/SKILL.md) |

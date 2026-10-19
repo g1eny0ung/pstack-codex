@@ -1,0 +1,6 @@
+interface:
+  display_name: "Create a formal verification skill"
+  short_description: "Generate a project skill that verifies a code property"
+  default_prompt: "Use $create-formal-verification-skill to verify a key property in this project and leave a reproducible verification skill."
+policy:
+  allow_implicit_invocation: false

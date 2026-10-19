@@ -1,6 +1,6 @@
 interface:
   display_name: "Ketchup"
-  short_description: "Explain chat changes with screenshots and short summaries"
-  default_prompt: "Use $ketchup to explain what changed in this chat, show available screenshots, videos, and diagrams, and list any decisions I need to make."
+  short_description: "Explain chat changes and every decision waiting on the user"
+  default_prompt: "Use $ketchup to explain what changed in this chat, show available screenshots, videos, and diagrams, and give every pending decision enough context to decide from the reply alone."
 policy:
   allow_implicit_invocation: false

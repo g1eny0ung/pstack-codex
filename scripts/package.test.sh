@@ -54,7 +54,7 @@ const resourceFiles = (relative) => {
 };
 resourceFiles(`${plugin}/licenses`);
 const skills = fs.readdirSync(path.join(source, plugin, 'skills'));
-assert.equal(skills.length, 52, 'fixture contains all 52 shipped skills');
+assert.equal(skills.length, 53, 'fixture contains all 53 shipped skills');
 for (const skill of skills) {
   const dir = `${plugin}/skills/${skill}`;
   expectedFiles.push(`${dir}/SKILL.md`, `${dir}/agents/openai.yaml`);
@@ -80,7 +80,7 @@ assert.equal(marketplace.plugins[0].source.path, './plugins/pstack-codex');
 const manifest = JSON.parse(fs.readFileSync(path.join(extracted, marketplace.plugins[0].source.path, '.codex-plugin/plugin.json')));
 assert.equal(manifest.name, 'pstack-codex');
 assert.equal(path.basename(archive), `pstack-codex-${manifest.version}.zip`);
-console.log('PASS: ZIP preserves marketplace, licenses, all 52 skills, resources, and runtime scripts; excludes unrelated files.');
+console.log('PASS: ZIP preserves marketplace, licenses, all 53 skills, resources, and runtime scripts; excludes unrelated files.');
 NODE
 node "$fixture/extracted/pstack-codex/$skill/scripts/dist/watch-pr.mjs" --help > "$fixture/watch-pr-help.txt"
 grep -q 'Usage: watch-pr' "$fixture/watch-pr-help.txt"
