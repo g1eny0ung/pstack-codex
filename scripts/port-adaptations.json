@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "8838150c6b4829ea3c01782631213776d86df14a",
+  "upstream_commit": "88d47514b82e7c44f00f2b2a72ff6dd12158038c",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -1225,9 +1225,16 @@
           "count": 2,
           "kind": "host",
           "reason": "Use Codex explicit invocation for the selected formal-verification skill without changing its relative link."
+        },
+        {
+          "old": "`/maintain-formal-verification-skill",
+          "new": "`$maintain-formal-verification-skill",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
         }
       ],
-      "source_sha256": "fbf39b5893516d56975d64633e67929da442af0b4253816fe1afc17d551f3c71"
+      "source_sha256": "67c77ee5e91c19809b01d08cc73cc2870a52fb95fc64dc33328bf8ff9e49891c"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",
@@ -1423,11 +1430,11 @@
           "reason": "Use Codex invocation for the newly selected goal restatement recipe."
         },
         {
-          "old": "`/sharpen <your task>`",
-          "new": "`$sharpen <your task>`",
+          "old": "`/sharpen <the prompt you're about to send>`",
+          "new": "`$sharpen <the prompt you're about to send>`",
           "count": 1,
           "kind": "host",
-          "reason": "Use Codex invocation for the newly selected task framing recipe."
+          "reason": "Use Codex invocation for the upstream prompt rewriting recipe."
         },
         {
           "old": "`/create-formal-verification-skill",
@@ -1442,9 +1449,16 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex explicit invocation in the new ketchup recipe."
+        },
+        {
+          "old": "`/maintain-formal-verification-skill",
+          "new": "`$maintain-formal-verification-skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
         }
       ],
-      "source_sha256": "d10e14afa59cf41ed67453bbd62cf711e9ec660e216d9bb32a88ad68f2b721d5"
+      "source_sha256": "f2d573014f72f7c798b1998b45f4360a8a83e7b8026c4ed9074e56c5a9d49338"
     },
     {
       "source": "pstack/skills/poteto-mode/SKILL.md",
@@ -4304,7 +4318,7 @@
           "reason": "Use Codex explicit skill invocation notation."
         }
       ],
-      "source_sha256": "d895695fcc29b832bf118b842c1d7cf356a69622d63c9d49b40a0c97d8496c80"
+      "source_sha256": "563dfc460c605d311e650726288e2f1cbd61eab817db178d6e7e29643e07e7a2"
     },
     {
       "source": "pstack/skills/create-formal-verification-skill/SKILL.md",
@@ -4323,9 +4337,44 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex explicit invocation for the user-selected formal-verification skill."
+        },
+        {
+          "old": "`/maintain-formal-verification-skill",
+          "new": "`$maintain-formal-verification-skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
         }
       ],
-      "source_sha256": "5f5c08d6f5787ce18ffc9f018113e9cc6e7ddcc7878aa7ae94ef56978978497b"
+      "source_sha256": "6c934cd15a9583533ff9b7a9cad62775d7e80402d26d3ba7f74f79ea21a1d8eb"
+    },
+    {
+      "source": "pstack/skills/maintain-formal-verification-skill/SKILL.md",
+      "target": "skills/maintain-formal-verification-skill/SKILL.md",
+      "edits": [
+        {
+          "old": "disable-model-invocation: true\n",
+          "new": "",
+          "count": 1,
+          "kind": "metadata",
+          "reason": "Explicit-only invocation is declared in agents/openai.yaml."
+        },
+        {
+          "old": "/maintain-formal-verification-skill",
+          "new": "$maintain-formal-verification-skill",
+          "count": 1,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
+        },
+        {
+          "old": "/create-formal-verification-skill",
+          "new": "$create-formal-verification-skill",
+          "count": 2,
+          "kind": "host",
+          "reason": "Use Codex explicit invocation for the existing formal verification generation skill."
+        }
+      ],
+      "source_sha256": "0c96f54293542d3818b68754562b338073958781a9684454611dca37592e2d2c"
     }
   ],
   "omitted": {
@@ -4419,7 +4468,8 @@
     "skills/why/agents/openai.yaml": "eaef031b6e464d43395396c07be0bd937fade89cdc618d9eee2b4ef63ce6b900",
     "skills/ketchup/agents/openai.yaml": "214535b39cdba0fc130d7d2f36d05c1898d72ee5e3d47f9f589c7a585336ac11",
     "skills/in-your-own-words/agents/openai.yaml": "622e257fa6a40192443e1a0f4e20d203ff601461e3cd8d615666002960854816",
-    "skills/sharpen/agents/openai.yaml": "b5d1d4adeb9e1f7335cb3e6e4f0f7ad97f45521c60b59872219de8e04176bb1d",
-    "skills/create-formal-verification-skill/agents/openai.yaml": "d8b619f2846ea3e625728db082803b00d83116a89b37526196f2cd908cc06466"
+    "skills/sharpen/agents/openai.yaml": "072785df2131017c9e2f9f0e2c7d2e84ab0ccbb1dc90f41bfa0a14224dfc5ffb",
+    "skills/create-formal-verification-skill/agents/openai.yaml": "d8b619f2846ea3e625728db082803b00d83116a89b37526196f2cd908cc06466",
+    "skills/maintain-formal-verification-skill/agents/openai.yaml": "aa22029aa11232058bb8c53b445cd42da38e35be823821297fb4860dea088ce4"
   }
 }
