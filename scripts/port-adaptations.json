@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "88d47514b82e7c44f00f2b2a72ff6dd12158038c",
+  "upstream_commit": "eb4db2b55b2b7dec3d9282754cddf0a56bf4ff10",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -1232,9 +1232,16 @@
           "count": 2,
           "kind": "host",
           "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
+        },
+        {
+          "old": "| Show a PM or designer what the user sees as a chart checked by a model, with each bug drawn as a numbered path, turn an agreed chart into a TLA+ skeleton, or audit the code against its TLA+ spec | [`/statechart`](../statechart/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit the statechart route while adoption is deferred because expected usage does not yet justify the additional tool dependencies."
         }
       ],
-      "source_sha256": "67c77ee5e91c19809b01d08cc73cc2870a52fb95fc64dc33328bf8ff9e49891c"
+      "source_sha256": "7022e2cd0d65d5964151444c4efa82a34792a6644210a0ba60d7d6cfa69c72b8"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",

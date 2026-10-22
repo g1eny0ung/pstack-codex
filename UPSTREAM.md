@@ -6,7 +6,7 @@ Branch: `main`
 
 Initial commit: `ecc249f1e306fc64ddf83c7bed16cacf7c2239db`
 
-Last synced commit: `88d47514b82e7c44f00f2b2a72ff6dd12158038c`
+Last synced commit: `eb4db2b55b2b7dec3d9282754cddf0a56bf4ff10`
 
 `upstream.lock.json` is the machine-readable baseline. `initial_commit` is immutable. Update `last_synced_commit` only after actually integrating and validating a chosen revision. Merely checking upstream never advances it.
 
@@ -60,6 +60,8 @@ Do not reintroduce these cloud orchestration resources:
 - `pstack/skills/poteto-mode/scripts/orch/`
 
 The standalone skills `automate-me`, `create-verification-skill`, `maintain-verification-skill`, `make-bot-ui`, and `recall` are outside this port's scope. Other cursor-team-kit skills are also excluded. New upstream skills must be reported for selection, not added automatically.
+
+Adoption of `statechart` is deferred. Its expected usage does not yet justify the additional Java, TLC, and PNG rendering dependencies.
 
 Origin CLI integration is excluded under this port's Codex compatibility standard. Retained PR workflows and worktree PR audits use GitHub CLI (`gh`). During upstream synchronization, remove Origin CLI detection, commands, and workflow branches instead of importing them. Git remote names such as `origin` remain valid and are unrelated to this exclusion.
 
@@ -128,3 +130,4 @@ For a new upstream revision, copy its selected files first, reapply only necessa
 | 2026-10-16 | `99743e9c151c8537cbbf1f98bb38f34ef3368453` | Synced pstack 0.15.25 after the user approved all affected adaptations. Ported screenshot and video ketchup summaries, revised reasoning principles, and upstream instruction removals. Preserved 63 existing adaptations in changed files and removed two obsolete swarm substitutions. |
 | 2026-10-19 | `8838150c6b4829ea3c01782631213776d86df14a` | Synced pstack 0.15.27 after the user approved affected adaptations and selected `create-formal-verification-skill`. Added formal verification setup and help routes, complete pending-item ketchup summaries, type-guard branding examples, and sharpen guidance. Preserved Codex model roles, explicit invocation, local execution, and existing exclusions. Removed the obsolete poteto-mode name adaptation. |
 | 2026-10-20 | `88d47514b82e7c44f00f2b2a72ff6dd12158038c` | Synced pstack 0.15.29 after the user approved affected adaptations and selected `maintain-formal-verification-skill`. Added verification maintenance and help routes, coverage and sync-commit records, TLA+ defaults and generated-input fallback, and prompt-only sharpen behavior. Preserved Codex invocation, model roles, local execution, and existing exclusions. |
+| 2026-10-22 | `eb4db2b55b2b7dec3d9282754cddf0a56bf4ff10` | Synced the selected scope of pstack 0.15.30. Deferred `statechart` and its help route because the skill's expected usage does not yet justify the additional tool dependencies. Retained all existing Codex adaptations. Plugin files are unchanged. |
