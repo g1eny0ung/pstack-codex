@@ -49,6 +49,8 @@ Present the synthesizer's full Accepted / Rejected / Backlog output and wait for
 
 File each Backlog item to your team's devex or backlog tracker without waiting when the user has authorized filing them. Otherwise, present the Backlog items for authorization. Accepted edits always wait for explicit approval.
 
+Never edit a skill under `plugins/cache/`. Before approval, show its destination in a maintained source checkout or `${CODEX_HOME:-$HOME/.codex}/skills/<skill>/`. After approval, copy the skill folder there when a copy is needed and edit only the approved destination. Never open a PR or push.
+
 Follow each approved row's Routing exactly:
 
 - Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.

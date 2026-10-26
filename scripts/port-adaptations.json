@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "eb4db2b55b2b7dec3d9282754cddf0a56bf4ff10",
+  "upstream_commit": "99b609a72323b70204eab407c622f436e858e112",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -695,6 +695,13 @@
       "target": "skills/poteto-help/SKILL.md",
       "edits": [
         {
+          "old": "| Catch up like `/ketchup`, in a short silent video of slides, with the waiting calls as text under it | [`/ketchup-video`](../ketchup-video/SKILL.md) |\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit the ketchup-video route while the user defers adopting its video workflow and rendering requirements."
+        },
+        {
           "old": "disable-model-invocation: true\n",
           "new": "",
           "count": 1,
@@ -1241,7 +1248,7 @@
           "reason": "Omit the statechart route while adoption is deferred because expected usage does not yet justify the additional tool dependencies."
         }
       ],
-      "source_sha256": "7022e2cd0d65d5964151444c4efa82a34792a6644210a0ba60d7d6cfa69c72b8"
+      "source_sha256": "587793b0f9959dbea7d5d009b8a6513795380d7150dd478a6cb05e604058e315"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",
@@ -2685,7 +2692,7 @@
           "reason": "Match resolved plugin source reads and authorized native audit scheduling in the copied plan"
         }
       ],
-      "source_sha256": "e58c3d871b09d477be00628d69dd23ffa6c2e3a1728f5b867a841baa8e90278b"
+      "source_sha256": "e3d4e9ca638c6fb4a2b52c434c17c7af30da4fdd44605ccfe9906f82fe37b555"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/package.json",
@@ -2737,25 +2744,25 @@
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.test.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/github.test.ts",
       "edits": [],
-      "source_sha256": "70c9f03d8738228763846f2abdd8c7de7be68dba3035041482386a69cbf5639b"
+      "source_sha256": "9d9f644388f3516364d47f5eb96c1f977dd6f560bd6005b660d90d3b367cf4b9"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/github.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/github.ts",
       "edits": [],
-      "source_sha256": "a605b8531468dbe4c07b93663c0993a9c11dc7e9179adde970f5c740396451d9"
+      "source_sha256": "7ba193190d488c8ce0982c85234ebea026e9a595703e99a3c3df0fcd640ddd18"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/policy.test.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/policy.test.ts",
       "edits": [],
-      "source_sha256": "146acabcfee9b6fa3342358eb0a9504aa65fd081bbc15b10adf9c1c5485067d2"
+      "source_sha256": "7ee38c20ed605f4a255f1f78e5a4be56b3563fcd8d3d65cfeea58d44c3f58d53"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/policy.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/policy.ts",
       "edits": [],
-      "source_sha256": "f2a3e31223d05edc05e5473cc3f8f3cb9bd20c202c30c6abe7f21f0f7aee8fbb"
+      "source_sha256": "2d4823aeea788acab258ec60eb52e7b9e3a23a6649850af128d6ada5c33d7778"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/render.ts",
@@ -2779,7 +2786,7 @@
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/types.ts",
       "target": "skills/poteto-mode/scripts/watch-pr/types.ts",
       "edits": [],
-      "source_sha256": "0cac435294dc85ce1ba755e8e67f6c5ab163dfa252f2722d6e3a2d68c58fec59"
+      "source_sha256": "daa66c56220bae084c18cc6d3b0a2c66c0e72206d298e40973b44ee085ce16d2"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/watch-pr",
@@ -2835,7 +2842,7 @@
           "reason": "Preserve raw Codex worktree paths using Git NUL records, exclude the first worktree, and keep du path fragments out of the size cell."
         },
         {
-          "old": "\t# Most recent chat whose transcript operated in this worktree. Match path\n\t# followed by \"/\" or a quote so glint-482 does not match glint-482-r37.\n\tlast=\"-\"; last_ts=0\n\tif [ -d \"$transcripts\" ]; then\n\t\tf=$(rg -l -e \"${wt}/\" -e \"${wt}\\\"\" \"$transcripts\" 2>/dev/null \\\n\t\t\t| xargs stat -f '%m %N' 2>/dev/null | sort -rn | head -1)\n\t\tif [ -n \"$f\" ]; then last_ts=$(echo \"$f\" | awk '{print $1}')\n\t\t\tlast=$(date -r \"$last_ts\" '+%Y-%m-%d' 2>/dev/null); fi\n\tfi\n\trecent=$([ \"$last_ts\" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)\n",
+          "old": "\t# Most recent chat whose transcript operated in this worktree. Match path\n\t# followed by \"/\" or a quote so glint-482 does not match glint-482-r37.\n\tlast=\"-\"; last_ts=0\n\tif [ -d \"$transcripts\" ]; then\n\t\tf=$(rg -l -e \"${wt}/\" -e \"${wt}\\\"\" \"$transcripts\" 2>/dev/null \\\n\t\t\t| xargs stat \"${stat_fmt[@]}\" 2>/dev/null | sort -rn | head -1)\n\t\tif [ -n \"$f\" ]; then last_ts=$(echo \"$f\" | awk '{print $1}')\n\t\t\tlast=$(fmt_day \"$last_ts\" 2>/dev/null); fi\n\tfi\n\trecent=$([ \"$last_ts\" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)\n",
           "new": "\tlast=\"unknown\"; recent=unknown\n",
           "count": 1,
           "kind": "host",
@@ -2917,9 +2924,16 @@
           "count": 1,
           "kind": "host",
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "# GNU coreutils (Linux, Homebrew gnubin) reads `stat -f` as file system status\n# and `date -r` as a file, so pick the stat and date flags once.\nif stat -c %Y / >/dev/null 2>&1; then\n\tstat_fmt=(-c '%Y %n'); fmt_day() { date -d \"@$1\" '+%Y-%m-%d'; }\nelse\n\tstat_fmt=(-f '%m %N'); fmt_day() { date -r \"$1\" '+%Y-%m-%d'; }\nfi\n\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Omit GNU/BSD stat and date helpers used only by the excluded Cursor transcript scan."
         }
       ],
-      "source_sha256": "e0a94e5e5b1ff60638916e440600e15851f7b79bc1a1d1f602fde05d465e2ec0"
+      "source_sha256": "06be04b38346ded24ce761d373726f98cd9b9737f20ec98214e88b5f08f521b8"
     },
     {
       "source": "pstack/skills/principle-attack-the-premise/SKILL.md",
@@ -3435,9 +3449,16 @@
           "count": 1,
           "kind": "scope",
           "reason": "Skill invocation does not authorize external tracker writes; preserve explicit approval for every Accepted edit."
+        },
+        {
+          "old": "Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.cursor/skills/<skill>/` or `~/.cursor/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.",
+          "new": "Never edit a skill under `plugins/cache/`. Before approval, show its destination in a maintained source checkout or `${CODEX_HOME:-$HOME/.codex}/skills/<skill>/`. After approval, copy the skill folder there when a copy is needed and edit only the approved destination. Never open a PR or push.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Preserve plugin-cache protection, destination approval, and the no-PR/no-push rule using maintained source or personal Codex skill paths."
         }
       ],
-      "source_sha256": "1f5a8c246cdee8251f8667d85bd5d97f6c2801f505843c26ddbd6c621632519b"
+      "source_sha256": "9648df23cabaae99b78ed59cd93b6f35ebbf02105d228e3d0b5c3a3b3419d753"
     },
     {
       "source": "pstack/skills/reflect/references/divergent-reviewer.md",
@@ -3897,8 +3918,8 @@
           "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
         },
         {
-          "old": "Spawn all N workers in one message with `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Use `environment: \"local\"` only when the worker needs access to something on the user's computer.",
-          "new": "Spawn all N workers with the native local subagent API and the step 4 model and reasoning effort, left unset for `auto` or `inherit-parent`. Run concurrently in batches when the host limits slots.",
+          "old": "Spawn all N workers in one message with `subagent_type: generalPurpose`, `environment: \"cloud\"`, `run_in_background: true`, and the step 3 model, left unset for `auto` or `inherit-parent`. Use `environment: \"local\"` only when the worker needs access to something on the user's computer.",
+          "new": "Spawn all N workers with the native local subagent API and the step 3 model and reasoning effort, left unset for `auto` or `inherit-parent`. Run concurrently in batches when the host limits slots.",
           "count": 1,
           "kind": "host",
           "reason": "Replace unsupported Cursor cloud launch fields with native local scheduling while preserving N."
@@ -3911,7 +3932,7 @@
           "reason": "Map cloud branch selection to a local checkout of the same ref."
         }
       ],
-      "source_sha256": "031657cb81e490f9aed5c75d6ff2a4fda35ccafbaf72be604e59481cc4080cdc"
+      "source_sha256": "fea6bfbbf21e067a4e2d2ebab034bc3af508118e9df1abc9d2ba040d58a6df3a"
     },
     {
       "source": "pstack/skills/tdd/SKILL.md",
@@ -4234,7 +4255,7 @@
           "reason": "Use the Codex authorized native scheduling marker in the valid fixture."
         }
       ],
-      "source_sha256": "c80f3ea043b81f219b92c4c8a3af6bdd4f8d32ea596ec15b5b9e0252645f2ae8"
+      "source_sha256": "848d321f2b76299d1b2d7bb46c929dbaebef08ca4ba8669dbe09d1d5c86f96e2"
     },
     {
       "source": "pstack/skills/ketchup/SKILL.md",
@@ -4351,9 +4372,16 @@
           "count": 1,
           "kind": "host",
           "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
+        },
+        {
+          "old": "If the check is a TLA+ model, tell the next agent to read every result with the pstack [`/statechart`](../statechart/SKILL.md) skill. It shows each invariant violation the checker finds as its shortest path in plain words, and which of those violations a change fixes. When the check passes, `/statechart` draws a chart of how the system moves between states. Refer to `/statechart` by name. Its commands, options, and file paths change between releases and machines, so copy none of them into the generated skill or its scripts.\n\n",
+          "new": "",
+          "count": 1,
+          "kind": "scope",
+          "reason": "Do not require the deferred statechart skill in generated verification instructions."
         }
       ],
-      "source_sha256": "6c934cd15a9583533ff9b7a9cad62775d7e80402d26d3ba7f74f79ea21a1d8eb"
+      "source_sha256": "5e489d938620883502c27c9c2f32143ae7aa8c0543088dad996b2c815d2acc52"
     },
     {
       "source": "pstack/skills/maintain-formal-verification-skill/SKILL.md",
