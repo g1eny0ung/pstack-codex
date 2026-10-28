@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "99b609a72323b70204eab407c622f436e858e112",
+  "upstream_commit": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -128,81 +128,11 @@
           "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
         },
         {
-          "old": "`~/.cursor/rules/pstack-models.mdc`",
-          "new": "the Codex model configuration",
-          "count": 2,
-          "kind": "model",
-          "reason": "Replace the Cursor rules file with Codex role resolution."
-        },
-        {
-          "old": "`arena runners`",
-          "new": "`arena_runners`",
+          "old": "3. Pick the runners. Use the `arena runners` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, default to one each on `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. An `auto` or `inherit-parent` entry in this line means the parent model, so omit `model` for it. If the Task tool rejects a configured entry, run that seat on its family's default and say so. Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on `grok-4.7-xhigh-fast`. If the family has no default, or the Task tool rejects that default, use the closest valid slug of the same family from its error message, or drop the seat and say so when there is none. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model, or omit `model` so it runs on the parent model when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
+          "new": "3. Pick the runners. Use the `arena_runners` line in the Codex model configuration. If the rule or that line is missing, default to one each on `gpt-6-astra` with `reasoning_effort: xhigh` and `gpt-6-astra` with `reasoning_effort: high`. An `auto` or `inherit-parent` entry in this line means the parent configuration, so omit both `model` and `reasoning_effort` for it. If the native subagent tool rejects a configured entry, run that seat on its corresponding shipped role default and say so, unless that configuration is already rejected. If there is no corresponding default, or the native tool rejects it, use the closest supported configuration of the same GPT model from its error message, or drop the seat and say so when there is none. Never retry a rejected configuration or a model the error excludes. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model and reasoning effort, or omit both fields so it runs on the parent configuration when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
           "count": 1,
           "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
-        },
-        {
-          "old": "`arena cross-judge pool`",
-          "new": "`arena_cross_judge_pool`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
-        },
-        {
-          "old": "omit `model`",
-          "new": "omit `model` and `reasoning_effort`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Both fields inherit for auto and inherit-parent."
-        },
-        {
-          "old": "the Task tool",
-          "new": "the native subagent tool",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "the closest valid slug of the same family from its error message",
-          "new": "the closest supported configuration of the same GPT model from its error message",
-          "count": 1,
-          "kind": "model",
-          "reason": "Codex validates model and effort separately."
-        },
-        {
-          "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
-          "count": 3,
-          "kind": "model",
-          "reason": "Map the first upstream candidate to the unchanged first GPT configuration."
-        },
-        {
-          "old": "`grok-4.7-xhigh-fast`",
-          "new": "`gpt-6-astra` with `reasoning_effort: high`",
-          "count": 3,
-          "kind": "model",
-          "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
-        },
-        {
-          "old": "run that seat on its family's default",
-          "new": "run that seat on its shipped role default",
-          "count": 1,
-          "kind": "model",
-          "reason": "Fallback follows the mapped role configuration."
-        },
-        {
-          "old": "Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on `gpt-6-astra` with `reasoning_effort: high`. ",
-          "new": "",
-          "count": 1,
-          "kind": "model",
-          "reason": "Both upstream families map to GPT configurations; no Cursor-family routing remains."
-        },
-        {
-          "old": "With no family match,",
-          "new": "With no matching default entry,",
-          "count": 1,
-          "kind": "model",
-          "reason": "Retain the fallback for unmatched entries under JSON role resolution."
+          "reason": "Preserve configured roles, alias inheritance, rejected-entry fallback, seat removal and minimum runner counts using native GPT model and effort pairs."
         },
         {
           "old": "Spawn all N subagents in one message with `run_in_background: true`",
@@ -212,14 +142,14 @@
           "reason": "Native spawn is asynchronous and host concurrency limits change scheduling, not N."
         },
         {
-          "old": "Prefer a different model family from the parent's.",
-          "new": "Prefer a different reasoning effort from the parent's.",
+          "old": "After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, choose from `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Spawn one readonly judge subagent. The judge is never from the parent's family, as Phase A step 3 defines families. Try only the entries from another family, in pool order. An `auto` or `inherit-parent` entry is the parent model, so it never judges. With the default pool, a Claude parent gets `grok-4.7-xhigh-fast`. A parent from any other family gets `claude-opus-5-5-xhigh` first. If the Task tool rejects an entry, use a valid slug of the same model at the closest level or speed from the error message, or move to the next entry when there is none. If no entry from another family runs, try the default pool's entries from another family the same way. If none of those runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's model, try the pool's real slugs in pool order and say that the family check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
+          "new": "After all Phase B candidates complete, choose one configuration from the `arena_cross_judge_pool` line in the Codex model configuration. If the rule or that line is missing, use the shipped pool, `gpt-6-astra` with `reasoning_effort: xhigh` followed by `gpt-6-astra` with `reasoning_effort: high`. Spawn one readonly judge subagent. The judge's final reasoning effort must differ from the parent's when the parent effort is known. Try only eligible explicit entries, in pool order. An `auto` or `inherit-parent` entry inherits the parent configuration, so it never judges. If the native tool rejects an entry, use a supported configuration of the same GPT model at the closest effort or speed from the error message that still satisfies the effort difference, or move to the next entry when there is none. Recheck eligibility after task adjustments and every fallback. Never retry a rejected configuration or excluded model. If no eligible configured entry runs, try eligible entries from the shipped pool the same way. If none runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's effort, try the pool's explicit entries in pool order and say that the effort-difference check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
           "count": 1,
           "kind": "model",
-          "reason": "Use the documented GPT cross-judge effort mapping."
+          "reason": "Map the stricter upstream family-diversity gate to required final-effort diversity without changing role defaults, pool order, alias exclusion, fallback order, skip behavior, or unknown-parent disclosure."
         }
       ],
-      "source_sha256": "ed72f6c132b1ce3974d949581d0adc5dade424fe20793ac3b4c4fae22ecb9354"
+      "source_sha256": "d0adeca6c9b19d43d90ed8f0484f0ddd362f05006d628b8f4cc6c9b55fa4d2b3"
     },
     {
       "source": "pstack/skills/benchmark-checklist/SKILL.md",
@@ -488,130 +418,28 @@
           "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
         },
         {
-          "old": "`~/.cursor/rules/pstack-models.mdc`",
-          "new": "the Codex model configuration",
-          "count": 1,
-          "kind": "model",
-          "reason": "Replace the Cursor rules file with Codex role resolution."
-        },
-        {
           "old": "`interrogate reviewers`",
           "new": "`interrogate_reviewers`",
           "count": 1,
           "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
+          "reason": "Use the unchanged reviewer role key while inheriting Arena runner resolution."
         },
         {
-          "old": "the Task tool",
-          "new": "the native subagent tool",
-          "count": 2,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "old": "`arena runners`",
+          "new": "`arena_runners`",
           "count": 1,
           "kind": "model",
-          "reason": "Map the first upstream candidate to the unchanged first GPT configuration."
+          "reason": "Name the existing Arena JSON role key being replaced by the reviewer role."
         },
         {
-          "old": "`grok-4.7-xhigh-fast`",
-          "new": "`gpt-6-astra` with `reasoning_effort: high`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
-        },
-        {
-          "old": "Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on Reviewer B's default. ",
-          "new": "",
-          "count": 1,
-          "kind": "model",
-          "reason": "Both families map to GPT configurations."
-        },
-        {
-          "old": "With no family match,",
-          "new": "With no matching default entry,",
-          "count": 1,
-          "kind": "model",
-          "reason": "Preserve unmatched-entry fallback in the GPT mapping."
-        },
-        {
-          "old": "valid slugs",
-          "new": "supported model and effort pairs",
-          "count": 1,
-          "kind": "model",
-          "reason": "Model and effort are separate Codex fields."
-        },
-        {
-          "old": "prefer the same family and reasoning tier",
-          "new": "prefer the same GPT model and reasoning effort",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use separate GPT launch fields."
-        },
-        {
-          "old": "and open a separate PR to update the default table",
-          "new": "and, when the user authorizes it, open a separate PR to update the default table",
-          "count": 1,
-          "kind": "scope",
-          "reason": "Review invocation does not authorize publishing an unrelated PR."
-        },
-        {
-          "old": "Launch all reviewers in a single message with the native subagent tool",
-          "new": "Launch all reviewers concurrently with the native asynchronous local subagent API, in batches when the host limits slots",
+          "old": "Spawn each adversary as `generalPurpose`.",
+          "new": "Spawn each adversary through the native asynchronous local subagent API with the isolated repro scope described in Codex runtime.",
           "count": 1,
           "kind": "host",
-          "reason": "Native delegation is asynchronous; preserve one reviewer per configured entry within host concurrency limits."
-        },
-        {
-          "old": "Each reviewer gets `subagent_type: generalPurpose`, `readonly: true`, and `model` set to its configured entry, or its table default when there is no configured line. Omit `model` for an `auto` or `inherit-parent` entry, so that reviewer runs on the parent model.",
-          "new": "Each reviewer gets a read-only assignment and `model` and `reasoning_effort` set to its configured entry, or its table default when there is no configured line. Do not edit files or external records. Omit `model` and `reasoning_effort` for an `auto` or `inherit-parent` entry, so that reviewer runs on the parent configuration.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Replace unsupported Cursor type and readonly fields while preserving separate model and effort fields and alias inheritance."
-        },
-        {
-          "old": "run that reviewer on its family's table default",
-          "new": "run that reviewer on its shipped table default",
-          "count": 1,
-          "kind": "model",
-          "reason": "Fallback uses the corresponding unchanged GPT configuration."
+          "reason": "Replace the unsupported Cursor agent type while allowing repro artifacts only in isolated worktrees and preserving no-fix and external-record boundaries."
         }
       ],
-      "source_sha256": "a16dfe179005abc22a4651b82f25b0c8ab953284276efe4e6dc341958fb63647"
-    },
-    {
-      "source": "pstack/skills/interrogate/references/code-quality-review.md",
-      "target": "skills/interrogate/references/code-quality-review.md",
-      "edits": [],
-      "source_sha256": "79162fda183eafd40d51661fbb5e151c7ba250f89e506ba17f5bd135dcbd50a8"
-    },
-    {
-      "source": "pstack/skills/interrogate/references/lead-judgment.md",
-      "target": "skills/interrogate/references/lead-judgment.md",
-      "edits": [],
-      "source_sha256": "355f5195a76bc75a655125292369f2a8231a2b61fabe5188d8f1386060922b87"
-    },
-    {
-      "source": "pstack/skills/interrogate/references/reviewer-prompt.md",
-      "target": "skills/interrogate/references/reviewer-prompt.md",
-      "edits": [],
-      "source_sha256": "f6005cc2b535006fca97a96c5bfda49df57312eedf1ffd8d1aaaf3eb33817c25"
-    },
-    {
-      "source": "pstack/skills/interrogate/references/rubric.md",
-      "target": "skills/interrogate/references/rubric.md",
-      "edits": [
-        {
-          "old": "(Read, Grep, Glob)",
-          "new": "(file-reading tools, `rg`, `rg --files`)",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use Codex file tools."
-        }
-      ],
-      "source_sha256": "0f9c6bdb0b96e26dbde5f6407f417e0c02f54080e7a1268d8994f3c3ec6c5ac0"
+      "source_sha256": "3f3c2e9b8cf6b180dba9f32a4aff85e5691b09805232468e37a0ba45437a9984"
     },
     {
       "source": "pstack/skills/no-comments/SKILL.md",
@@ -695,7 +523,7 @@
       "target": "skills/poteto-help/SKILL.md",
       "edits": [
         {
-          "old": "| Catch up like `/ketchup`, in a short silent video of slides, with the waiting calls as text under it | [`/ketchup-video`](../ketchup-video/SKILL.md) |\n",
+          "old": "| Catch up like `/ketchup`, in a short subtitled video of slides, with the waiting calls as text under it | [`/ketchup-video`](../ketchup-video/SKILL.md) |\n",
           "new": "",
           "count": 1,
           "kind": "scope",
@@ -947,7 +775,7 @@
           "reason": "Retain naming distinction without routing to excluded playbooks."
         },
         {
-          "old": "- \"full autopilot on this queue\" runs Autopilot-full. \"stack them, don't ship\" runs Autopilot-stack.\n",
+          "old": "- \"full autopilot on this queue\" runs Autopilot-full. \"autopilot, don't merge\" runs Autopilot-stack.\n",
           "new": "",
           "count": 1,
           "kind": "scope",
@@ -1241,14 +1069,14 @@
           "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
         },
         {
-          "old": "| Show a PM or designer what the user sees as a chart checked by a model, with each bug drawn as a numbered path, turn an agreed chart into a TLA+ skeleton, or audit the code against its TLA+ spec | [`/statechart`](../statechart/SKILL.md) |\n",
+          "old": "| Show a PM or designer what the user sees as a chart checked by a TLA+ model, with the shortest path to each state that breaks a rule | [`/statechart`](../statechart/SKILL.md) |\n",
           "new": "",
           "count": 1,
           "kind": "scope",
           "reason": "Omit the statechart route while adoption is deferred because expected usage does not yet justify the additional tool dependencies."
         }
       ],
-      "source_sha256": "587793b0f9959dbea7d5d009b8a6513795380d7150dd478a6cb05e604058e315"
+      "source_sha256": "768368881379d688c4e3bbdae55dd2d7874fde98a258324d3527de1bf09f9bd1"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",
@@ -1332,7 +1160,7 @@
           "reason": "Remove only excluded autopilot-full example."
         },
         {
-          "old": "- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`\n",
+          "old": "- `/poteto-mode autopilot these changes, but don't merge. i'll land them.`\n",
           "new": "",
           "count": 1,
           "kind": "scope",
@@ -1472,15 +1300,15 @@
           "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
         }
       ],
-      "source_sha256": "f2d573014f72f7c798b1998b45f4360a8a83e7b8026c4ed9074e56c5a9d49338"
+      "source_sha256": "5323aca73a39a3b607c2bb22cd33551fe893563dfd4b104df838da010e9fc702"
     },
     {
       "source": "pstack/skills/poteto-mode/SKILL.md",
       "target": "skills/poteto-mode/SKILL.md",
       "edits": [
         {
-          "old": "**Match the model to the job.** Before each spawn, start from the role's line or default and pick the reasoning level and speed the job needs. The `/setup-pstack` budget sets each role's starting level, xhigh by default. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed, the same slug without `-fast`. Verification is the exception and stays on the `swarm workers` model and speed (`grok-4.7-xhigh-fast` by default). Change only the effort level and whether the slug is fast, and keep the family the role names, so a diverse panel stays diverse. If the family has no slug at that level and speed, use its nearest slug. A role on `auto` or `inherit-parent` stays on the parent model. If the Task tool rejects the adjusted slug, do not try another adjusted slug. Use the role's line or default and say so.",
-          "new": "**Match the model to the job.** Before each spawn, start from the role's configuration or default and pick the reasoning level and speed the job needs. The `$setup-pstack` budget sets each role's starting level as recorded in its configuration. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use the supported levels of that GPT model in ascending order. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed. Set speed only if the native subagent API exposes a supported speed field. If it does not, report that speed selection is unavailable and keep the host's speed. Verification is the exception and stays on the `swarm_workers` model and host speed (`gpt-6-astra` with `reasoning_effort: high` by default). Change only the effort level and supported speed field, and keep the model the role names, so a diverse panel stays diverse. If the model has no supported level or speed, use its nearest supported configuration. A role on `auto` or `inherit-parent` stays on the parent configuration, so omit both model and effort. Comment Sicko also inherits the parent configuration. Preserve Arena's preferred cross-judge effort difference and show-me-your-work's required reviewer effort difference after adjustment. If the native subagent tool rejects the adjusted configuration, do not try another adjusted configuration. Use the role's configuration or default and say so. Follow [Codex runtime](references/codex-runtime.md#resolve-model-roles) for resolution and fallback.",
+          "old": "**Match the model to the job.** Before each spawn, start from the role's line or default and pick the reasoning level and speed the job needs. The `/setup-pstack` budget sets each role's starting level, xhigh by default. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed, the same slug without `-fast`. Verification is the exception and stays on the `swarm workers` model and speed (`grok-4.7-xhigh-fast` by default). Change only the effort level and whether the slug is fast, and keep the family the role names, so a diverse panel stays diverse. If the family has no slug at that level and speed, use its nearest slug. A role on `auto` or `inherit-parent` stays on the parent model. If the Task tool rejects the adjusted slug, do not try another adjusted slug. Use the role's line or default and say so. If the Task tool rejects that too, continue with the calling skill's fallback. A slug counts as rejected once a Task error says that the model is not valid, or leaves the slug out of its list of valid slugs. Never pass a rejected slug, and skip any fallback whose slug is already rejected. When the calling skill has no fallback, use the closest valid slug of the role's family from the error's list of valid slugs, or omit `model` so the subagent runs on the parent model when the list has none. When the calling skill's fallback runs out of slugs without saying what to do next, omit `model` too. Say so in both cases.",
+          "new": "**Match the model to the job.** Before each spawn, start from the role's configuration or default and pick the reasoning level and speed the job needs. The `$setup-pstack` budget sets each role's starting level as recorded in its configuration. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use the supported levels of that GPT model in ascending order. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed. Set speed only if the native subagent API exposes a supported speed field. If it does not, report that speed selection is unavailable and keep the host's speed. Verification is the exception and stays on the `swarm_workers` model and host speed (`gpt-6-astra` with `reasoning_effort: high` by default). Change only the effort level and supported speed field, and keep the model the role names, so a diverse panel stays diverse. If the model has no supported level or speed, use its nearest supported configuration. A role on `auto` or `inherit-parent` stays on the parent configuration, so omit both model and effort. Comment Sicko also inherits the parent configuration. Preserve Arena's required cross-judge effort difference and show-me-your-work's required reviewer effort difference after adjustment. If the native subagent tool rejects the adjusted configuration, do not try another adjusted configuration. Use the role's configuration or default unless it is already rejected, and say so. If it is rejected too, continue with the calling skill's fallback. Treat a model/effort/speed configuration as rejected when the native tool rejects it, and a model as rejected when the error excludes it from the supported models. Never retry a rejected configuration or use a rejected model in another fallback. When the calling skill has no fallback, use the closest supported configuration of the role's GPT model from the error, or omit both model and effort to inherit the parent when none is available. If the calling skill's fallback ends without a next step, omit both fields too. Disclose either parent fallback. Follow [Codex runtime](references/codex-runtime.md#resolve-model-roles) for resolution and fallback.",
           "count": 1,
           "kind": "model",
           "reason": "Map task-sensitive effort and speed selection to separate supported Codex fields while preserving aliases, role defaults, review diversity, verification exceptions and direct fallback after adjustment rejection."
@@ -1591,8 +1419,8 @@
           "reason": "Routed Codex workflows select prompts instead of subagent_type"
         },
         {
-          "old": "**Defaults for every `Task` call.** `run_in_background: true`, agent mode (readonly strips MCP), file pointers not inlined context, explicit model per role",
-          "new": "**Defaults for every local subagent call.** Use the host's native asynchronous subagent tools, read-only scope for reviewers, file pointers not inlined context, explicit model and reasoning effort per role",
+          "old": "**Defaults for every `Task` call.** `run_in_background: true` (a steer or resume of a running agent too, because a foreground call holds your turn while other reports wait), agent mode (readonly strips MCP), file pointers not inlined context, explicit model per role",
+          "new": "**Defaults for every local subagent call.** Use the host's native asynchronous subagent tools, including steering or resuming a running agent so it does not block the main turn. Keep reviewed source and external records read-only; permit workflow-required repro writes only in isolated worktrees. Pass file pointers rather than inlined context and explicit model and reasoning effort per role",
           "count": 1,
           "kind": "host",
           "reason": "Replace Cursor Task flags with supported Codex launch fields and read-only scope"
@@ -1668,7 +1496,7 @@
           "reason": "Excluded cloud orchestration playbook is not shipped"
         },
         {
-          "old": "- **Autopilot-stack.** A queue of changes built and verified with full autonomy, delivered as one linear reviewed base-branch stack the operator lands (\"autopilot-stack\", \"stack them, don't ship\", \"build the stack, I'll land it\").\n",
+          "old": "- **Autopilot-stack.** Autopilot-full without the merge. A queue of PRs built and verified with full autonomy, then handed to the operator to land. A PR stacks only on a PR it builds on (\"autopilot-stack\", \"autopilot, don't merge\", \"stack them, don't ship\", \"build the stack, I'll land it\").\n",
           "new": "",
           "count": 1,
           "kind": "scope",
@@ -1731,7 +1559,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "2755f102e7a6d0496b429d1031a22fb353e1f3d523543367caeaae5c4ed6f544"
+      "source_sha256": "ee1848c973a112026f09ba12ea7a13c1654006e7bf170d1c34bf5d5816bc439b"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/authoring-a-skill.md",
@@ -1759,8 +1587,8 @@
           "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
         },
         {
-          "old": "Mid-run discoveries are yours.",
-          "new": "Mid-run discoveries within the authorized task are yours.",
+          "old": "Mid-run discoveries that support the goal are yours.",
+          "new": "Mid-run discoveries that support the goal and stay within the authorized task are yours.",
           "count": 1,
           "kind": "scope",
           "reason": "A playbook cannot expand task authorization to unrelated resources."
@@ -1780,7 +1608,7 @@
           "reason": "Resolve reference files from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "6ac974fd2b09748add56493e89f578a35a6a9289e1026515878d81ef3cf129d1"
+      "source_sha256": "e74323411b5a760ffa7393d908d07fed420c68f8dc2aed1267505eaeadf130f2"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/babysit.md",
@@ -1801,7 +1629,7 @@
           "reason": "Preserve the routing precedence without naming an unavailable built-in."
         },
         {
-          "old": " An Autopilot-full owner babysitting its own PR is that owner. Where this playbook says to report a rebase, that owner rebases its own branch and publishes it with `git push --force-with-lease` per `playbooks/autopilot-full.md` step 2. In Autopilot-stack, the root is that owner.",
+          "old": " An Autopilot-full or Autopilot-stack owner babysitting its own PR is that owner. Where this playbook says to report a rebase, that owner rebases its own branch and publishes it with `git push --force-with-lease` per `playbooks/autopilot-full.md` step 2.",
           "new": "",
           "count": 1,
           "kind": "scope",
@@ -1892,7 +1720,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "e261c1ff5581e0f8fc6c686f34de4b535f87473e77beabea7dd8323021214610"
+      "source_sha256": "d546a937ed800abe1d29aae8a689fb57212280fdde62fae1fc1dc7f2efd9d904"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/bug-fix.md",
@@ -2059,7 +1887,7 @@
           "reason": "This port has no cloud agent store; task plans belong outside the installed plugin."
         },
         {
-          "old": "Pick between `playbooks/autopilot-full.md` and `playbooks/autopilot-stack.md` per the rule at the end of `playbooks/autopilot-stack.md`. A standing program takes `playbooks/orchestrate.md`.",
+          "old": "Pick `playbooks/autopilot-full.md` when the run may merge. Pick `playbooks/autopilot-stack.md` when the operator lands the PRs. A standing program takes `playbooks/orchestrate.md`.",
           "new": "Use `playbooks/autonomous-run.md` for local execution and `playbooks/shipping.md` for authorized landing. Cloud orchestration is outside this port.",
           "count": 1,
           "kind": "scope",
@@ -2227,7 +2055,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "5f239457bfdec3345c92caa06c59bf0257c662b89353f25a1c02ea942dcd00b1"
+      "source_sha256": "2b4fbb547e5ccfe46d1279d714eb0199d28e995f06bdc4eda4afbca9221fbbe6"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/opening-a-pr.md",
@@ -2269,7 +2097,7 @@
           "reason": "Replace the Cursor Task tool name without changing worktree isolation."
         },
         {
-          "old": "It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready or STACK-READY per its playbook, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.",
+          "old": "It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.",
           "new": "It returns to the parent without babysitting.",
           "count": 1,
           "kind": "scope",
@@ -2318,7 +2146,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "a5aef646de8b651306c2d10974623650e4a013a245aec1c00525bbe0e31bfa76"
+      "source_sha256": "b22b7ad7cd102b99d334f4399ae1dba78e0aaf4bee2d5241fda71753c7ce48f9"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/pause-safely.md",
@@ -2706,11 +2534,11 @@
           "reason": "Codex package identity"
         },
         {
-          "old": "bun test orch watch-pr check-plan.test.ts",
+          "old": "bun test watch-pr check-plan.test.ts",
           "new": "bun test watch-pr read-thread.test.ts check-plan.test.ts",
           "count": 1,
           "kind": "scope",
-          "reason": "Exclude cloud orch tests and include Codex host history adapter tests"
+          "reason": "Include the Codex host history adapter tests in the retained upstream helper test command."
         },
         {
           "old": "\"typecheck\": \"tsc --project watch-pr/tsconfig.json --noEmit --strict\"",
@@ -2720,7 +2548,7 @@
           "reason": "Bundle for Node without runtime installation in plugin cache"
         }
       ],
-      "source_sha256": "fd511a0c01f522e0c781ddd8eccea0e91697a0856c6e6a3261de78a6a0287c72"
+      "source_sha256": "c9db6bb9362c6e319e395b358b113ebc72ab06b6c5e3a095093f6ebfdafe1c57"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/watch-pr/cli.test.ts",
@@ -3031,7 +2859,7 @@
           "reason": "Codex explicit invocation lives in agents/openai.yaml"
         }
       ],
-      "source_sha256": "cd5a25f9e7cf023627ccb470dc5faa97542f29b4319496a32b839a8e1e988047"
+      "source_sha256": "3c84fbf9a7d9842abcfcd134010782b32092ac3d3fb4aaf9ed5732dca83aa58c"
     },
     {
       "source": "pstack/skills/principle-fix-root-causes/SKILL.md",
@@ -3689,11 +3517,11 @@
           "reason": "Preserve aliases using native parent inheritance."
         },
         {
-          "old": "whose model family differs from the parent's when possible",
-          "new": "whose reasoning effort differs from the parent's when possible",
+          "old": "It tries only values from a family other than the parent's, in list order, so order it by preference.",
+          "new": "It tries only explicit values whose final reasoning effort differs from the parent's when that effort is known, in list order, so order it by preference.",
           "count": 1,
           "kind": "model",
-          "reason": "Preserve Arena preference with the port's cross-effort mapping."
+          "reason": "Preserve the strict judge-diversity gate, pool order and alias exclusion using the approved cross-effort mapping."
         },
         {
           "old": "Every real slug written must be in the detected set.",
@@ -3773,7 +3601,7 @@
           "reason": "Resolve the selected formal-verification skill from the installed Codex plugin."
         }
       ],
-      "source_sha256": "b45512f6ca5e96e81681984683b7472bfe892581da3a89a73cca4159438f29ed"
+      "source_sha256": "df8ad3638a4dca31fb4b43d58056f0299f23ad0530614166d55ef989062b41ec"
     },
     {
       "source": "pstack/skills/show-me-your-work/SKILL.md",
@@ -4374,14 +4202,14 @@
           "reason": "Use Codex explicit invocation for the selected formal verification maintenance skill."
         },
         {
-          "old": "If the check is a TLA+ model, tell the next agent to read every result with the pstack [`/statechart`](../statechart/SKILL.md) skill. It shows each invariant violation the checker finds as its shortest path in plain words, and which of those violations a change fixes. When the check passes, `/statechart` draws a chart of how the system moves between states. Refer to `/statechart` by name. Its commands, options, and file paths change between releases and machines, so copy none of them into the generated skill or its scripts.\n\n",
+          "old": "If the check is a TLA+ model, tell the next agent to read every result with the pstack [`/statechart`](../statechart/SKILL.md) skill. It shows each invariant violation the checker finds as its shortest path in plain words. When the check passes, `/statechart` draws a chart of how the system moves between states. Refer to `/statechart` by name. Its commands, options, and file paths change between releases and machines, so copy none of them into the generated skill or its scripts.\n\n",
           "new": "",
           "count": 1,
           "kind": "scope",
           "reason": "Do not require the deferred statechart skill in generated verification instructions."
         }
       ],
-      "source_sha256": "5e489d938620883502c27c9c2f32143ae7aa8c0543088dad996b2c815d2acc52"
+      "source_sha256": "30ef0ac27612ecd16fdc081112113221d673053cef3f8603db11932193861211"
     },
     {
       "source": "pstack/skills/maintain-formal-verification-skill/SKILL.md",
@@ -4463,7 +4291,7 @@
     "skills/deslop/agents/openai.yaml": "30b301cbff2e3fcb0736a41755b01eab9ca56285ce0f198d278c0fdeb32f48c0",
     "skills/figure-it-out/agents/openai.yaml": "eea4bd98d716480914557dcf58e006b9cb32bed565ff3d3abe4f7f8abea7b9c9",
     "skills/how/agents/openai.yaml": "3b67b3517d6168ea42adf78cc8afef479f7e39b8be5ab735df0f54445ceb9a3f",
-    "skills/interrogate/agents/openai.yaml": "b226d54180f8b27526993910c654d2e545de63293feef6ff4f09dd92aee8197b",
+    "skills/interrogate/agents/openai.yaml": "f24cb055e06534d371d61f20edbba0829b3eb146cc9c2a50372a43b6845a4706",
     "skills/no-comments/agents/openai.yaml": "7384ac6719b077671b5f35c99d9fd0f8204616e55c2ea067b505e24ad04acd00",
     "skills/poteto-help/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
     "skills/poteto-mode/agents/openai.yaml": "ff640cc2fe974c232909f53c5443dddda565042422379d969f449c08622e962d",
