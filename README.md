@@ -1,6 +1,6 @@
 # pstack-codex
 
-Bring [Cursor pstack](https://github.com/cursor/plugins/tree/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
+Bring [Cursor pstack](https://github.com/cursor/plugins/tree/main/pstack)'s engineering workflows to Codex. Use `poteto-mode` to investigate, implement, and verify a task, or invoke individual skills for code explanations, design comparisons, reviews, and writing. Workflows run locally and can use Codex subagents.
 
 ## Install
 
@@ -77,7 +77,7 @@ Additional tools depend on the workflow you use:
 
 The release includes the built PR helper and its runtime dependency. You do not need Bun or an npm dependency installation to use it.
 
-Target platforms are macOS, Linux, and Windows through WSL. Native Windows is outside the current target. Version 0.1.0 was checked for installation and basic skill invocation on macOS. Full workflows and Linux/WSL execution were not verified.
+Target platforms are macOS, Linux, and Windows through WSL. Native Windows is outside the current target.
 
 ## Update
 

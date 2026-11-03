@@ -108,7 +108,7 @@ git worktree list --porcelain -z | while IFS= read -r -d '' field; do
 		'.[] | select(.head==$b) | "#\(.number)/\(.state)"' "$prs" 2>/dev/null | head -1)
 	[ -z "$pr" ] && pr="-"
 
-	last="unknown"; recent=unknown
+	last="unknown"
 
 	case "$dirty" in
 		unknown) bucket=hold-unknown ;;
@@ -117,8 +117,7 @@ git worktree list --porcelain -z | while IFS= read -r -d '' field; do
 		untracked:*) bucket=hold-untracked ;;
 		clean)
 		case "$pr" in */open|*/draft) bucket=hold-open-pr ;; *)
-			if [ "$recent" = yes ]; then bucket=verify-recent-chat
-			elif [ "$merged" = YES ] || [[ "$pr" == */merged ]]; then bucket=safe
+			if [ "$merged" = YES ] || [[ "$pr" == */merged ]]; then bucket=safe
 			else bucket=review; fi ;;
 		esac ;;
 	esac

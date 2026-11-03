@@ -2671,7 +2671,7 @@
         },
         {
           "old": "\t# Most recent chat whose transcript operated in this worktree. Match path\n\t# followed by \"/\" or a quote so glint-482 does not match glint-482-r37.\n\tlast=\"-\"; last_ts=0\n\tif [ -d \"$transcripts\" ]; then\n\t\tf=$(rg -l -e \"${wt}/\" -e \"${wt}\\\"\" \"$transcripts\" 2>/dev/null \\\n\t\t\t| xargs stat \"${stat_fmt[@]}\" 2>/dev/null | sort -rn | head -1)\n\t\tif [ -n \"$f\" ]; then last_ts=$(echo \"$f\" | awk '{print $1}')\n\t\t\tlast=$(fmt_day \"$last_ts\" 2>/dev/null); fi\n\tfi\n\trecent=$([ \"$last_ts\" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)\n",
-          "new": "\tlast=\"unknown\"; recent=unknown\n",
+          "new": "\tlast=\"unknown\"\n",
           "count": 1,
           "kind": "host",
           "reason": "Codex has no Cursor transcript directory; host must inspect current/pinned task ownership"
@@ -2712,11 +2712,11 @@
           "reason": "Restore authorized cleanup protections by holding unreadable, untracked, and ignored work; inspect the configured Git upstream instead of assuming an origin branch with the same name."
         },
         {
-          "old": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in wip:*) bucket=hold-wip ;; *)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [ \"$pr\" != \"-\" ]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
-          "new": "\tlast=\"unknown\"; recent=unknown\n\n\tcase \"$dirty\" in\n\t\tunknown) bucket=hold-unknown ;;\n\t\twip:*) bucket=hold-wip ;;\n\t\t*ignored:*) bucket=hold-ignored ;;\n\t\tuntracked:*) bucket=hold-untracked ;;\n\t\tclean)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [[ \"$pr\" == */merged ]]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
+          "old": "\tlast=\"unknown\"\n\n\tcase \"$dirty\" in wip:*) bucket=hold-wip ;; *)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [ \"$pr\" != \"-\" ]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
+          "new": "\tlast=\"unknown\"\n\n\tcase \"$dirty\" in\n\t\tunknown) bucket=hold-unknown ;;\n\t\twip:*) bucket=hold-wip ;;\n\t\t*ignored:*) bucket=hold-ignored ;;\n\t\tuntracked:*) bucket=hold-untracked ;;\n\t\tclean)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$merged\" = YES ] || [[ \"$pr\" == */merged ]]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
           "count": 1,
           "kind": "scope",
-          "reason": "Only a clean worktree with merge evidence may enter the advisory safe bucket; hold all non-clean states and open or draft PRs, and do not treat a closed, unmerged PR as merge evidence. Match the upstream lowercase normalized PR states."
+          "reason": "Only a clean worktree with merge evidence may enter the advisory safe bucket; hold all non-clean states and open or draft PRs, and do not treat a closed, unmerged PR as merge evidence. Match the upstream lowercase normalized PR states. Chat recency is unavailable in this host adaptation, so omit its unreachable branch."
         },
         {
           "old": "\tprintf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n\" \\\n\t\t\"$size\" \"$age\" \"$merged\" \"$dirty\" \"$remote\" \"$pr\" \"$last\" \"$bucket\" \"$wt\"",
@@ -3406,7 +3406,7 @@
         },
         {
           "old": "The default role-to-model mapping is the rule shape shown in step 5 below.",
-          "new": "Read `config/models.defaults.json` from the plugin root. The default role-to-model mapping is the JSON shape shown in step 5 below.",
+          "new": "Read the role keys and defaults from [models.defaults.json](../../config/models.defaults.json).",
           "count": 1,
           "kind": "host",
           "reason": "Load the authoritative shipped default pairs."
@@ -3420,7 +3420,7 @@
         },
         {
           "old": "A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.",
-          "new": "A key whose role is not in step 5, such as `how_critics`, is from a retired role. Drop it. If older split roles contain conflicting values for one shared role, show the conflict when choosing that shared setting.",
+          "new": "A key whose role is not in the default configuration's `roles` object, such as `how_critics`, is from a retired role. Drop it. If older split roles contain conflicting values for one shared role, show the conflict when choosing that shared setting.",
           "count": 1,
           "kind": "host",
           "reason": "Map role identifiers and preserve migration conflicts for user selection."
@@ -3553,10 +3553,10 @@
         },
         {
           "old": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```\n",
-          "new": "The following shape shows all 17 shipped defaults. After a budget is chosen, record its label in `budget` and write the mapped role values. Remove a role override to fall back to its shipped default. Scalar objects may override either or both fields. Lists replace the whole ordered list and must be nonempty; each entry is a complete model/effort object or `\"inherit-parent\"` or `\"auto\"`. Aliases inherit both parent fields and still count toward panel fan-out.\n\n```json\n{\n  \"version\": 1,\n  \"roles\": {\n    \"feature_refactoring\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"bug_fix\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"perf_issue\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"hillclimb\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"judgment_and_prose\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"hardest_tasks\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"how_explorer\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"how_explainer\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"why_investigators\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"why_synthesizer\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"reflect_tooling\": {\n      \"model\": \"gpt-6.1-sol\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"reflect_judgment_divergent_synthesizer\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"xhigh\"\n    },\n    \"arena_runners\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ],\n    \"arena_cross_judge_pool\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ],\n    \"swarm_workers\": {\n      \"model\": \"gpt-6-astra\",\n      \"reasoning_effort\": \"high\"\n    },\n    \"architect_runners\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ],\n    \"interrogate_reviewers\": [\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"xhigh\"\n      },\n      {\n        \"model\": \"gpt-6-astra\",\n        \"reasoning_effort\": \"high\"\n      }\n    ]\n  }\n}\n```\n",
+          "new": "Use the role keys and shipped defaults loaded in step 2. After a budget is chosen, record its label in `budget` and write the mapped role values. Remove a role override to fall back to its shipped default. Scalar objects may override either or both fields. Lists replace the whole ordered list and must be nonempty; each entry is a complete model/effort object or `\"inherit-parent\"` or `\"auto\"`. Aliases inherit both parent fields and still count toward panel fan-out.\n\nA partial override can look like this after confirming the effort is supported:\n\n```json\n{\n  \"version\": 1,\n  \"budget\": \"medium\",\n  \"roles\": {\n    \"feature_refactoring\": \"inherit-parent\",\n    \"judgment_and_prose\": {\n      \"reasoning_effort\": \"high\"\n    }\n  }\n}\n```\n",
           "count": 1,
           "kind": "host",
-          "reason": "Replace only the incompatible Cursor rule example with the unchanged 17-role JSON default schema."
+          "reason": "Replace the incompatible Cursor rule example with the personal JSON override schema; read shipped defaults from their authoritative configuration file."
         },
         {
           "old": "the rule was written and that it applies to new sessions",

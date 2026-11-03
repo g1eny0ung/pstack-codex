@@ -15,7 +15,7 @@ Enumerate the GPT models and reasoning efforts you can pass to a native local su
 
 ### 2. Load current state
 
-Read `config/models.defaults.json` from the plugin root. The default role-to-model mapping is the JSON shape shown in step 5 below. If `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` already exists, read it and treat its `budget` field and its role values as the current choices, resolving overrides per the Codex runtime. Otherwise start from those defaults. A key whose role is not in step 5, such as `how_critics`, is from a retired role. Drop it. If older split roles contain conflicting values for one shared role, show the conflict when choosing that shared setting.
+Read the role keys and defaults from [models.defaults.json](../../config/models.defaults.json). If `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` already exists, read it and treat its `budget` field and its role values as the current choices, resolving overrides per the Codex runtime. Otherwise start from those defaults. A key whose role is not in the default configuration's `roles` object, such as `how_critics`, is from a retired role. Drop it. If older split roles contain conflicting values for one shared role, show the conflict when choosing that shared setting.
 
 ### 3. Budget, map, and confirm
 
@@ -38,104 +38,19 @@ Every explicit model/effort pair written must be in the detected set. `inherit-p
 
 Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` with `"version": 1`, a `budget` field with the chosen label, and a `roles` object, using the role keys poteto-mode uses. Create the personal configuration directory if needed. The saved role values are launch starting settings; workflows adjust effort for the job per Codex runtime. The budget records the chosen label and does not overwrite later per-role edits. Overwrite the whole file so re-runs stay idempotent. Shape:
 
-The following shape shows all 17 shipped defaults. After a budget is chosen, record its label in `budget` and write the mapped role values. Remove a role override to fall back to its shipped default. Scalar objects may override either or both fields. Lists replace the whole ordered list and must be nonempty; each entry is a complete model/effort object or `"inherit-parent"` or `"auto"`. Aliases inherit both parent fields and still count toward panel fan-out.
+Use the role keys and shipped defaults loaded in step 2. After a budget is chosen, record its label in `budget` and write the mapped role values. Remove a role override to fall back to its shipped default. Scalar objects may override either or both fields. Lists replace the whole ordered list and must be nonempty; each entry is a complete model/effort object or `"inherit-parent"` or `"auto"`. Aliases inherit both parent fields and still count toward panel fan-out.
+
+A partial override can look like this after confirming the effort is supported:
 
 ```json
 {
   "version": 1,
+  "budget": "medium",
   "roles": {
-    "feature_refactoring": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "bug_fix": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "perf_issue": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "hillclimb": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
+    "feature_refactoring": "inherit-parent",
     "judgment_and_prose": {
-      "model": "gpt-6.1-sol",
-      "reasoning_effort": "xhigh"
-    },
-    "hardest_tasks": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "how_explorer": {
-      "model": "gpt-6.1-sol",
       "reasoning_effort": "high"
-    },
-    "how_explainer": {
-      "model": "gpt-6.1-sol",
-      "reasoning_effort": "xhigh"
-    },
-    "why_investigators": {
-      "model": "gpt-6.1-sol",
-      "reasoning_effort": "xhigh"
-    },
-    "why_synthesizer": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "reflect_tooling": {
-      "model": "gpt-6.1-sol",
-      "reasoning_effort": "high"
-    },
-    "reflect_judgment_divergent_synthesizer": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "arena_runners": [
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "xhigh"
-      },
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "high"
-      }
-    ],
-    "arena_cross_judge_pool": [
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "xhigh"
-      },
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "high"
-      }
-    ],
-    "swarm_workers": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "high"
-    },
-    "architect_runners": [
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "xhigh"
-      },
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "high"
-      }
-    ],
-    "interrogate_reviewers": [
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "xhigh"
-      },
-      {
-        "model": "gpt-6-astra",
-        "reasoning_effort": "high"
-      }
-    ]
+    }
   }
 }
 ```
