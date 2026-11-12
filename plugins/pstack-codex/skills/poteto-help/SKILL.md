@@ -44,7 +44,7 @@ If cost is the worry, say where the tokens go and how to spend fewer. pstack spe
 
 pstack is built for Cursor, and it also installs in Claude Code with `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. There, each command takes a `pstack:` prefix, such as `/pstack:poteto-mode`. The [Claude Code adapter](https://github.com/cursor/plugins/blob/8838150c6b4829ea3c01782631213776d86df14a/pstack/docs/harness/claude-code.md) maps the Cursor names, and a step that needs a Cursor-only feature, such as Bugbot or Automations, is skipped with a one-line note.
 
-This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
+This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals. Timed checks for a specific run stay in the active task. Requested reminders and recurring work use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
 
 ## Start a task with `$poteto-mode`
 
@@ -102,7 +102,7 @@ Close calls:
 Availability in this port:
 
 - `$deslop`, `control-cli`, and `control-ui` come from `cursor-team-kit` and are bundled in this port.
-- `/loop` and `/create-skill` are Cursor built-ins. Use Codex Goals for explicit persistent objectives, native automation for timed checks, and the host's skill-creator skill for authoring. Follow Codex runtime for Goal tools and lifecycle handling.
+- `/loop` and `/create-skill` are Cursor built-ins. Use Codex Goals for explicit persistent objectives, native automation for reminders and recurring work, and the host's skill-creator skill for authoring. Follow Codex runtime for Goal tools and lifecycle handling.
 - pstack has no `/orchestrate` skill. Its Orchestrate playbook is excluded from this port, as are Autopilot-full and Autopilot-stack. If a skill menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles

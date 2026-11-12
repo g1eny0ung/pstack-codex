@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -20,7 +20,7 @@ ${rule}
 ### PR mechanics
 ### Verdict and merge
 ### Boot recipe
-\`Read these from the resolved plugin and repository\` arm the audit tick with native automation status message
+\`Read these from the resolved plugin and repository\` Run the audit tick during active execution status message
 
 ## PR 1
 **Depends on.** None.
@@ -50,10 +50,10 @@ Close.
 Recorded.
 `;
 
-const runPlan = (example: string, expectedExit: number) => {
+const runPlan = (example: string, expectedExit: number, plan = validPlan) => {
 	const directory = mkdtempSync(join(tmpdir(), "check-plan-test-"));
 	const file = join(directory, "plan.md");
-	writeFileSync(file, validPlan + example);
+	writeFileSync(file, plan + example);
 	try {
 		const result = spawnSync("node", [checker, file], { encoding: "utf8" });
 		expect(result.status).toBe(expectedExit);
@@ -62,6 +62,12 @@ const runPlan = (example: string, expectedExit: number) => {
 		rmSync(directory, { recursive: true, force: true });
 	}
 };
+
+test("accepts the shipped multi-phase plan template", () => {
+	const playbook = readFileSync(join(import.meta.dir, "../playbooks/multi-phase-plan.md"), "utf8");
+	const [, template] = playbook.split(/^````(?:markdown)?$/m);
+	runPlan("", 0, template.replace("<swarm workers model>", "example-model"));
+});
 
 test("accepts ordinary, indented, and longer closing fences", () => {
 	for (const indent of ["", " ", "  ", "   "])

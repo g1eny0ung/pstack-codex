@@ -17,7 +17,7 @@ const SUB_BLOCKS = [
 	"Merge.",
 ];
 const PROGRAM_H3 = ["Arm the program", "Spawn owners", "PR mechanics", "Verdict and merge", "Boot recipe"];
-const PROGRAM_MARKERS = ["Read these from the resolved plugin and repository", "arm the audit tick with native automation", "status message"];
+const PROGRAM_MARKERS = ["Read these from the resolved plugin and repository", "Run the audit tick during active execution", "status message"];
 const HOW_TO_READ_MARKERS = [
 	"One box is one unit of work",
 	"names the evidence",

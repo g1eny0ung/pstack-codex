@@ -657,10 +657,10 @@
         },
         {
           "old": "Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.",
-          "new": "This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals; timed checks use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
+          "new": "This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals. Timed checks for a specific run stay in the active task. Requested reminders and recurring work use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
           "count": 1,
           "kind": "host",
-          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
+          "reason": "Map persistent objectives to Codex Goals, finite monitoring to active task checks, and requested reminders or recurring work to native automation."
         },
         {
           "old": "Whether `/poteto-mode` stays on depends on how the user starts it:\n\n- Enter on `/poteto-mode` attaches the skill to one message. It fades as the chat moves on.\n- Option+Enter on Mac or Alt+Enter on Windows, or Use as Mode from the skill entry, makes it a Custom Mode. It stays in context every turn until the user exits the mode, and it stays out of casual turns.\n- Cursor's docs list Custom Modes in the Agents Window and the CLI. Elsewhere, start each new task with `/poteto-mode`.",
@@ -762,10 +762,10 @@
         },
         {
           "old": "`/loop` and `/create-skill` are Cursor built-ins.",
-          "new": "`/loop` and `/create-skill` are Cursor built-ins. Use Codex Goals for explicit persistent objectives, native automation for timed checks, and the host's skill-creator skill for authoring. Follow Codex runtime for Goal tools and lifecycle handling.",
+          "new": "`/loop` and `/create-skill` are Cursor built-ins. Use Codex Goals for explicit persistent objectives, native automation for reminders and recurring work, and the host's skill-creator skill for authoring. Follow Codex runtime for Goal tools and lifecycle handling.",
           "count": 1,
           "kind": "host",
-          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
+          "reason": "Map persistent objectives to Codex Goals, finite monitoring to active task checks, and requested reminders or recurring work to native automation."
         },
         {
           "old": "pstack has no `/orchestrate` skill. Orchestrate is a `/poteto-mode` playbook. If the slash menu shows `/orchestrate`, another plugin provides it.",
@@ -1588,10 +1588,10 @@
       "edits": [
         {
           "old": "using Cursor's `/loop` command (a built-in, not a pstack skill)",
-          "new": "using Codex Goal tools for an explicitly requested persistent objective, native event waits for events, and native automation for explicitly requested timed or later checks, per `../references/codex-runtime.md`. Reuse an existing Goal for this objective; otherwise create one only when authorized. Without a persistent Goal request, continue within the active turn. Report unavailable Goal or scheduling tools and use the active process and explicit resume",
+          "new": "using Codex Goal tools for an explicitly requested persistent objective, native event waits for events, and native automation for requested reminders, recurring reports, or standing alerts, per `../references/codex-runtime.md`. Reuse an existing Goal for this objective; otherwise create one only when authorized. Without a persistent Goal request, continue within the active turn. Report unavailable Goal or scheduling tools and use the active process and explicit resume",
           "count": 1,
           "kind": "host",
-          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
+          "reason": "Map persistent objectives to Codex Goals, finite monitoring to active task checks, and requested reminders or recurring work to native automation."
         },
         {
           "old": "Mid-run discoveries that support the goal are yours.",
@@ -1613,6 +1613,13 @@
           "count": 1,
           "kind": "host",
           "reason": "Resolve reference files from the installed skill root, including generated plans."
+        },
+        {
+          "kind": "host",
+          "reason": "Use the active task for finite monitoring and native automation for reminders and recurring work.",
+          "old": "An event to watch (CI, a merge, a ref advancing) gets a watcher subagent that wakes you on the event, with a long time-based heartbeat as fallback. No event gets a fixed-interval heartbeat sized to when the result is worth re-checking.",
+          "new": "An event to watch (CI, a merge, a ref advancing) gets a watcher subagent that wakes you on the event. Keep follow-up checks for that run in the active task. When no event can wake the task, check at the requested interval or when the result is worth re-checking.",
+          "count": 1
         }
       ],
       "source_sha256": "e74323411b5a760ffa7393d908d07fed420c68f8dc2aed1267505eaeadf130f2"
@@ -1644,10 +1651,10 @@
         },
         {
           "old": "Run `drive` and `background` under `/loop` in dynamic mode.",
-          "new": "Run `drive` and `background` with native event waits. Use Codex Goal tools for an explicitly requested persistent objective and native automation for requested timed or later checks, per `../references/codex-runtime.md`.",
+          "new": "Run `drive` and `background` with native event waits. Keep timed checks for this run in the active task. Use Codex Goal tools for an explicitly requested persistent objective, per `../references/codex-runtime.md`.",
           "count": 1,
           "kind": "host",
-          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
+          "reason": "Map persistent objectives to Codex Goals, finite monitoring to active task checks, and requested reminders or recurring work to native automation."
         },
         {
           "old": "scripts/watch-pr/watch-pr",
@@ -1951,10 +1958,10 @@
         },
         {
           "old": "On the operator's go, arm the audit tick as `/loop 1h` with the tick prompt below.",
-          "new": "On the operator's explicit request for the hourly audit, arm the audit tick with native automation and the tick prompt below. Otherwise run the tick during active execution; if the host lacks a scheduler, record the gap and use explicit resume.",
+          "new": "Run the audit tick during active execution using the tick prompt below. Honor a requested cadence in the active task.",
           "count": 1,
           "kind": "host",
-          "reason": "Preserve hourly audit semantics only with the explicit scheduling request the host requires."
+          "reason": "Keep the audit cadence inside the active task for the duration of the specific program."
         },
         {
           "old": "Re-read the execution playbook from trunk.",
@@ -2249,10 +2256,10 @@
         },
         {
           "old": "under `/loop` until it reports `COMPLETE` at the ceiling.",
-          "new": "with native event waits until it reports `COMPLETE` at the ceiling. Use Codex Goal tools for an explicitly requested persistent objective and native automation for requested timed or later checks, per `../references/codex-runtime.md`.",
+          "new": "with native event waits until it reports `COMPLETE` at the ceiling. Keep timed checks for this run in the active task. Use Codex Goal tools for an explicitly requested persistent objective, per `../references/codex-runtime.md`.",
           "count": 1,
           "kind": "host",
-          "reason": "Map explicit persistent continuation to Codex Goals and timed checks to native automation, preserving the upstream workflow."
+          "reason": "Map persistent objectives to Codex Goals, finite monitoring to active task checks, and requested reminders or recurring work to native automation."
         },
         {
           "old": "scripts/watch-pr/watch-pr",
@@ -2521,10 +2528,10 @@
       "edits": [
         {
           "old": "const PROGRAM_MARKERS = [\"git show origin/main:\", \"/loop 1h\", \"status message\"];",
-          "new": "const PROGRAM_MARKERS = [\"Read these from the resolved plugin and repository\", \"arm the audit tick with native automation\", \"status message\"];",
+          "new": "const PROGRAM_MARKERS = [\"Read these from the resolved plugin and repository\", \"Run the audit tick during active execution\", \"status message\"];",
           "count": 1,
           "kind": "host",
-          "reason": "Match resolved plugin source reads and authorized native audit scheduling in the copied plan"
+          "reason": "Match resolved plugin reads and audit ticks during active execution."
         }
       ],
       "source_sha256": "e3d4e9ca638c6fb4a2b52c434c17c7af30da4fdd44605ccfe9906f82fe37b555"
@@ -4084,10 +4091,38 @@
         },
         {
           "old": "/loop 1h",
-          "new": "arm the audit tick with native automation",
+          "new": "Run the audit tick during active execution",
           "count": 1,
           "kind": "host",
-          "reason": "Use the Codex authorized native scheduling marker in the valid fixture."
+          "reason": "Match the Codex plan marker for an audit during active execution."
+        },
+        {
+          "old": "import { mkdtempSync, rmSync, writeFileSync } from \"node:fs\";",
+          "new": "import { mkdtempSync, readFileSync, rmSync, writeFileSync } from \"node:fs\";",
+          "count": 1,
+          "kind": "host",
+          "reason": "Run the checker against the shipped Codex plan template."
+        },
+        {
+          "old": "const runPlan = (example: string, expectedExit: number) => {",
+          "new": "const runPlan = (example: string, expectedExit: number, plan = validPlan) => {",
+          "count": 1,
+          "kind": "host",
+          "reason": "Run the checker against the shipped Codex plan template."
+        },
+        {
+          "old": "writeFileSync(file, validPlan + example);",
+          "new": "writeFileSync(file, plan + example);",
+          "count": 1,
+          "kind": "host",
+          "reason": "Run the checker against the shipped Codex plan template."
+        },
+        {
+          "old": "test(\"accepts ordinary, indented, and longer closing fences\", () => {",
+          "new": "test(\"accepts the shipped multi-phase plan template\", () => {\n\tconst playbook = readFileSync(join(import.meta.dir, \"../playbooks/multi-phase-plan.md\"), \"utf8\");\n\tconst [, template] = playbook.split(/^````(?:markdown)?$/m);\n\trunPlan(\"\", 0, template.replace(\"<swarm workers model>\", \"example-model\"));\n});\n\ntest(\"accepts ordinary, indented, and longer closing fences\", () => {",
+          "count": 1,
+          "kind": "host",
+          "reason": "Verify that the checker accepts the shipped Codex plan template."
         }
       ],
       "source_sha256": "848d321f2b76299d1b2d7bb46c929dbaebef08ca4ba8669dbe09d1d5c86f96e2"
