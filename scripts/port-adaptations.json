@@ -2741,10 +2741,10 @@
         },
         {
           "old": "\tlast=\"unknown\"\n\n\tcase \"$dirty\" in wip:*) bucket=hold-wip ;; *)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$recent\" = yes ]; then bucket=verify-recent-chat\n\t\t\telif [ \"$merged\" = YES ] || [ \"$pr\" != \"-\" ]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
-          "new": "\tlast=\"unknown\"\n\n\tcase \"$dirty\" in\n\t\tunknown) bucket=hold-unknown ;;\n\t\twip:*) bucket=hold-wip ;;\n\t\t*ignored:*) bucket=hold-ignored ;;\n\t\tuntracked:*) bucket=hold-untracked ;;\n\t\tclean)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$merged\" = YES ] || [[ \"$pr\" == */merged ]]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
+          "new": "\tlast=\"unknown\"\n\n\tcase \"$dirty\" in\n\t\tunknown) bucket=hold-unknown ;;\n\t\twip:*) bucket=hold-wip ;;\n\t\t*ignored:*) bucket=hold-ignored ;;\n\t\tuntracked:*) bucket=hold-untracked ;;\n\t\tclean)\n\t\tcase \"$pr\" in */open|*/draft) bucket=hold-open-pr ;; *)\n\t\t\tif [ \"$merged\" = YES ] || [[ \"$pr\" == */merged && -n \"$head\" && \"$head\" == \"$pr_head\" ]]; then bucket=safe\n\t\t\telse bucket=review; fi ;;\n\t\tesac ;;\n",
           "count": 1,
           "kind": "scope",
-          "reason": "Only a clean worktree with merge evidence may enter the advisory safe bucket; hold all non-clean states and open or draft PRs, and do not treat a closed, unmerged PR as merge evidence. Match the upstream lowercase normalized PR states. Chat recency is unavailable in this host adaptation, so omit its unreachable branch."
+          "reason": "Only a clean worktree with merge evidence may enter the advisory safe bucket; hold all non-clean states and open or draft PRs, and do not treat a closed, unmerged PR as merge evidence. Match the upstream lowercase normalized PR states. Chat recency is unavailable in this host adaptation, so omit its unreachable branch. Match the GitHub PR head commit before treating a worktree as merged by PR."
         },
         {
           "old": "\tprintf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n\" \\\n\t\t\"$size\" \"$age\" \"$merged\" \"$dirty\" \"$remote\" \"$pr\" \"$last\" \"$bucket\" \"$wt\"",
@@ -2776,10 +2776,10 @@
         },
         {
           "old": "if command -v origin >/dev/null 2>&1 \\\n\t&& raw=$(origin pr list --author \"@me\" --state all --limit 1000 \\\n\t\t--json number,status,headRef 2>/dev/null); then\n\tprintf '%s' \"$raw\" | jq '[.[] | {number, state: .status, head: .headRef}]' > \"$prs\" 2>/dev/null\nelif raw=$(gh pr list --author \"@me\" --state all --limit 1000 \\\n\t--json number,state,headRefName 2>/dev/null); then\n\tprintf '%s' \"$raw\" | jq '[.[] | {number, state: (.state | ascii_downcase), head: .headRefName}]' > \"$prs\" 2>/dev/null\nfi\n",
-          "new": "if raw=$(gh pr list --author \"@me\" --state all --limit 1000 \\\n\t--json number,state,headRefName 2>/dev/null); then\n\tprintf '%s' \"$raw\" | jq '[.[] | {number, state: (.state | ascii_downcase), head: .headRefName}]' > \"$prs\" 2>/dev/null\nfi\n",
+          "new": "if raw=$(gh pr list --author \"@me\" --state all --limit 1000 \\\n\t--json number,state,headRefName,headRefOid 2>/dev/null); then\n\tprintf '%s' \"$raw\" | jq '[.[] | {number, state: (.state | ascii_downcase), head: .headRefName, oid: .headRefOid}]' > \"$prs\" 2>/dev/null\nfi\n",
           "count": 1,
           "kind": "host",
-          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+          "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port. Match the GitHub PR head commit before treating a worktree as merged by PR."
         },
         {
           "old": "# GNU coreutils (Linux, Homebrew gnubin) reads `stat -f` as file system status\n# and `date -r` as a file, so pick the stat and date flags once.\nif stat -c %Y / >/dev/null 2>&1; then\n\tstat_fmt=(-c '%Y %n'); fmt_day() { date -d \"@$1\" '+%Y-%m-%d'; }\nelse\n\tstat_fmt=(-f '%m %N'); fmt_day() { date -r \"$1\" '+%Y-%m-%d'; }\nfi\n\n",
@@ -2787,6 +2787,27 @@
           "count": 1,
           "kind": "scope",
           "reason": "Omit GNU/BSD stat and date helpers used only by the excluded Cursor transcript scan."
+        },
+        {
+          "kind": "host",
+          "reason": "Remove the comment that restates the PR query and fallback.",
+          "old": "# PR state by branch, fetched once as [{number, state, head}] with a lowercase\n# state. Empty when gh cannot read this repo's PRs.\n",
+          "new": "",
+          "count": 1
+        },
+        {
+          "kind": "host",
+          "reason": "Match the GitHub PR head commit before treating a worktree as merged by PR.",
+          "old": "\t# Squash-merged branches are not ancestors of the base, so PR state is the\n\t# real signal; merge-base only catches fast-forward/rebase merges.\n",
+          "new": "\t# Squash and rebase merges can leave the original head outside the base's history.\n",
+          "count": 1
+        },
+        {
+          "kind": "host",
+          "reason": "Match the GitHub PR head commit before treating a worktree as merged by PR.",
+          "old": "\tpr=$([ -n \"$branch\" ] && jq -r --arg b \"$branch\" \\\n\t\t'.[] | select(.head==$b) | \"#\\(.number)/\\(.state)\"' \"$prs\" 2>/dev/null | head -1)\n",
+          "new": "\tIFS=$'\\t' read -r pr pr_head < <(\n\t\t[ -n \"$branch\" ] && jq -r --arg b \"$branch\" \\\n\t\t\t'first(.[] | select(.head == $b)) | [\"#\\(.number)/\\(.state)\", .oid] | @tsv' \"$prs\" 2>/dev/null\n\t)\n",
+          "count": 1
         }
       ],
       "source_sha256": "06be04b38346ded24ce761d373726f98cd9b9737f20ec98214e88b5f08f521b8"

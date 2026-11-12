@@ -50,12 +50,10 @@ else
 	git rev-parse --verify --quiet "$base^{commit}" >/dev/null 2>&1 || { echo "error: base ref not found: $base" >&2; exit 1; }
 fi
 
-# PR state by branch, fetched once as [{number, state, head}] with a lowercase
-# state. Empty when gh cannot read this repo's PRs.
 prs=$(mktemp)
 if raw=$(gh pr list --author "@me" --state all --limit 1000 \
-	--json number,state,headRefName 2>/dev/null); then
-	printf '%s' "$raw" | jq '[.[] | {number, state: (.state | ascii_downcase), head: .headRefName}]' > "$prs" 2>/dev/null
+	--json number,state,headRefName,headRefOid 2>/dev/null); then
+	printf '%s' "$raw" | jq '[.[] | {number, state: (.state | ascii_downcase), head: .headRefName, oid: .headRefOid}]' > "$prs" 2>/dev/null
 fi
 [ -s "$prs" ] || echo "[]" > "$prs"
 
@@ -73,8 +71,7 @@ git worktree list --porcelain -z | while IFS= read -r -d '' field; do
 	head_ts=$(git -C "$wt" log -1 --format='%ct' HEAD 2>/dev/null || echo 0)
 	age=$([ "$head_ts" -gt 0 ] 2>/dev/null && echo "$(( (now - head_ts) / 86400 ))d" || echo "?")
 
-	# Squash-merged branches are not ancestors of the base, so PR state is the
-	# real signal; merge-base only catches fast-forward/rebase merges.
+	# Squash and rebase merges can leave the original head outside the base's history.
 	merged="?"
 	if [ -n "$base" ] && [ -n "$head" ]; then
 		git merge-base --is-ancestor "$head" "$base" 2>/dev/null && merged=YES || merged=no
@@ -104,8 +101,10 @@ git worktree list --porcelain -z | while IFS= read -r -d '' field; do
 		else remote=unknown; fi
 	else remote=no-upstream; fi
 
-	pr=$([ -n "$branch" ] && jq -r --arg b "$branch" \
-		'.[] | select(.head==$b) | "#\(.number)/\(.state)"' "$prs" 2>/dev/null | head -1)
+	IFS=$'\t' read -r pr pr_head < <(
+		[ -n "$branch" ] && jq -r --arg b "$branch" \
+			'first(.[] | select(.head == $b)) | ["#\(.number)/\(.state)", .oid] | @tsv' "$prs" 2>/dev/null
+	)
 	[ -z "$pr" ] && pr="-"
 
 	last="unknown"
@@ -117,7 +116,7 @@ git worktree list --porcelain -z | while IFS= read -r -d '' field; do
 		untracked:*) bucket=hold-untracked ;;
 		clean)
 		case "$pr" in */open|*/draft) bucket=hold-open-pr ;; *)
-			if [ "$merged" = YES ] || [[ "$pr" == */merged ]]; then bucket=safe
+			if [ "$merged" = YES ] || [[ "$pr" == */merged && -n "$head" && "$head" == "$pr_head" ]]; then bucket=safe
 			else bucket=review; fi ;;
 		esac ;;
 	esac

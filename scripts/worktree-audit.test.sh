@@ -166,13 +166,17 @@ printf 'ignored*\n' > "$source_repo/.gitignore"
 git -C "$source_repo" add .
 git -C "$source_repo" commit -qm baseline
 git clone -q "$source_repo" "$repo"
-for state in clean tracked untracked ignored mixed corrupt closed merged-pr open-pr draft-pr; do
+for state in clean tracked untracked ignored mixed corrupt closed merged-pr stale-pr open-pr draft-pr; do
   wt="$fixture/$state"
   git -C "$repo" worktree add -q -b "$state" "$wt"
   case "$state" in
     tracked|mixed) printf 'valuable tracked edits\n' > "$wt/tracked" ;;
-    closed|merged-pr|open-pr|draft-pr) git -C "$wt" commit -qm branch-work --allow-empty ;;
+    closed|merged-pr|stale-pr|open-pr|draft-pr) git -C "$wt" commit -qm branch-work --allow-empty ;;
   esac
+  if [ "$state" = stale-pr ]; then
+    stale_pr_head=$(git -C "$wt" rev-parse HEAD)
+    git -C "$wt" commit -qm later-work --allow-empty
+  fi
   case "$state" in
     untracked|mixed) mkdir "$wt/notes"; printf 'valuable notes\n' > "$wt/notes/draft" ;;
   esac
@@ -185,7 +189,14 @@ for state in clean tracked untracked ignored mixed corrupt closed merged-pr open
   cp "$index" "$fixture/$state-index-before"
   cp -R "$wt" "$fixture/$state-before"
 done
-export PSTACK_TEST_PRS='[{"number":1,"state":"CLOSED","headRefName":"closed"},{"number":2,"state":"MERGED","headRefName":"merged-pr"},{"number":3,"state":"OPEN","headRefName":"open-pr"}]'
+merged_pr_head=$(git -C "$fixture/merged-pr" rev-parse HEAD)
+PSTACK_TEST_PRS=$(jq -nc --arg merged "$merged_pr_head" --arg stale "$stale_pr_head" '[
+  {number: 1, state: "CLOSED", headRefName: "closed"},
+  {number: 2, state: "MERGED", headRefName: "merged-pr", headRefOid: $merged},
+  {number: 3, state: "OPEN", headRefName: "open-pr"},
+  {number: 4, state: "MERGED", headRefName: "stale-pr", headRefOid: $stale}
+]')
+export PSTACK_TEST_PRS
 : > "$PSTACK_TEST_CLI_LOG"
 bash "$audit_script" "$repo" > "$fixture/report" 2> "$fixture/stderr"
 assert_row clean 4 DIRTY clean
@@ -201,7 +212,7 @@ assert_row mixed 8 BUCKET hold-wip
 assert_row corrupt 4 DIRTY unknown
 assert_row corrupt 8 BUCKET hold-unknown
 assert_equal 'GitHub-only audit never invokes installed Origin' \
-  'gh pr list --author @me --state all --limit 1000 --json number,state,headRefName' \
+  'gh pr list --author @me --state all --limit 1000 --json number,state,headRefName,headRefOid' \
   "$(cat "$PSTACK_TEST_CLI_LOG")"
 assert_row closed 6 'gh closed state normalized' '#1/closed'
 assert_row merged-pr 6 'gh merged state normalized' '#2/merged'
@@ -209,9 +220,12 @@ assert_row open-pr 6 'gh open state normalized' '#3/open'
 assert_row draft-pr 8 'unmerged without PR evidence' review
 assert_row closed 8 BUCKET review
 assert_row merged-pr 8 BUCKET safe
+assert_row stale-pr 3 MERGED no
+assert_row stale-pr 6 'old PR remains visible' '#4/merged'
+assert_row stale-pr 8 'new commit after merged PR needs review' review
 assert_row open-pr 8 BUCKET hold-open-pr
 assert_equal 'TSV has nine columns' 9 "$(awk -F '\t' '{ print NF }' "$fixture/report" | sort -u)"
-for state in clean tracked untracked ignored mixed corrupt closed merged-pr open-pr draft-pr; do
+for state in clean tracked untracked ignored mixed corrupt closed merged-pr stale-pr open-pr draft-pr; do
   wt="$fixture/$state"
   index=$(git -C "$wt" rev-parse --git-path index)
   assert_unchanged "$state index" "$fixture/$state-index-before" "$index"
@@ -226,7 +240,7 @@ export PSTACK_TEST_GH_STATUS=1
 : > "$PSTACK_TEST_CLI_LOG"
 bash "$audit_script" "$repo" > "$fixture/report" 2> "$fixture/stderr"
 assert_equal 'unavailable gh does not switch to Origin' \
-  'gh pr list --author @me --state all --limit 1000 --json number,state,headRefName' \
+  'gh pr list --author @me --state all --limit 1000 --json number,state,headRefName,headRefOid' \
   "$(cat "$PSTACK_TEST_CLI_LOG")"
 assert_row merged-pr 6 'unavailable GitHub PR evidence' '-'
 assert_row merged-pr 8 'unmerged work without GitHub evidence' review
