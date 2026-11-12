@@ -73,7 +73,7 @@ Additional tools depend on the workflow you use:
 | GitHub pull requests | GitHub CLI, `gh`, authenticated with your account |
 | Browser or interactive CLI verification | Suitable tools provided by your Codex host or project |
 | Spatial explanations in `teach` | A host image-generation tool; unavailable image generation is reported as blocked |
-| Session-history workflows | A Codex CLI on `PATH` that supports the experimental App Server `thread/turns/list` API |
+| Session-history workflows | A Codex CLI on `PATH` with App Server `thread/turns/list` support and access to the thread's Codex state directory |
 
 The release includes the built PR helper and its runtime dependency. You do not need Bun or an npm dependency installation to use it.
 

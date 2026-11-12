@@ -47,7 +47,7 @@ describe("read-thread", () => {
     const result = await readThreadHistory(async () => ({
       data: [{ ...turn("a"), items: [
         { id: "call-1", type: "commandExecution", command: "example", aggregatedOutput: null },
-        { id: "call-2", type: "commandExecution", command: "example", aggregatedOutput: "Warning: output truncated" },
+        { id: "call-2", type: "commandExecution", command: "example", aggregatedOutput: "head\n... command output truncated for persistence ...\ntail" },
       ] }],
       nextCursor: null,
     }), { threadId: "requested-thread" });
@@ -61,6 +61,41 @@ describe("read-thread", () => {
     const result = await readThreadHistory(async () => ({ data: [turn("a")] }), { threadId: "requested-thread" });
     expect(result.complete).toBe(false);
     expect(result.error).toContain("nextCursor");
+  });
+
+  test.each([
+    { output: "head…17 tokens truncated…tail" },
+    { output: [{ type: "inputText", text: "Warning: truncated output (original token count: 17)\nhead" }] },
+  ])(
+    "reports truncated standalone tool output while preserving the item",
+    async ({ output }) => {
+      const item = { id: "call-1", type: "functionCallOutput", name: "run_tests", namespace: null, output };
+      const result = await readThreadHistory(async () => ({
+        data: [{ ...turn("a"), items: [item] }],
+        nextCursor: null,
+      }), { threadId: "requested-thread" });
+      expect(result.complete).toBe(false);
+      expect(result.warnings).toEqual([
+        "Turn a, item call-1 reports truncated tool output; the saved text is preserved.",
+      ]);
+      expect(result.turns[0].items).toEqual([item]);
+    },
+  );
+
+  test("marks truncated MCP output and preserves ordinary log text", async () => {
+    const items = [
+      { id: "mcp", type: "mcpToolCall", result: { content: [{ type: "text", text: "head…17 chars truncated…tail" }] } },
+      { id: "log", type: "commandExecution", aggregatedOutput: "Output was not truncated." },
+    ];
+    const result = await readThreadHistory(async () => ({
+      data: [{ ...turn("a"), items }],
+      nextCursor: null,
+    }), { threadId: "requested-thread" });
+    expect(result.complete).toBe(false);
+    expect(result.warnings).toEqual([
+      "Turn a, item mcp reports truncated tool output; the saved text is preserved.",
+    ]);
+    expect(result.turns[0].items).toEqual(items);
   });
 
   test("stops repeated cursors and records a bounded page limit", async () => {

@@ -48,7 +48,9 @@ Resolve the intended thread ID from the current host context or a user-provided 
 node "$POTETO_SKILL_ROOT/scripts/read-thread.mjs" --thread-id <thread-id> > <task-dir>/transcript.json
 ```
 
-The reader uses the local Codex App Server’s full paginated history API and only read operations. Preserve thread, turn, item, and tool-result associations in the exported data. An API error, unavailable full-history capability, missing items, or truncation is an explicit coverage gap. A summary is not a full transcript. Continue unaffected work, but do not claim an unperformed history audit passed.
+The reader starts a local Codex App Server and sends read-only history requests. The server needs access to the Codex state directory to initialize SQLite. If the sandbox denies that access and the workflow needs full history, use the host's permission flow to rerun the same command for the resolved thread.
+
+Preserve thread, turn, item, and tool-result associations in the exported data. Report any startup or API error, unavailable full-history capability, missing items, or truncation as a coverage gap. The desktop `read_thread` tool can supply summaries and output previews for partial review when available. Continue work supported by the available evidence and report which history checks could run.
 
 ## Goals, tools, and authorization
 

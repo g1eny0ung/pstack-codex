@@ -4,6 +4,7 @@ import { createInterface } from "node:readline";
 import { pathToFileURL } from "node:url";
 
 const HISTORY_METHOD = "thread/turns/list";
+const TOOL_OUTPUT_TRUNCATION = /\.\.\. command output truncated for persistence \.\.\.|…\d+ (?:tokens|chars) truncated…|Warning: truncated output \(original token count: \d+\)/;
 
 export async function readThreadHistory(request, {
   threadId,
@@ -68,8 +69,10 @@ export async function readThreadHistory(request, {
           (item.type === "dynamicToolCall" && item.contentItems == null) ||
           (item.type === "mcpToolCall" && item.result == null && item.error == null);
         if (missingOutput) warnings.push(`Turn ${turn.id}, item ${item.id ?? "unknown"} has no persisted tool output.`);
-        const output = JSON.stringify(item.aggregatedOutput ?? item.result ?? item.contentItems ?? "");
-        if (/(?:output.{0,20}truncated|truncated.{0,20}output|\d+ (?:tokens|characters) truncated)/i.test(output)) {
+        const output = item.type === "functionCallOutput"
+          ? item.output
+          : item.aggregatedOutput ?? item.result ?? item.contentItems;
+        if (TOOL_OUTPUT_TRUNCATION.test(JSON.stringify(output ?? ""))) {
           warnings.push(`Turn ${turn.id}, item ${item.id ?? "unknown"} reports truncated tool output; the saved text is preserved.`);
         }
       }
@@ -134,7 +137,10 @@ export function createAppServerClient({ timeoutMs = 30000, command = "codex" } =
   child.stdin.on("error", (cause) => fail(new Error(`Codex App Server input failed: ${cause.message}`)));
   child.on("close", (code, signal) => {
     closed = true;
-    fail(new Error(`Codex App Server exited (${signal ?? code}).${stderr ? ` ${stderr.trim()}` : ""}`));
+    const sqliteHint = stderr.includes("failed to initialize sqlite state runtime")
+      ? "\nThe standalone App Server needs access to the Codex state directory to initialize SQLite."
+      : "";
+    fail(new Error(`Codex App Server exited (${signal ?? code}).${stderr ? ` ${stderr.trim()}` : ""}${sqliteHint}`));
   });
   input.on("line", (line) => {
     if (!line.trim()) return;
