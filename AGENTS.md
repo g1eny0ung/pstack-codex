@@ -32,6 +32,7 @@ Edit source files in this checkout. Keep personal configuration and task artifac
 - Keep upstream mappings and synchronization rules in `UPSTREAM.md`. Link to existing rules instead of duplicating them.
 - Add documentation under `docs/` only for durable information needed to use or maintain the project. Put temporary plans, debug logs, and task validation records in ignored `.work/` or the task's external runtime directory.
 - Remove obsolete content from `.work/` after each release.
+- Record notable changes under `Unreleased` in [CHANGELOG.md](CHANGELOG.md) as they land. When preparing a release, move those entries into a dated version section, add its comparison link, and update the `Unreleased` link to start at the new tag.
 - After each release, update the local pstack-codex installation to the released version using [install.md](install.md). Preserve the current marketplace source and confirm that the installed version is enabled.
 - Do not include validation steps or a Validation section in release descriptions. Report actual verification results in the chat.
 - Update documentation when behavior changes. Do not describe planned checks as completed or old validation results as current guarantees.

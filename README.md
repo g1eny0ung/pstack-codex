@@ -81,6 +81,8 @@ Target platforms are macOS, Linux, and Windows through WSL. Native Windows is ou
 
 ## Update
 
+See the [changelog](CHANGELOG.md) for changes in each version.
+
 For a Git-installed marketplace, refresh it and reinstall the plugin:
 
 ```bash
