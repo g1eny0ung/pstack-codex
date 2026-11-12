@@ -2,7 +2,7 @@
 
 Invoked at the end of every other playbook.
 
-**Worktree.** Work from a git worktree off main. Subagents inherit it. Multiple native subagent calls on the same branch each get their own worktree, or `git fetch && git reset --hard origin/<branch>` between them. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.
+**Worktree.** Reuse the current checkout or an attached worktree when it suits the PR. When the work needs isolation, create a worktree from the intended base ref using the [Codex runtime](../references/codex-runtime.md#launch-and-supervise-local-subagents). Give each writer its own checkout and pass its path explicitly. Copy the scoped changes into the new checkout and preserve unrelated changes where they are.
 
 **Commits.** Commit liberally. Rebase into small, ordered commits before opening PRs. Each commit is a future PR: landable, ordered to tell the story. Amend when the fix belongs in a just-made commit. New commit when separable. Commit bodies don't restate the subject.
 

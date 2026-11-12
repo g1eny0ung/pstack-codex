@@ -2158,6 +2158,13 @@
           "count": 1,
           "kind": "scope",
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
+        },
+        {
+          "old": "**Worktree.** Work from a git worktree off main. Subagents inherit it. Multiple native subagent calls on the same branch each get their own worktree, or `git fetch && git reset --hard origin/<branch>` between them. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.",
+          "new": "**Worktree.** Reuse the current checkout or an attached worktree when it suits the PR. When the work needs isolation, create a worktree from the intended base ref using the [Codex runtime](../references/codex-runtime.md#launch-and-supervise-local-subagents). Give each writer its own checkout and pass its path explicitly. Copy the scoped changes into the new checkout and preserve unrelated changes where they are.",
+          "count": 1,
+          "kind": "host",
+          "reason": "Follow the host worktree lifecycle and preserve existing changes when isolating Codex writers."
         }
       ],
       "source_sha256": "b22b7ad7cd102b99d334f4399ae1dba78e0aaf4bee2d5241fda71753c7ce48f9"
@@ -2441,6 +2448,13 @@
           "count": 1,
           "kind": "host",
           "reason": "The local Bash audit supports configured non-origin remotes and reports an unknown automatic base rather than assuming origin/HEAD."
+        },
+        {
+          "kind": "host",
+          "reason": "Codex desktop archive requires an artifact identity from the owning chat.",
+          "old": "For a Codex-managed worktree, use the native archive tool with the identity from attached artifacts.",
+          "new": "For a Codex-managed worktree, use the native archive tool with the `identityKey` returned by the current chat's attached artifacts. If the worktree belongs to another chat, handle it there or hold it until you can identify the owning chat.",
+          "count": 1
         }
       ],
       "source_sha256": "be04ae0afe19d4a4da5bcc4e94455f68dbebd1cda6eb0f456ca0d358ecf76c00"
