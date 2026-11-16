@@ -25,22 +25,6 @@
       "model": "gpt-6-astra",
       "reasoning_effort": "xhigh"
     },
-    "how_explorer": {
-      "model": "gpt-6.1-sol",
-      "reasoning_effort": "high"
-    },
-    "how_explainer": {
-      "model": "gpt-6.1-sol",
-      "reasoning_effort": "xhigh"
-    },
-    "why_investigators": {
-      "model": "gpt-6.1-sol",
-      "reasoning_effort": "xhigh"
-    },
-    "why_synthesizer": {
-      "model": "gpt-6-astra",
-      "reasoning_effort": "xhigh"
-    },
     "reflect_tooling": {
       "model": "gpt-6.1-sol",
       "reasoning_effort": "high"

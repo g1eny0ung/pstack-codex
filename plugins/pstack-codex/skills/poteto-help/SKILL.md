@@ -44,7 +44,7 @@ If cost is the worry, say where the tokens go and how to spend fewer. pstack spe
 
 pstack is built for Cursor, and it also installs in Claude Code with `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. There, each command takes a `pstack:` prefix, such as `/pstack:poteto-mode`. The [Claude Code adapter](https://github.com/cursor/plugins/blob/8838150c6b4829ea3c01782631213776d86df14a/pstack/docs/harness/claude-code.md) maps the Cursor names, and a step that needs a Cursor-only feature, such as Bugbot or Automations, is skipped with a one-line note.
 
-This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals. Timed checks for a specific run stay in the active task. Requested reminders and recurring work use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
+This port uses the Agent Skills format and Codex local subagents with GPT models configured for the workflows that name roles. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals. Timed checks for a specific run stay in the active task. Requested reminders and recurring work use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.
 
 ## Start a task with `$poteto-mode`
 

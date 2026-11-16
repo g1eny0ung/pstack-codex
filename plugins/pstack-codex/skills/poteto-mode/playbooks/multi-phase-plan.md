@@ -149,7 +149,7 @@ Each live lane runs in its own local worktree with isolated runtime state at the
 
 ## Appendix D. Links and reading list
 
-<Docs to read before editing. Which PRs get `$PSTACK_PLUGIN_ROOT/skills/how/SKILL.md` and `$PSTACK_PLUGIN_ROOT/skills/interrogate/SKILL.md`. The trail per `$PSTACK_PLUGIN_ROOT/skills/show-me-your-work/SKILL.md`.>
+<Docs to read before editing. Which PRs get `$PSTACK_PLUGIN_ROOT/skills/interrogate/SKILL.md`. The trail per `$PSTACK_PLUGIN_ROOT/skills/show-me-your-work/SKILL.md`.>
 ````
 
 **Reply:** the plan path, the PR ids with their dependencies and the review-gated set, what the prototypes proved and what stays unproven, and the check script's output.

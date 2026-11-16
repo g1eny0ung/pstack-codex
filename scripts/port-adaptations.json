@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "upstream_commit": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+  "upstream_commit": "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7",
   "files": [
     {
       "source": "cursor-team-kit/LICENSE",
@@ -68,21 +68,21 @@
           "reason": "Use the corresponding unchanged JSON role key."
         },
         {
-          "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "old": "`claude-fable-5-2-high`,",
+          "new": "`gpt-6-astra` with `reasoning_effort: xhigh` and",
           "count": 1,
           "kind": "model",
           "reason": "Map the first upstream candidate to the unchanged first GPT configuration."
         },
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`",
           "new": "`gpt-6-astra` with `reasoning_effort: high`",
           "count": 1,
           "kind": "model",
-          "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."
+          "reason": "Preserve the second GPT candidate and the two-entry default panel."
         }
       ],
-      "source_sha256": "31f8e97a52bfa5432edd61f68ade2a8632ef0bacbc2d2a6802d7a0e6821944ac"
+      "source_sha256": "42be68c2883bd10d867c46930fa11c44a25910b62b85e0c9a40326b4f25d7b6e"
     },
     {
       "source": "pstack/skills/architect/references/design-red-flags.md",
@@ -128,7 +128,7 @@
           "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
         },
         {
-          "old": "3. Pick the runners. Use the `arena runners` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, default to one each on `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. An `auto` or `inherit-parent` entry in this line means the parent model, so omit `model` for it. If the Task tool rejects a configured entry, run that seat on its family's default and say so. Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on `grok-4.7-xhigh-fast`. If the family has no default, or the Task tool rejects that default, use the closest valid slug of the same family from its error message, or drop the seat and say so when there is none. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model, or omit `model` so it runs on the parent model when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
+          "old": "3. Pick the runners. Use the `arena runners` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, default to one each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`. An `auto` or `inherit-parent` entry in this line means the parent model, so omit `model` for it. If the Task tool rejects a configured entry, run that seat on its family's default and say so. Families go by prefix, and the longest matching prefix wins: `claude-fable-*`, `claude-*`, and `gemini-*`. Drop a leading `cursor-` before you compare. Any other slug's family is its text before the first hyphen. A family's default is its entry in the default list above. If the family has no default, or the Task tool rejects that default, use the closest valid slug of the same family from its error message, or drop the seat and say so when there is none. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model, or omit `model` so it runs on the parent model when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
           "new": "3. Pick the runners. Use the `arena_runners` line in the Codex model configuration. If the rule or that line is missing, default to one each on `gpt-6-astra` with `reasoning_effort: xhigh` and `gpt-6-astra` with `reasoning_effort: high`. For `auto` or `inherit-parent`, omit both `model` and `reasoning_effort`. If the native subagent tool rejects a configured entry, run that seat on its corresponding shipped role default and say so, unless that configuration is already rejected. If there is no corresponding default, or the native tool rejects it, use the closest supported configuration of the same GPT model from its error message, or drop the seat and say so when there is none. Never retry a rejected configuration or a model the error excludes. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model and reasoning effort, or omit both fields and use host defaults when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
           "count": 1,
           "kind": "model",
@@ -142,14 +142,14 @@
           "reason": "Native spawn is asynchronous and host concurrency limits change scheduling, not N."
         },
         {
-          "old": "After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, choose from `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Spawn one readonly judge subagent. The judge is never from the parent's family, as Phase A step 3 defines families. Try only the entries from another family, in pool order. An `auto` or `inherit-parent` entry is the parent model, so it never judges. With the default pool, a Claude parent gets `grok-4.7-xhigh-fast`. A parent from any other family gets `claude-opus-5-5-xhigh` first. If the Task tool rejects an entry, use a valid slug of the same model at the closest level or speed from the error message, or move to the next entry when there is none. If no entry from another family runs, try the default pool's entries from another family the same way. If none of those runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's model, try the pool's real slugs in pool order and say that the family check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
+          "old": "After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, choose from `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`. Spawn one readonly judge subagent. The judge is never from the parent's vendor. A vendor is a family as Phase A step 3 defines families, except that `claude-fable-*` and `claude-*` are one vendor. Try only the entries from another vendor, in pool order. An `auto` or `inherit-parent` entry is the parent model, so it never judges. With the default pool, a Claude parent gets `gemini-4-carbon-high`. A parent from any other vendor gets `claude-fable-5-2-high` first, then `claude-opus-5-5-high-fast`. If the Task tool rejects an entry, use a valid slug of the same model at the closest level or speed from the error message, or move to the next entry when there is none. If no entry from another vendor runs, try the default pool's entries from another vendor the same way. If none of those runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's model, try the pool's real slugs in pool order and say that the vendor check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
           "new": "After all Phase B candidates complete, choose one configuration from the `arena_cross_judge_pool` line in the Codex model configuration. If the rule or that line is missing, use the shipped pool, `gpt-6-astra` with `reasoning_effort: xhigh` followed by `gpt-6-astra` with `reasoning_effort: high`. Spawn one readonly judge subagent. The judge's final reasoning effort must differ from the parent's when the parent effort is known. Try only eligible explicit entries, in pool order. Entries set to `auto` or `inherit-parent` omit effort at launch and cannot establish an explicit effort difference, so skip them for judging. If the native tool rejects an entry, use a supported configuration of the same GPT model at the closest effort or speed from the error message that still satisfies the effort difference, or move to the next entry when there is none. Recheck eligibility after task adjustments and every fallback. Never retry a rejected configuration or excluded model. If no eligible configured entry runs, try eligible entries from the shipped pool the same way. If none runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's effort, try the pool's explicit entries in pool order and say that the effort-difference check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
           "count": 1,
           "kind": "model",
-          "reason": "Map the stricter upstream family-diversity gate to required final-effort diversity without changing role defaults, pool order, alias exclusion, fallback order, skip behavior, or unknown-parent disclosure. Follow Codex model and effort resolution when the launch omits both fields."
+          "reason": "Map upstream cross-vendor judging to required final-effort diversity while preserving GPT defaults, pool order, alias exclusion, fallback order, skip behavior, and unknown-parent disclosure."
         }
       ],
-      "source_sha256": "d0adeca6c9b19d43d90ed8f0484f0ddd362f05006d628b8f4cc6c9b55fa4d2b3"
+      "source_sha256": "2e418753dfc64239e4d6412e7b739196d268e22ef1a4ecfbb8c0498bd3c82636"
     },
     {
       "source": "pstack/skills/benchmark-checklist/SKILL.md",
@@ -198,7 +198,7 @@
           "reason": "Use the existing GPT Arena configuration; cross-model-family diversity is not guaranteed by different reasoning efforts."
         }
       ],
-      "source_sha256": "2e10745b97f5862323dcda3b29ca60d56b5c3c98e37020085d26b48efbe0a436"
+      "source_sha256": "4248d03e22365207d2e5f90c9542720f80a88a6b42fd542ef88dde3cf9f9223f"
     },
     {
       "source": "pstack/skills/bro/SKILL.md",
@@ -293,111 +293,14 @@
           "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
         },
         {
-          "old": "`pstack-models.mdc` rule",
-          "new": "Codex model configuration",
-          "count": 1,
-          "kind": "model",
-          "reason": "Roles resolve through models.defaults.json and personal overrides as defined by Codex runtime."
-        },
-        {
-          "old": "`how explorer`",
-          "new": "`how_explorer`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
-        },
-        {
-          "old": "`how explainer`",
-          "new": "`how_explainer`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
-        },
-        {
-          "old": "Set `model` to that line's value",
-          "new": "Set `model` and `reasoning_effort` to that role's values",
-          "count": 1,
-          "kind": "model",
-          "reason": "Keep model and reasoning effort separate."
-        },
-        {
-          "old": "Leave `model` unset",
-          "new": "Leave `model` and `reasoning_effort` unset",
-          "count": 1,
-          "kind": "model",
-          "reason": "Both fields inherit for auto and inherit-parent."
-        },
-        {
-          "old": "the Task tool",
-          "new": "the native subagent tool",
+          "old": "Spawn one Task subagent with `subagent_type: generalPurpose` and `readonly: true` that explores and explains in one pass.",
+          "new": "Spawn one native Codex subagent with a read-only assignment that explores and explains in one pass. Omit both `model` and `reasoning_effort` so Codex resolves them.",
           "count": 1,
           "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "the closest valid slug of the same family from its error message",
-          "new": "the closest supported configuration of the same GPT model from its error message",
-          "count": 1,
-          "kind": "model",
-          "reason": "Codex validates model and effort separately."
-        },
-        {
-          "old": "rejects a slug",
-          "new": "rejects a configuration",
-          "count": 1,
-          "kind": "model",
-          "reason": "Codex uses model and effort fields, not combined slugs."
-        },
-        {
-          "old": "`grok-4.7-xhigh-fast`",
-          "new": "`gpt-6.1-sol` with `reasoning_effort: high`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the shipped explorer or investigator role default."
-        },
-        {
-          "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6.1-sol` with `reasoning_effort: xhigh`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the shipped explainer or synthesizer role default."
-        },
-        {
-          "old": "Every spawn is a Task subagent with `subagent_type: generalPurpose` and `readonly: true`.",
-          "new": "Every spawn uses the native asynchronous local subagent API with a read-only assignment. Do not edit files or external records.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Replace Cursor launch fields with native asynchronous delegation and preserve read-only assignments."
-        },
-        {
-          "old": "Spawn all explorers in a single message",
-          "new": "Spawn all explorers concurrently, in batches when the host limits slots",
-          "count": 1,
-          "kind": "host",
-          "reason": "Host concurrency limits change scheduling, not the required two to four exploration angles."
+          "reason": "Use native Codex delegation, keep the assignment read-only, and let the host resolve the unconfigured model and effort."
         }
       ],
-      "source_sha256": "08a00079bb15b4258874ac3ff62d4ca7e94350ffedb521d0fd296dc9dd21904e"
-    },
-    {
-      "source": "pstack/skills/how/references/explainer-prompt.md",
-      "target": "skills/how/references/explainer-prompt.md",
-      "edits": [
-        {
-          "old": "Use Read, Grep, and Glob as needed.",
-          "new": "Use file-reading tools, `rg`, and `rg --files` as needed.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Map named Cursor tools to available Codex file tools."
-        }
-      ],
-      "source_sha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff"
-    },
-    {
-      "source": "pstack/skills/how/references/explorer-prompt.md",
-      "target": "skills/how/references/explorer-prompt.md",
-      "edits": [],
-      "source_sha256": "6300128385ee940fd42ecb84b0e623435440a2dc283eae54ee4a52ba56947ba1"
+      "source_sha256": "23d5cc79a449b9838242e7af5563aa8a4f0417bab136bbcc054b4bebc7284680"
     },
     {
       "source": "pstack/skills/interrogate/SKILL.md",
@@ -460,13 +363,6 @@
           "reason": "Use Codex skill invocation notation."
         },
         {
-          "old": "`/how",
-          "new": "`$how",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use Codex skill invocation notation."
-        },
-        {
           "old": "`/no-comments",
           "new": "`$no-comments",
           "count": 1,
@@ -495,19 +391,12 @@
           "reason": "Role references replace Cursor custom agent types; no new model role is added. Follow Codex model and effort resolution when the launch omits both fields."
         }
       ],
-      "source_sha256": "078ecfe224eafbb017f6476870612838bf6dbe38c0b697e12f0c887d0313f17e"
+      "source_sha256": "9cc934e7541c4db609deeb5fd4e5882c1a4d3956975b5ae1ee693ed340527b9b"
     },
     {
       "source": "pstack/agents/comment-sicko.md",
       "target": "skills/no-comments/references/comment-sicko.md",
       "edits": [
-        {
-          "old": "/how",
-          "new": "$how",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use Codex skill invocation notation."
-        },
         {
           "old": "/why",
           "new": "$why",
@@ -516,7 +405,7 @@
           "reason": "Use Codex skill invocation notation."
         }
       ],
-      "source_sha256": "3e239e40b7b4b9beb2cf7f3ccc57f2388eb8b69bd1ba8ae888ef87ef6e0e2116"
+      "source_sha256": "0fb37221ab2a9159714d38f1528898e82b9758b5750f244bbe2e575bb593a1de"
     },
     {
       "source": "pstack/skills/poteto-help/SKILL.md",
@@ -656,8 +545,8 @@
           "reason": "Cursor Auto is not a Codex model; preserve the cheaper-parent guidance."
         },
         {
-          "old": "Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.",
-          "new": "This port uses the Agent Skills format and Codex local subagents with per-role GPT models. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals. Timed checks for a specific run stay in the active task. Requested reminders and recurring work use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
+          "old": "Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including `/poteto-mode`, `/how`, and `/teach`, spawn Cursor subagents, some with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.",
+          "new": "This port uses the Agent Skills format and Codex local subagents with GPT models configured for the workflows that name roles. Custom Modes become current-task invocation. Explicit `/loop until done` requests use Codex Goals. Timed checks for a specific run stay in the active task. Requested reminders and recurring work use native automation. Read [Codex runtime](../poteto-mode/references/codex-runtime.md) for those interfaces.",
           "count": 1,
           "kind": "host",
           "reason": "Map persistent objectives to Codex Goals, finite monitoring to active task checks, and requested reminders or recurring work to native automation."
@@ -1083,7 +972,7 @@
           "count": 1
         }
       ],
-      "source_sha256": "768368881379d688c4e3bbdae55dd2d7874fde98a258324d3527de1bf09f9bd1"
+      "source_sha256": "5b14be54fc543b8f282953febc641f19f03919e7f77858347baa6957522f0c51"
     },
     {
       "source": "pstack/skills/poteto-help/references/prompting.md",
@@ -1314,7 +1203,7 @@
       "target": "skills/poteto-mode/SKILL.md",
       "edits": [
         {
-          "old": "**Match the model to the job.** Before each spawn, start from the role's line or default and pick the reasoning level and speed the job needs. The `/setup-pstack` budget sets each role's starting level, xhigh by default. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed, the same slug without `-fast`. Verification is the exception and stays on the `swarm workers` model and speed (`grok-4.7-xhigh-fast` by default). Change only the effort level and whether the slug is fast, and keep the family the role names, so a diverse panel stays diverse. If the family has no slug at that level and speed, use its nearest slug. A role on `auto` or `inherit-parent` stays on the parent model. If the Task tool rejects the adjusted slug, do not try another adjusted slug. Use the role's line or default and say so. If the Task tool rejects that too, continue with the calling skill's fallback. A slug counts as rejected once a Task error says that the model is not valid, or leaves the slug out of its list of valid slugs. Never pass a rejected slug, and skip any fallback whose slug is already rejected. When the calling skill has no fallback, use the closest valid slug of the role's family from the error's list of valid slugs, or omit `model` so the subagent runs on the parent model when the list has none. When the calling skill's fallback runs out of slugs without saying what to do next, omit `model` too. Say so in both cases.",
+          "old": "**Match the model to the job.** Before each spawn, start from the role's line or default and pick the reasoning level and speed the job needs. The `/setup-pstack` budget sets each role's starting level, xhigh or high by default, and max for `hardest tasks`. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed, the same slug without `-fast`. Verification is the exception and stays on the `swarm workers` model and speed (`claude-opus-5-5-high-fast` by default). Change only the effort level and whether the slug is fast, and keep the family the role names, so a diverse panel stays diverse. Fable (`claude-fable-*`) is its own family, apart from the other Claude models. If the family has no slug at that level and speed, use its nearest slug. Gemini has no xhigh, max, or fast slug, so a Gemini subagent runs at high, such as `gemini-4-carbon-high`, whenever the job calls for high or above. Fable 5.2 has no fast slug, so an urgent Fable 5.2 subagent runs at standard speed and keeps its level. A role on `auto` or `inherit-parent` stays on the parent model. If the Task tool rejects the adjusted slug, do not try another adjusted slug. Use the role's line or default and say so. If the Task tool rejects that too, continue with the calling skill's fallback. A slug counts as rejected once a Task error says that the model is not valid, or leaves the slug out of its list of valid slugs. Never pass a rejected slug, and skip any fallback whose slug is already rejected. When the calling skill has no fallback, use the closest valid slug of the role's family from the error's list of valid slugs, or omit `model` so the subagent runs on the parent model when the list has none. When the calling skill's fallback runs out of slugs without saying what to do next, omit `model` too. Say so in both cases.",
           "new": "**Match the model to the job.** Before each spawn, start from the role's configuration or default and pick the reasoning level and speed the job needs. The `$setup-pstack` budget sets each role's starting level as recorded in its configuration. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use the supported levels of that GPT model in ascending order. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed. Set speed only if the native subagent API exposes a supported speed field. If it does not, report that speed selection is unavailable and keep the host's speed. Verification is the exception and stays on the `swarm_workers` model and host speed (`gpt-6-astra` with `reasoning_effort: high` by default). Change only the effort level and supported speed field, and keep the model the role names, so a diverse panel stays diverse. If the model has no supported level or speed, use its nearest supported configuration. For `auto`, `inherit-parent`, and Comment Sicko, omit both model and effort and let the host resolve them. Preserve Arena's required cross-judge effort difference and show-me-your-work's required reviewer effort difference after adjustment. If the native subagent tool rejects the adjusted configuration, do not try another adjusted configuration. Use the role's configuration or default unless it is already rejected, and say so. If it is rejected too, continue with the calling skill's fallback. Treat a model/effort/speed configuration as rejected when the native tool rejects it, and a model as rejected when the error excludes it from the supported models. Never retry a rejected configuration or use a rejected model in another fallback. When the calling skill has no fallback, use the closest supported configuration of the role's GPT model from the error, or omit both model and effort when none is available. If the calling skill's fallback ends without a next step, omit both fields too. Disclose either fallback to host defaults. Follow [Codex runtime](references/codex-runtime.md#resolve-model-roles) for resolution and fallback.",
           "count": 1,
           "kind": "model",
@@ -1433,18 +1322,46 @@
           "reason": "Replace Cursor Task flags with supported Codex launch fields and read-only scope"
         },
         {
-          "old": "Defaults `grok-4.7-xhigh-fast` for code, `claude-opus-5-5-xhigh` for prose and judgment",
+          "old": "Defaults `claude-opus-5-5-xhigh` for code, prose, and judgment",
           "new": "Defaults `gpt-6-astra` with `high` effort for code, `gpt-6.1-sol` with `xhigh` effort for prose and judgment",
           "count": 1,
           "kind": "model",
           "reason": "Preserve configured code and prose roles"
         },
         {
-          "old": "(`claude-opus-5-5-xhigh`)",
+          "old": "(default `claude-fable-5-2-max`)",
           "new": "(`gpt-6-astra` with `xhigh` effort)",
           "count": 1,
           "kind": "model",
           "reason": "Hardest tasks use configured hardest_tasks pair"
+        },
+        {
+          "old": "your `hardest tasks` model",
+          "new": "your `hardest_tasks` model",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the corresponding Codex model role key."
+        },
+        {
+          "old": "Trivial mechanical edits go to your `swarm workers` model (default `claude-opus-5-5-high-fast`).",
+          "new": "Trivial mechanical edits go to your `swarm_workers` model (default `gpt-6-astra` with `high` effort).",
+          "count": 1,
+          "kind": "model",
+          "reason": "Use the existing Codex swarm worker role and GPT default for trivial mechanical edits."
+        },
+        {
+          "old": "Review and design panels default to one runner each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`.",
+          "new": "Review and design panels default to two runners on `gpt-6-astra`, one with `xhigh` effort and one with `high` effort.",
+          "count": 1,
+          "kind": "model",
+          "reason": "Preserve the two shipped GPT review and design configurations."
+        },
+        {
+          "old": " If the rule has no `# defaults: 2` line, an older setup wrote it. Keep honoring its lines, and tell the user once per session to rerun `/setup-pstack`.",
+          "new": "",
+          "count": 1,
+          "kind": "host",
+          "reason": "The Codex JSON configuration uses its own schema and carries no Cursor defaults marker or legacy migration."
         },
         {
           "old": "Per-role lines in the `/setup-pstack` rule",
@@ -1566,7 +1483,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "ee1848c973a112026f09ba12ea7a13c1654006e7bf170d1c34bf5d5816bc439b"
+      "source_sha256": "c1816b328fa174361dfb719f31ecc264991c8f020b0ba971ea79ca223c79c047"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/authoring-a-skill.md",
@@ -1741,7 +1658,7 @@
       "target": "skills/poteto-mode/playbooks/bug-fix.md",
       "edits": [
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-xhigh`",
           "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
@@ -1762,7 +1679,7 @@
           "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "66e26542dad131cfd7df80ac0cdf81ed4d85e7b5e3f0eb65b933888760c4831f"
+      "source_sha256": "e58b534e020e19629cd47c15e4210e594edfacea212af1e558a1d55bd311b5b3"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/eval.md",
@@ -1804,21 +1721,21 @@
       "target": "skills/poteto-mode/playbooks/feature.md",
       "edits": [
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-xhigh`",
           "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
         }
       ],
-      "source_sha256": "af8ce700b99953741cb547e34308fde0cf6b98ce67e1652c800d0deedf53aba1"
+      "source_sha256": "f52d323f38a1ac2e8ab21b35e34bb10ab315436badfb74aa84bc466ee2ca522b"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/hillclimb.md",
       "target": "skills/poteto-mode/playbooks/hillclimb.md",
       "edits": [
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-xhigh`",
           "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
@@ -1839,20 +1756,20 @@
           "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "942c1565b75ad02a2cb6230dd7c1ebd87e19f59a00319ebac2b6616007bf018f"
+      "source_sha256": "efa062bb4a02638fd3af64299eb398e6e4c5edc55d0a7c2bf42a0182b5cba959"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/investigation.md",
       "target": "skills/poteto-mode/playbooks/investigation.md",
       "edits": [],
-      "source_sha256": "dc66bcf6af3a074fc7f67aa5e12b93ef571a4fb4d8e17f2f1af5ae5359f42e46"
+      "source_sha256": "1009fdb6596a9c06cb93e224ec86bfb60226f2c603474c968a4f2c2983e96a69"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/multi-phase-plan.md",
       "target": "skills/poteto-mode/playbooks/multi-phase-plan.md",
       "edits": [
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-high-fast`",
           "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
@@ -1999,13 +1916,6 @@
           "reason": "Generated plans resolve sibling skills from the installed plugin."
         },
         {
-          "old": "pstack/skills/how/SKILL.md",
-          "new": "$PSTACK_PLUGIN_ROOT/skills/how/SKILL.md",
-          "count": 1,
-          "kind": "host",
-          "reason": "Generated plans resolve sibling skills from the installed plugin."
-        },
-        {
           "old": "pstack/skills/interrogate/SKILL.md",
           "new": "$PSTACK_PLUGIN_ROOT/skills/interrogate/SKILL.md",
           "count": 1,
@@ -2069,7 +1979,7 @@
           "reason": "Apply the user-selected Codex compatibility standard: retain GitHub CLI workflows and exclude Origin CLI integration in this port."
         }
       ],
-      "source_sha256": "2b4fbb547e5ccfe46d1279d714eb0199d28e995f06bdc4eda4afbca9221fbbe6"
+      "source_sha256": "e0da1ca5fc8c9213314126ec87a08d98219c451fc797fa02aaec20896757d46a"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/opening-a-pr.md",
@@ -2180,7 +2090,7 @@
       "target": "skills/poteto-mode/playbooks/perf-issue.md",
       "edits": [
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-xhigh`",
           "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
@@ -2194,7 +2104,7 @@
           "reason": "Resolve retained playbook references from the installed skill root, including generated plans."
         }
       ],
-      "source_sha256": "c12aa2f82de7651a11676a3d5fea168f539b7f0faaa3a501d279255dd2a469c8"
+      "source_sha256": "bde825b47f11191ed396a5e3237a25e3b0a4d008ab1e09fbf4b74f5b0da198b1"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/prototype.md",
@@ -2207,14 +2117,14 @@
       "target": "skills/poteto-mode/playbooks/refactoring.md",
       "edits": [
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-xhigh`",
           "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
         }
       ],
-      "source_sha256": "0f5dd38113379ea8cf61e2182eca0a7478eea9a869eb40c2dddab3335aeca197"
+      "source_sha256": "38a25e96ec0eabb86bdbfe53927d80bf26a786dac5f7f5bf505ae36f24802add"
     },
     {
       "source": "pstack/skills/poteto-mode/playbooks/runtime-forensics.md",
@@ -3237,7 +3147,7 @@
           "reason": "Codex uses model and effort fields, not combined slugs."
         },
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-high-fast`",
           "new": "`gpt-6.1-sol` with `reasoning_effort: high`",
           "count": 1,
           "kind": "model",
@@ -3335,7 +3245,7 @@
           "reason": "Preserve plugin-cache protection, destination approval, and the no-PR/no-push rule using maintained source or personal Codex skill paths."
         }
       ],
-      "source_sha256": "9648df23cabaae99b78ed59cd93b6f35ebbf02105d228e3d0b5c3a3b3419d753"
+      "source_sha256": "3b78774e9659a516d8ed48616cab34bd3ec771904c63929aa74270da66b99cf0"
     },
     {
       "source": "pstack/skills/reflect/references/divergent-reviewer.md",
@@ -3384,7 +3294,7 @@
           "reason": "Use the available Codex skill authoring skill."
         }
       ],
-      "source_sha256": "6af816963de74d1a1aef4070273c1ff533d2072732e488e159ddc0b299fec3cd"
+      "source_sha256": "07c81573f63f011df736d24ec8febf8b59d29db328cb1626ad67df7841c9ad77"
     },
     {
       "source": "pstack/skills/reflect/references/tooling-reviewer.md",
@@ -3454,25 +3364,11 @@
           "reason": "Aliases are independent of explicit GPT configuration inventory."
         },
         {
-          "old": "The default role-to-model mapping is the rule shape shown in step 5 below.",
-          "new": "Read the role keys and defaults from [models.defaults.json](../../config/models.defaults.json).",
+          "old": "The default role-to-model mapping is the rule shape shown in step 5 below. If `~/.cursor/rules/pstack-models.mdc` already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how explorer` or `why investigators`, is from a retired role. Drop it.\n\nA rule without the `# defaults: 2` line comes from an older setup. That setup wrote a line for every role, so some of its values are old defaults, not choices. An old slug is one that matches `grok-*`. Before step 3, replace these values:\n\n- An old slug in `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, `reflect tooling`, or `swarm workers` takes the role's step 5 default.\n- A `claude-opus-*` value in `hardest tasks` takes the role's step 5 default.\n- In a panel role (`arena runners`, `arena cross-judge pool`, `architect runners`, `interrogate reviewers`), a list of exactly one `claude-opus-*` entry and one old slug, in either order, takes the role's step 5 list. In any other list, each old slug becomes `claude-opus-5-5-high-fast`.\n\nEvery other value is the user's choice and stays, including an old slug in any other role and every `inherit-parent` or `auto` value. Tell the user which values you replaced.\n\n",
+          "new": "Read the role keys and defaults from [models.defaults.json](../../config/models.defaults.json). If `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` already exists, read it and treat its `budget` field and its role values as the current choices, resolving overrides per the Codex runtime. Otherwise start from those defaults.\n\n",
           "count": 1,
           "kind": "host",
-          "reason": "Load the authoritative shipped default pairs."
-        },
-        {
-          "old": "If `~/.cursor/rules/pstack-models.mdc` already exists, read it and treat its `# budget` line and its role values as the current choices.",
-          "new": "If `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` already exists, read it and treat its `budget` field and its role values as the current choices, resolving overrides per the Codex runtime.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Load current choices from the actual JSON schema."
-        },
-        {
-          "old": "A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.",
-          "new": "A key whose role is not in the default configuration's `roles` object, such as `how_critics`, is from a retired role. Drop it. If older split roles contain conflicting values for one shared role, show the conflict when choosing that shared setting.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Map role identifiers and preserve migration conflicts for user selection."
+          "reason": "Load the shipped roles and personal Codex JSON, without the Cursor role and default migration."
         },
         {
           "old": "Prefer AskQuestion over free text.",
@@ -3483,59 +3379,24 @@
         },
         {
           "old": "when the rule records one. With no rule, say that `large` matches the skill defaults.",
-          "new": "when the configuration records one. With no configuration, show the shipped defaults, whose reasoning efforts vary by role.",
+          "new": "when the configuration records one. With no configuration, say that `large` matches the shipped defaults.",
           "count": 1,
-          "kind": "model",
-          "reason": "The preserved GPT defaults use both high and xhigh; no single budget matches all of them."
+          "kind": "host",
+          "reason": "Read the budget stored in the Codex configuration."
         },
         {
-          "old": "changed by family, list, or alias",
-          "new": "changed by model, list, or alias",
+          "old": "- `unlimited — max reasoning`\n- `large — xhigh reasoning`\n- `medium — high reasoning`\n- `small — medium reasoning`\n",
+          "new": "- `unlimited`, one step above default\n- `large`, default effort\n- `medium`, one step below default\n- `small`, two steps below default\n",
           "count": 1,
           "kind": "model",
-          "reason": "The Codex role selector stores model fields."
+          "reason": "Keep the upstream budget keys and describe their effects on the Codex defaults, which vary by role and panel position."
         },
         {
-          "old": "set the effort token of every real slug, panel entries included,",
-          "new": "set the `reasoning_effort` field of every explicit configuration, panel entries included,",
+          "old": "**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). Families are the ones Phase A of the **arena** skill defines, so Fable is its own family. Each role has a target effort, which is its default's effort moved by the budget. `large` keeps it, `unlimited` raises it one step, `medium` lowers it one step, and `small` lowers it two steps, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. A target at either end of the ladder stays there. Most defaults are at `xhigh`, and each budget label names where those land. Set the effort token of every real slug in the role, panel entries included, to the role's target. The effort token is the last token, or the one before a trailing `fast`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-xhigh-fast`, and it keeps `claude-fable-5-2-max`. Gemini tops out at `high`, so under `unlimited` the fallback keeps `gemini-4-carbon-high` as it is. `small` turns the first two into `claude-opus-5-5-medium` and `claude-opus-5-5-low-fast`. Fable 5.2 and Gemini have no fast slug, so never write one.",
+          "new": "**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any model, list, or alias the user chose. Each target starts from its shipped default effort. For a panel, use the default effort at the same position, and use the last shipped effort for positions beyond the default list. `large` keeps the starting effort, `unlimited` raises it one step, `medium` lowers it one step, and `small` lowers it two steps. The effort ladder is `max` > `xhigh` > `high` > `medium` > `low`. Stop at either end. Write the target to the separate `reasoning_effort` field for each explicit configuration. If the model does not support the target, choose that model's highest supported effort at or below the target, or mark the role as needing a choice if it has none. Leave `inherit-parent` and `auto` unchanged. For example, a panel with shipped efforts `xhigh` and `high` keeps those efforts on `large` and targets `high` and `medium` on `medium`.",
           "count": 1,
           "kind": "model",
-          "reason": "Reasoning effort is a separate field."
-        },
-        {
-          "old": "The effort token is the last token, or the one before a trailing `fast`, on the ladder",
-          "new": "Keep model and effort in separate fields. The effort ladder is",
-          "count": 1,
-          "kind": "model",
-          "reason": "Do not parse reasoning effort from model slug."
-        },
-        {
-          "old": "If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice.",
-          "new": "If the result is not a detected model/effort pair, use the same model with its highest supported effort at or below the target, else mark the role as needing a choice.",
-          "count": 1,
-          "kind": "model",
-          "reason": "Preserve fallback strength using supported GPT effort pairs."
-        },
-        {
-          "old": "So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`.",
-          "new": "So `unlimited` turns `{ \"model\": \"gpt-6-astra\", \"reasoning_effort\": \"xhigh\" }` into `{ \"model\": \"gpt-6-astra\", \"reasoning_effort\": \"max\" }` when supported.",
-          "count": 1,
-          "kind": "model",
-          "reason": "Preserve budget example with GPT configuration syntax."
-        },
-        {
-          "old": "Grok slugs top out at `xhigh`, so under `unlimited` the fallback puts Grok at `xhigh` and keeps `grok-4.7-xhigh-fast` as it is.",
-          "new": "If a GPT model tops out at `xhigh`, under `unlimited` the fallback puts it at `xhigh` and keeps an existing `xhigh` configuration as it is.",
-          "count": 1,
-          "kind": "model",
-          "reason": "Preserve capped-effort fallback example without assuming unsupported model limits."
-        },
-        {
-          "old": "`large` keeps both defaults. `small` turns them into `claude-opus-5-5-medium` and `grok-4.7-medium-fast`.",
-          "new": "`large` sets explicit configurations to `xhigh` when supported. `small` sets them to `medium` when supported.",
-          "count": 1,
-          "kind": "model",
-          "reason": "Budget examples must reflect varying shipped GPT efforts."
+          "reason": "Apply upstream relative budgets to separate GPT effort fields and preserve the distinct shipped panel efforts and same-model fallback."
         },
         {
           "old": "Show every role with its model, marking any real slug not in the detected set",
@@ -3545,11 +3406,11 @@
           "reason": "Expose and validate both configuration fields."
         },
         {
-          "old": "list each line step 2 dropped",
-          "new": "list each key step 2 dropped",
+          "old": " Also list each line step 2 dropped.",
+          "new": "",
           "count": 1,
           "kind": "host",
-          "reason": "The personal settings schema is JSON."
+          "reason": "The Codex setup does not migrate Cursor role overrides."
         },
         {
           "old": "offering the detected models plus",
@@ -3566,11 +3427,11 @@
           "reason": "Preserve aliases by omitting both launch fields and using native Codex resolution."
         },
         {
-          "old": "It tries only values from a family other than the parent's, in list order, so order it by preference.",
+          "old": "It tries only values from a vendor other than the parent's, in list order, so order it by preference. Fable and the other Claude models are one vendor.",
           "new": "It tries only explicit values whose final reasoning effort differs from the parent's when that effort is known, in list order, so order it by preference.",
           "count": 1,
           "kind": "model",
-          "reason": "Preserve the strict judge-diversity gate, pool order and alias exclusion using the approved cross-effort mapping."
+          "reason": "Preserve the existing Codex effort criterion for the Arena judge and retain pool order."
         },
         {
           "old": "Every real slug written must be in the detected set.",
@@ -3594,14 +3455,14 @@
           "reason": "Use JSON settings instead of a Cursor rule."
         },
         {
-          "old": "Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses.",
+          "old": "Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, the `# defaults: 2` line, a `# budget` line with the chosen label and the effort that label names, and one line per role, using the same labels poteto-mode uses.",
           "new": "Write `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` with `\"version\": 1`, a `budget` field with the chosen label, and a `roles` object, using the role keys poteto-mode uses. Create the personal configuration directory if needed. The saved role values are launch starting settings; workflows adjust effort for the job per Codex runtime. The budget records the chosen label and does not overwrite later per-role edits.",
           "count": 1,
           "kind": "host",
           "reason": "Write the established personal JSON contract and identify saved role settings as task-adjustable launch starting points."
         },
         {
-          "old": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.\n# budget: large (xhigh)\nfeature, refactoring: grok-4.7-xhigh-fast\nbug-fix: grok-4.7-xhigh-fast\nperf-issue: grok-4.7-xhigh-fast\nhillclimb: grok-4.7-xhigh-fast\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-opus-5-5-xhigh\nhow explorer: grok-4.7-xhigh-fast\nhow explainer: claude-opus-5-5-xhigh\nwhy investigators: grok-4.7-xhigh-fast\nwhy synthesizer: claude-opus-5-5-xhigh\nreflect tooling: grok-4.7-xhigh-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\narena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\nswarm workers: grok-4.7-xhigh-fast\narchitect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\ninterrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast\n```\n",
+          "old": "```\n---\ndescription: pstack per-role model choices (overrides skill defaults)\nalwaysApply: true\n---\n# pstack model configuration. One line per role. Delete a line to fall back to the skill default.\n# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.\n# defaults: 2\n# budget: large (xhigh)\nfeature, refactoring: claude-opus-5-5-xhigh\nbug-fix: claude-opus-5-5-xhigh\nperf-issue: claude-opus-5-5-xhigh\nhillclimb: claude-opus-5-5-xhigh\njudgment and prose: claude-opus-5-5-xhigh\nhardest tasks: claude-fable-5-2-max\nreflect tooling: claude-opus-5-5-high-fast\nreflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh\narena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\narena cross-judge pool: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\nswarm workers: claude-opus-5-5-high-fast\narchitect runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\ninterrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high\n```\n",
           "new": "Use the role keys and shipped defaults loaded in step 2. After a budget is chosen, record its label in `budget` and write the mapped role values. Remove a role override to fall back to its shipped default. Scalar objects may override either or both fields. Lists replace the whole ordered list and must be nonempty; each entry is a complete model/effort object or `\"inherit-parent\"` or `\"auto\"`. Alias entries still count toward panel fan-out.\n\nA partial override can look like this after confirming the effort is supported:\n\n```json\n{\n  \"version\": 1,\n  \"budget\": \"medium\",\n  \"roles\": {\n    \"feature_refactoring\": \"inherit-parent\",\n    \"judgment_and_prose\": {\n      \"reasoning_effort\": \"high\"\n    }\n  }\n}\n```\n",
           "count": 1,
           "kind": "host",
@@ -3650,7 +3511,7 @@
           "reason": "Resolve the selected formal-verification skill from the installed Codex plugin."
         }
       ],
-      "source_sha256": "df8ad3638a4dca31fb4b43d58056f0299f23ad0530614166d55ef989062b41ec"
+      "source_sha256": "4c53ea532bbfc429833c8cf5480a0fffcd10c3e32bc26256feff3d7ee7c9da85"
     },
     {
       "source": "pstack/skills/show-me-your-work/SKILL.md",
@@ -3788,7 +3649,7 @@
           "reason": "Codex uses model and effort fields, not combined slugs."
         },
         {
-          "old": "`grok-4.7-xhigh-fast`",
+          "old": "`claude-opus-5-5-high-fast`",
           "new": "`gpt-6-astra` with `reasoning_effort: high`",
           "count": 1,
           "kind": "model",
@@ -3809,7 +3670,7 @@
           "reason": "Map cloud branch selection to a local checkout of the same ref."
         }
       ],
-      "source_sha256": "fea6bfbbf21e067a4e2d2ebab034bc3af508118e9df1abc9d2ba040d58a6df3a"
+      "source_sha256": "411f9d1a29a8a6f59b7bfcd4726330ddb62c4c1298ebf53d5773d82703701038"
     },
     {
       "source": "pstack/skills/tdd/SKILL.md",
@@ -3844,7 +3705,7 @@
           "reason": "Resolve Codex dependencies and tool availability without changing the upstream workflow."
         }
       ],
-      "source_sha256": "bd286e5a6290673be2cd28aef7af2ec7f1fb138e6bce156ea657368c7e7fc8a4"
+      "source_sha256": "2c17f3c0a79536ca2fa3c20983def027ffd8abb4063d9bb3c97778b77557600d"
     },
     {
       "source": "pstack/skills/technical-writing/SKILL.md",
@@ -3918,200 +3779,9 @@
           "count": 1,
           "kind": "metadata",
           "reason": "Explicit-only invocation is declared in agents/openai.yaml."
-        },
-        {
-          "old": "# Why\n",
-          "new": "# Why\n\nRead [Codex runtime](../poteto-mode/references/codex-runtime.md) for model roles, native subagents, paths, and history.\n",
-          "count": 1,
-          "kind": "host",
-          "reason": "Resolve shared Codex host and role interfaces before executing this workflow."
-        },
-        {
-          "old": "`pstack-models.mdc` rule",
-          "new": "Codex model configuration",
-          "count": 1,
-          "kind": "model",
-          "reason": "Roles resolve through models.defaults.json and personal overrides as defined by Codex runtime."
-        },
-        {
-          "old": "`why investigators`",
-          "new": "`why_investigators`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
-        },
-        {
-          "old": "`why synthesizer`",
-          "new": "`why_synthesizer`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the corresponding unchanged JSON role key."
-        },
-        {
-          "old": "a role line in",
-          "new": "a role in",
-          "count": 1,
-          "kind": "model",
-          "reason": "Codex roles are JSON fields."
-        },
-        {
-          "old": "Set `model` to that line's value",
-          "new": "Set `model` and `reasoning_effort` to that role's values",
-          "count": 1,
-          "kind": "model",
-          "reason": "Keep model and reasoning effort separate."
-        },
-        {
-          "old": "Leave `model` unset",
-          "new": "Leave `model` and `reasoning_effort` unset",
-          "count": 1,
-          "kind": "model",
-          "reason": "Both fields inherit for auto and inherit-parent."
-        },
-        {
-          "old": "the Task tool",
-          "new": "the native subagent tool",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "the closest valid slug of the same family from its error message",
-          "new": "the closest supported configuration of the same GPT model from its error message",
-          "count": 1,
-          "kind": "model",
-          "reason": "Codex validates model and effort separately."
-        },
-        {
-          "old": "rejects a slug",
-          "new": "rejects a configuration",
-          "count": 1,
-          "kind": "model",
-          "reason": "Codex uses model and effort fields, not combined slugs."
-        },
-        {
-          "old": "`grok-4.7-xhigh-fast`",
-          "new": "`gpt-6.1-sol` with `reasoning_effort: xhigh`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the shipped explorer or investigator role default."
-        },
-        {
-          "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
-          "count": 1,
-          "kind": "model",
-          "reason": "Use the shipped explainer or synthesizer role default."
-        },
-        {
-          "old": "from the Cursor environment",
-          "new": "from the Codex host",
-          "count": 1,
-          "kind": "host",
-          "reason": "Use the Codex host interface."
-        },
-        {
-          "old": "Otherwise inspect the `mcps/` directory Cursor exposes for enabled MCP servers.",
-          "new": "Otherwise use the host's supported tool-discovery interface for enabled MCP servers.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Codex does not expose Cursor mcps directory."
-        },
-        {
-          "old": "Every spawn is `generalPurpose` with `readonly: false` (agent mode). **Do not use readonly/Ask mode.** It strips MCP access, which disables the MCP-backed investigators and the synthesizer's citation spot-checks. Investigators still shouldn't write anything.",
-          "new": "Every spawn uses the native asynchronous local subagent API with a read-only assignment. Preserve MCP access for investigators and the synthesizer's citation spot-checks. Do not edit files or external records.",
-          "count": 1,
-          "kind": "host",
-          "reason": "Codex has no Cursor Ask-mode restriction; preserve native delegation, read-only MCP investigation, and citation verification."
-        },
-        {
-          "old": "all in a single message so they run concurrently",
-          "new": "concurrently, in batches when the host limits slots",
-          "count": 1,
-          "kind": "host",
-          "reason": "Host concurrency limits change scheduling, not required evidence-category coverage."
-        },
-        {
-          "old": "`model`: the",
-          "new": "`model` and `reasoning_effort`: the",
-          "count": 2,
-          "kind": "model",
-          "reason": "Pass both fields from the resolved role configuration in the consolidated launch paragraphs."
         }
       ],
-      "source_sha256": "144d42e7712723d763e607bc0a969e5f1cdf83ec7228519d87677cc534571bed"
-    },
-    {
-      "source": "pstack/skills/why/references/epistemics.md",
-      "target": "skills/why/references/epistemics.md",
-      "edits": [],
-      "source_sha256": "d54a2361b2d5973bc3fe2edf62f446d87935974d4b40d47f23b9529f956ca758"
-    },
-    {
-      "source": "pstack/skills/why/references/investigator-prompt.md",
-      "target": "skills/why/references/investigator-prompt.md",
-      "edits": [],
-      "source_sha256": "c44afba186f899094f3694e6c9d6de5d14ff7c4ce28b787a9f50fc789c9a7fc3"
-    },
-    {
-      "source": "pstack/skills/why/references/source-playbook.md",
-      "target": "skills/why/references/source-playbook.md",
-      "edits": [],
-      "source_sha256": "9ae9dcb9d09111c9facc68510331c5aba4aed9b1b057314ff1fc0e166ad3993a"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/code-archaeology.md",
-      "target": "skills/why/references/sources/code-archaeology.md",
-      "edits": [],
-      "source_sha256": "a4a3970e9db448054aed676f3f7feeee667b4b69f0bd57c8fd72b751be687cc7"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/databricks.md",
-      "target": "skills/why/references/sources/databricks.md",
-      "edits": [],
-      "source_sha256": "236ede7aab6454662a992db088a5393537a5233a4c26719c93188f9e174488f6"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/datadog.md",
-      "target": "skills/why/references/sources/datadog.md",
-      "edits": [],
-      "source_sha256": "b139faac5dc11b8f26c8255dce6033c1a6ac143b038d3dd103f2034c5dbec9cd"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/incident-postmortem.md",
-      "target": "skills/why/references/sources/incident-postmortem.md",
-      "edits": [],
-      "source_sha256": "bf2661f1a81c37700884a45b77d6289be0c802b065febced31990e6564510839"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/linear.md",
-      "target": "skills/why/references/sources/linear.md",
-      "edits": [],
-      "source_sha256": "01304e7f1badfcfb78babbb0edcadeb3cc8dd3f713793420cdff24ba190f907c"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/notion.md",
-      "target": "skills/why/references/sources/notion.md",
-      "edits": [],
-      "source_sha256": "3bcfa695c49dfad4ac036d5d7181c12585f55ac04f1936198d16ab75a2788997"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/sentry.md",
-      "target": "skills/why/references/sources/sentry.md",
-      "edits": [],
-      "source_sha256": "2d4f83048eac1df530b399e2aed75dd7c9c18577b7665420aaeb96d0ceb0b702"
-    },
-    {
-      "source": "pstack/skills/why/references/sources/slack.md",
-      "target": "skills/why/references/sources/slack.md",
-      "edits": [],
-      "source_sha256": "3bc6309f5c7b26ace3b919dbd7f7b048861dd2020f910fe24f656cc74b3b661c"
-    },
-    {
-      "source": "pstack/skills/why/references/synthesizer-prompt.md",
-      "target": "skills/why/references/synthesizer-prompt.md",
-      "edits": [],
-      "source_sha256": "11c62671aa7b7a6e3d36929ffe2b59bf95e6ca664eee4d93e6ee527dd3390ddb"
+      "source_sha256": "6b65b3180f1f1bd3b696d7933daf900747410c82931d220a3f57a98addb1c0fd"
     },
     {
       "source": "pstack/skills/poteto-mode/scripts/check-plan.test.ts",
@@ -4251,7 +3921,7 @@
           "reason": "Use Codex explicit skill invocation notation."
         }
       ],
-      "source_sha256": "563dfc460c605d311e650726288e2f1cbd61eab817db178d6e7e29643e07e7a2"
+      "source_sha256": "aac4f8e6a1ffd70e3763314db37d3c2eb0cfea08bc63e98907aca6dae0343031"
     },
     {
       "source": "pstack/skills/create-formal-verification-skill/SKILL.md",

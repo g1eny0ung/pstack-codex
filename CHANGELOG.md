@@ -4,6 +4,12 @@ Notable changes to pstack-codex are recorded here. The format follows [Keep a Ch
 
 ## [Unreleased]
 
+### Changed
+
+- Synced selected workflows through Cursor pstack 0.15.42. `how` delegates to one read-only subagent, `why` answers from recorded evidence, and `sharpen` asks for prototypes where an experiment can settle a choice.
+- `setup-pstack` now applies reasoning budgets relative to the shipped effort for each role or panel entry. `large` uses the shipped effort for each entry.
+- **Breaking:** Removed the `how_explorer`, `how_explainer`, `why_investigators`, and `why_synthesizer` model roles. Remove these keys from personal overrides before using this version.
+
 ## [0.6.1] - 2026-11-12
 
 ### Changed
