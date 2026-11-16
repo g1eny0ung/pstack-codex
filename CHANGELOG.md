@@ -4,6 +4,8 @@ Notable changes to pstack-codex are recorded here. The format follows [Keep a Ch
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-16
+
 ### Changed
 
 - Synced selected workflows through Cursor pstack 0.15.42. `how` delegates to one read-only subagent, `why` answers from recorded evidence, and `sharpen` asks for prototypes where an experiment can settle a choice.
@@ -139,7 +141,8 @@ Notable changes to pstack-codex are recorded here. The format follows [Keep a Ch
 - Initial Codex port with 42 explicitly invoked skills, 20 local playbooks, and GPT-6 Astra model defaults.
 - GitHub marketplace and local ZIP installation, with a bundled PR helper and a read-only worktree audit.
 
-[Unreleased]: https://github.com/g1eny0ung/pstack-codex/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/g1eny0ung/pstack-codex/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/g1eny0ung/pstack-codex/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/g1eny0ung/pstack-codex/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/g1eny0ung/pstack-codex/compare/v0.5.3...v0.6.0
 [0.5.3]: https://github.com/g1eny0ung/pstack-codex/compare/v0.5.2...v0.5.3
