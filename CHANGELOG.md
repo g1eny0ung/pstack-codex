@@ -4,6 +4,12 @@ Notable changes to pstack-codex are recorded here. The format follows [Keep a Ch
 
 ## [Unreleased]
 
+### Changed
+
+- Use GPT-6.2 Sol and GPT-6.2 Astra for the shipped subagent defaults.
+- Use GPT-6.2 Sol with `xhigh` reasoning for Reflect's judgment reviewer, blind-spot reviewer, and synthesizer.
+- Use GPT-6.2 Sol for `show-me-your-work` reviews, starting at `xhigh` or at `high` when the work agent used `xhigh`.
+
 ## [0.7.0] - 2026-11-16
 
 ### Changed

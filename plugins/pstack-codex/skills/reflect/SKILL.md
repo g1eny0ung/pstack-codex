@@ -29,15 +29,15 @@ Each reviewer and the synthesizer name a role in the Codex model configuration a
 
 | Lens | Role line | Default `model` | Prompt template |
 |---|---|---|---|
-| Judgment | `reflect_judgment_divergent_synthesizer` | `gpt-6-astra` with `reasoning_effort: xhigh` | `references/judgment-reviewer.md` |
-| Tooling | `reflect_tooling` | `gpt-6.1-sol` with `reasoning_effort: high` | `references/tooling-reviewer.md` |
-| Divergent | `reflect_judgment_divergent_synthesizer` | `gpt-6-astra` with `reasoning_effort: xhigh` | `references/divergent-reviewer.md` |
+| Judgment | `reflect_judgment_divergent_synthesizer` | `gpt-6.2-sol` with `reasoning_effort: xhigh` | `references/judgment-reviewer.md` |
+| Tooling | `reflect_tooling` | `gpt-6.2-sol` with `reasoning_effort: high` | `references/tooling-reviewer.md` |
+| Divergent | `reflect_judgment_divergent_synthesizer` | `gpt-6.2-sol` with `reasoning_effort: xhigh` | `references/divergent-reviewer.md` |
 
 Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in their native subagent reports.
 
 ## 3. Synthesize
 
-One native asynchronous local subagent launch, with `model` and `reasoning_effort` from the `reflect_judgment_divergent_synthesizer` line (default `gpt-6-astra` with `reasoning_effort: xhigh`). It spot-verifies citations through read-only MCP access. Do not edit files or external records. Pass `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.
+One native asynchronous local subagent launch, with `model` and `reasoning_effort` from the `reflect_judgment_divergent_synthesizer` line (default `gpt-6.2-sol` with `reasoning_effort: xhigh`). It spot-verifies citations through read-only MCP access. Do not edit files or external records. Pass `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.
 
 ## 4. Structural enforcement check
 

@@ -69,14 +69,14 @@
         },
         {
           "old": "`claude-fable-5-2-high`,",
-          "new": "`gpt-6-astra` with `reasoning_effort: xhigh` and",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: xhigh` and",
           "count": 1,
           "kind": "model",
           "reason": "Map the first upstream candidate to the unchanged first GPT configuration."
         },
         {
           "old": "`claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`",
-          "new": "`gpt-6-astra` with `reasoning_effort: high`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: high`",
           "count": 1,
           "kind": "model",
           "reason": "Preserve the second GPT candidate and the two-entry default panel."
@@ -129,7 +129,7 @@
         },
         {
           "old": "3. Pick the runners. Use the `arena runners` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, default to one each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`. An `auto` or `inherit-parent` entry in this line means the parent model, so omit `model` for it. If the Task tool rejects a configured entry, run that seat on its family's default and say so. Families go by prefix, and the longest matching prefix wins: `claude-fable-*`, `claude-*`, and `gemini-*`. Drop a leading `cursor-` before you compare. Any other slug's family is its text before the first hyphen. A family's default is its entry in the default list above. If the family has no default, or the Task tool rejects that default, use the closest valid slug of the same family from its error message, or drop the seat and say so when there is none. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model, or omit `model` so it runs on the parent model when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
-          "new": "3. Pick the runners. Use the `arena_runners` line in the Codex model configuration. If the rule or that line is missing, default to one each on `gpt-6-astra` with `reasoning_effort: xhigh` and `gpt-6-astra` with `reasoning_effort: high`. For `auto` or `inherit-parent`, omit both `model` and `reasoning_effort`. If the native subagent tool rejects a configured entry, run that seat on its corresponding shipped role default and say so, unless that configuration is already rejected. If there is no corresponding default, or the native tool rejects it, use the closest supported configuration of the same GPT model from its error message, or drop the seat and say so when there is none. Never retry a rejected configuration or a model the error excludes. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model and reasoning effort, or omit both fields and use host defaults when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
+          "new": "3. Pick the runners. Use the `arena_runners` line in the Codex model configuration. If the rule or that line is missing, default to one each on `gpt-6.2-astra` with `reasoning_effort: xhigh` and `gpt-6.2-astra` with `reasoning_effort: high`. For `auto` or `inherit-parent`, omit both `model` and `reasoning_effort`. If the native subagent tool rejects a configured entry, run that seat on its corresponding shipped role default and say so, unless that configuration is already rejected. If there is no corresponding default, or the native tool rejects it, use the closest supported configuration of the same GPT model from its error message, or drop the seat and say so when there is none. Never retry a rejected configuration or a model the error excludes. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model and reasoning effort, or omit both fields and use host defaults when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.",
           "count": 1,
           "kind": "model",
           "reason": "Preserve configured roles, host-resolved aliases, rejected-entry fallback, seat removal and minimum runner counts using native GPT model and effort pairs."
@@ -143,7 +143,7 @@
         },
         {
           "old": "After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, choose from `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`. Spawn one readonly judge subagent. The judge is never from the parent's vendor. A vendor is a family as Phase A step 3 defines families, except that `claude-fable-*` and `claude-*` are one vendor. Try only the entries from another vendor, in pool order. An `auto` or `inherit-parent` entry is the parent model, so it never judges. With the default pool, a Claude parent gets `gemini-4-carbon-high`. A parent from any other vendor gets `claude-fable-5-2-high` first, then `claude-opus-5-5-high-fast`. If the Task tool rejects an entry, use a valid slug of the same model at the closest level or speed from the error message, or move to the next entry when there is none. If no entry from another vendor runs, try the default pool's entries from another vendor the same way. If none of those runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's model, try the pool's real slugs in pool order and say that the vendor check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
-          "new": "After all Phase B candidates complete, choose one configuration from the `arena_cross_judge_pool` line in the Codex model configuration. If the rule or that line is missing, use the shipped pool, `gpt-6-astra` with `reasoning_effort: xhigh` followed by `gpt-6-astra` with `reasoning_effort: high`. Spawn one readonly judge subagent. The judge's final reasoning effort must differ from the parent's when the parent effort is known. Try only eligible explicit entries, in pool order. Entries set to `auto` or `inherit-parent` omit effort at launch and cannot establish an explicit effort difference, so skip them for judging. If the native tool rejects an entry, use a supported configuration of the same GPT model at the closest effort or speed from the error message that still satisfies the effort difference, or move to the next entry when there is none. Recheck eligibility after task adjustments and every fallback. Never retry a rejected configuration or excluded model. If no eligible configured entry runs, try eligible entries from the shipped pool the same way. If none runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's effort, try the pool's explicit entries in pool order and say that the effort-difference check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
+          "new": "After all Phase B candidates complete, choose one configuration from the `arena_cross_judge_pool` line in the Codex model configuration. If the rule or that line is missing, use the shipped pool, `gpt-6.2-astra` with `reasoning_effort: xhigh` followed by `gpt-6.2-astra` with `reasoning_effort: high`. Spawn one readonly judge subagent. The judge's final reasoning effort must differ from the parent's when the parent effort is known. Try only eligible explicit entries, in pool order. Entries set to `auto` or `inherit-parent` omit effort at launch and cannot establish an explicit effort difference, so skip them for judging. If the native tool rejects an entry, use a supported configuration of the same GPT model at the closest effort or speed from the error message that still satisfies the effort difference, or move to the next entry when there is none. Recheck eligibility after task adjustments and every fallback. Never retry a rejected configuration or excluded model. If no eligible configured entry runs, try eligible entries from the shipped pool the same way. If none runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's effort, try the pool's explicit entries in pool order and say that the effort-difference check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.",
           "count": 1,
           "kind": "model",
           "reason": "Map upstream cross-vendor judging to required final-effort diversity while preserving GPT defaults, pool order, alias exclusion, fallback order, skip behavior, and unknown-parent disclosure."
@@ -1204,7 +1204,7 @@
       "edits": [
         {
           "old": "**Match the model to the job.** Before each spawn, start from the role's line or default and pick the reasoning level and speed the job needs. The `/setup-pstack` budget sets each role's starting level, xhigh or high by default, and max for `hardest tasks`. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed, the same slug without `-fast`. Verification is the exception and stays on the `swarm workers` model and speed (`claude-opus-5-5-high-fast` by default). Change only the effort level and whether the slug is fast, and keep the family the role names, so a diverse panel stays diverse. Fable (`claude-fable-*`) is its own family, apart from the other Claude models. If the family has no slug at that level and speed, use its nearest slug. Gemini has no xhigh, max, or fast slug, so a Gemini subagent runs at high, such as `gemini-4-carbon-high`, whenever the job calls for high or above. Fable 5.2 has no fast slug, so an urgent Fable 5.2 subagent runs at standard speed and keeps its level. A role on `auto` or `inherit-parent` stays on the parent model. If the Task tool rejects the adjusted slug, do not try another adjusted slug. Use the role's line or default and say so. If the Task tool rejects that too, continue with the calling skill's fallback. A slug counts as rejected once a Task error says that the model is not valid, or leaves the slug out of its list of valid slugs. Never pass a rejected slug, and skip any fallback whose slug is already rejected. When the calling skill has no fallback, use the closest valid slug of the role's family from the error's list of valid slugs, or omit `model` so the subagent runs on the parent model when the list has none. When the calling skill's fallback runs out of slugs without saying what to do next, omit `model` too. Say so in both cases.",
-          "new": "**Match the model to the job.** Before each spawn, start from the role's configuration or default and pick the reasoning level and speed the job needs. The `$setup-pstack` budget sets each role's starting level as recorded in its configuration. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use the supported levels of that GPT model in ascending order. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed. Set speed only if the native subagent API exposes a supported speed field. If it does not, report that speed selection is unavailable and keep the host's speed. Verification is the exception and stays on the `swarm_workers` model and host speed (`gpt-6-astra` with `reasoning_effort: high` by default). Change only the effort level and supported speed field, and keep the model the role names, so a diverse panel stays diverse. If the model has no supported level or speed, use its nearest supported configuration. For `auto`, `inherit-parent`, and Comment Sicko, omit both model and effort and let the host resolve them. Preserve Arena's required cross-judge effort difference and show-me-your-work's required reviewer effort difference after adjustment. If the native subagent tool rejects the adjusted configuration, do not try another adjusted configuration. Use the role's configuration or default unless it is already rejected, and say so. If it is rejected too, continue with the calling skill's fallback. Treat a model/effort/speed configuration as rejected when the native tool rejects it, and a model as rejected when the error excludes it from the supported models. Never retry a rejected configuration or use a rejected model in another fallback. When the calling skill has no fallback, use the closest supported configuration of the role's GPT model from the error, or omit both model and effort when none is available. If the calling skill's fallback ends without a next step, omit both fields too. Disclose either fallback to host defaults. Follow [Codex runtime](references/codex-runtime.md#resolve-model-roles) for resolution and fallback.",
+          "new": "**Match the model to the job.** Before each spawn, start from the role's configuration or default and pick the reasoning level and speed the job needs. The `$setup-pstack` budget sets each role's starting level as recorded in its configuration. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use the supported levels of that GPT model in ascending order. Use fast mode only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed. Set speed only if the native subagent API exposes a supported speed field. If it does not, report that speed selection is unavailable and keep the host's speed. Verification is the exception and stays on the `swarm_workers` model and host speed (`gpt-6.2-astra` with `reasoning_effort: high` by default). Change only the effort level and supported speed field, and keep the model the role names, so a diverse panel stays diverse. If the model has no supported level or speed, use its nearest supported configuration. For `auto`, `inherit-parent`, and Comment Sicko, omit both model and effort and let the host resolve them. Preserve Arena's required cross-judge effort difference and show-me-your-work's required reviewer effort difference after adjustment. If the native subagent tool rejects the adjusted configuration, do not try another adjusted configuration. Use the role's configuration or default unless it is already rejected, and say so. If it is rejected too, continue with the calling skill's fallback. Treat a model/effort/speed configuration as rejected when the native tool rejects it, and a model as rejected when the error excludes it from the supported models. Never retry a rejected configuration or use a rejected model in another fallback. When the calling skill has no fallback, use the closest supported configuration of the role's GPT model from the error, or omit both model and effort when none is available. If the calling skill's fallback ends without a next step, omit both fields too. Disclose either fallback to host defaults. Follow [Codex runtime](references/codex-runtime.md#resolve-model-roles) for resolution and fallback.",
           "count": 1,
           "kind": "model",
           "reason": "Map task-sensitive effort and speed selection to separate supported Codex fields while preserving aliases, role defaults, review diversity, verification exceptions and direct fallback after adjustment rejection. Follow Codex model and effort resolution when the launch omits both fields."
@@ -1323,14 +1323,14 @@
         },
         {
           "old": "Defaults `claude-opus-5-5-xhigh` for code, prose, and judgment",
-          "new": "Defaults `gpt-6-astra` with `high` effort for code, `gpt-6.1-sol` with `xhigh` effort for prose and judgment",
+          "new": "Defaults `gpt-6.2-astra` with `high` effort for code, `gpt-6.2-sol` with `xhigh` effort for prose and judgment",
           "count": 1,
           "kind": "model",
           "reason": "Preserve configured code and prose roles"
         },
         {
           "old": "(default `claude-fable-5-2-max`)",
-          "new": "(`gpt-6-astra` with `xhigh` effort)",
+          "new": "(`gpt-6.2-astra` with `xhigh` effort)",
           "count": 1,
           "kind": "model",
           "reason": "Hardest tasks use configured hardest_tasks pair"
@@ -1344,14 +1344,14 @@
         },
         {
           "old": "Trivial mechanical edits go to your `swarm workers` model (default `claude-opus-5-5-high-fast`).",
-          "new": "Trivial mechanical edits go to your `swarm_workers` model (default `gpt-6-astra` with `high` effort).",
+          "new": "Trivial mechanical edits go to your `swarm_workers` model (default `gpt-6.2-astra` with `high` effort).",
           "count": 1,
           "kind": "model",
           "reason": "Use the existing Codex swarm worker role and GPT default for trivial mechanical edits."
         },
         {
           "old": "Review and design panels default to one runner each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`.",
-          "new": "Review and design panels default to two runners on `gpt-6-astra`, one with `xhigh` effort and one with `high` effort.",
+          "new": "Review and design panels default to two runners on `gpt-6.2-astra`, one with `xhigh` effort and one with `high` effort.",
           "count": 1,
           "kind": "model",
           "reason": "Preserve the two shipped GPT review and design configurations."
@@ -1659,7 +1659,7 @@
       "edits": [
         {
           "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
@@ -1722,7 +1722,7 @@
       "edits": [
         {
           "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
@@ -1736,7 +1736,7 @@
       "edits": [
         {
           "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
@@ -1770,7 +1770,7 @@
       "edits": [
         {
           "old": "`claude-opus-5-5-high-fast`",
-          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
@@ -2091,7 +2091,7 @@
       "edits": [
         {
           "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
@@ -2118,7 +2118,7 @@
       "edits": [
         {
           "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: \"high\"`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: \"high\"`",
           "count": 1,
           "kind": "model",
           "reason": "Map retained implementation and swarm defaults to the unchanged GPT role configuration."
@@ -3148,17 +3148,17 @@
         },
         {
           "old": "`claude-opus-5-5-high-fast`",
-          "new": "`gpt-6.1-sol` with `reasoning_effort: high`",
+          "new": "`gpt-6.2-sol` with `reasoning_effort: high`",
           "count": 1,
           "kind": "model",
           "reason": "Use the unchanged reflect_tooling default."
         },
         {
           "old": "`claude-opus-5-5-xhigh`",
-          "new": "`gpt-6-astra` with `reasoning_effort: xhigh`",
+          "new": "`gpt-6.2-sol` with `reasoning_effort: xhigh`",
           "count": 3,
           "kind": "model",
-          "reason": "Use the unchanged shared Reflect role default."
+          "reason": "Use the shared Reflect role default for judgment, blind-spot review, and synthesis."
         },
         {
           "old": "create-skill",
@@ -3553,11 +3553,11 @@
           "reason": "Preserve the prohibition against reading unrelated chats."
         },
         {
-          "old": "on a different model family from the one that did the work",
-          "new": "on GPT-6 Astra with a different supported reasoning effort from the one that did the work",
+          "old": "on a different model family from the one that did the work.",
+          "new": "on GPT-6.2 Sol. Start with `xhigh` reasoning effort, or `high` if the agent that did the work used `xhigh`. When the work agent's effort is known, the reviewer's final supported reasoning effort must differ from it.",
           "count": 1,
           "kind": "model",
-          "reason": "Preserve required cross-review difference with the documented GPT effort mapping."
+          "reason": "Use Sol for decision-trail review and preserve the effort difference from the work agent."
         },
         {
           "old": "`reviewed by <model>`",
@@ -3650,7 +3650,7 @@
         },
         {
           "old": "`claude-opus-5-5-high-fast`",
-          "new": "`gpt-6-astra` with `reasoning_effort: high`",
+          "new": "`gpt-6.2-astra` with `reasoning_effort: high`",
           "count": 1,
           "kind": "model",
           "reason": "Map the second candidate or swarm worker to its unchanged GPT configuration."

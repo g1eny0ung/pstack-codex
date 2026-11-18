@@ -18,7 +18,7 @@ A sibling skill named `how` means `skills/how/SKILL.md` in this plugin. Resolve 
 
 The role keys correspond one-to-one to upstream role labels, with punctuation and spaces represented as underscores. `judgment_and_prose` remains one shared role. `reflect_judgment_divergent_synthesizer` remains one shared role for those three agents; `reflect_tooling` is separate. Do not add a `comment_review` or `audit_reviewer` role. Comment Sicko also omits both launch fields. `show-me-your-work` selects its reviewer without a dedicated role. The `arena_cross_judge_pool` array preserves upstream's `arena cross-judge pool`.
 
-This port maps Arena's cross-vendor review and `show-me-your-work`'s cross-model-family review to GPT-6 Astra at different reasoning efforts. The Codex judge and reviewer rules use effort differences. Apply the judge eligibility and fallback rules in [Arena](../../arena/SKILL.md) and the reviewer rules in [show-me-your-work](../../show-me-your-work/SKILL.md). If the work agent's effort is unknown, report that the required difference cannot be verified.
+This port maps Arena's cross-vendor review to GPT-6.2 Astra and `show-me-your-work`'s cross-model-family review to GPT-6.2 Sol. The Codex judge and reviewer rules use effort differences. Apply the judge eligibility and fallback rules in [Arena](../../arena/SKILL.md) and the reviewer rules in [show-me-your-work](../../show-me-your-work/SKILL.md). If the work agent's effort is unknown, report that the required difference cannot be verified.
 
 ## Choose effort and speed for the job
 

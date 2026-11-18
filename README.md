@@ -49,7 +49,7 @@ This port includes selected upstream skills and runs workflows locally. PR workf
 
 ## Configure models
 
-Subagent roles start with GPT-6.1 Sol for exploration, explanations, and writing, and GPT-6 Astra for implementation and reviews. Workflows adjust reasoning effort for each task from those starting settings. Your account and Codex environment must support the configured models and reasoning effort levels. These settings apply only to subagents and do not change your main chat's model or reasoning effort settings.
+Subagent roles start with GPT-6.2 Sol for judgment, writing, and conversation retrospectives, and GPT-6.2 Astra for implementation, design, and code review. Workflows adjust reasoning effort for each task from those starting settings. Your account and Codex environment must support the configured models and reasoning effort levels. These settings apply only to subagents and do not change your main chat's model or reasoning effort settings.
 
 Use `$setup-pstack` to inspect or change these settings. For example:
 
