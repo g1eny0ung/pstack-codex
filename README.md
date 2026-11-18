@@ -45,7 +45,7 @@ Skills activate only when explicitly invoked. An invoked workflow can read relat
 
 ## Differences from upstream
 
-This port includes selected upstream skills and runs workflows locally. PR workflows and worktree PR audits use GitHub CLI (`gh`). Origin CLI integration and cloud orchestration are excluded. See [UPSTREAM.md](UPSTREAM.md#exclusions) for the port scope and exclusions.
+This port includes selected upstream skills and runs workflows locally. PR creation uses the GitHub connector or GitHub CLI (`gh`). Other PR workflows and worktree PR audits use `gh`. Origin CLI integration and cloud orchestration are excluded. See [UPSTREAM.md](UPSTREAM.md#exclusions) for the port scope and exclusions.
 
 ## Configure models
 
@@ -70,7 +70,7 @@ Additional tools depend on the workflow you use:
 |---|---|
 | Node helper scripts | Node.js 22+ |
 | Git and worktree operations | Bash, Git, `jq` for the worktree audit, and standard system utilities |
-| GitHub pull requests | GitHub CLI, `gh`, authenticated with your account |
+| GitHub pull requests | GitHub connector or authenticated `gh` to open a PR. Authenticated `gh` for other PR workflows. |
 | Browser or interactive CLI verification | Suitable tools provided by your Codex host or project |
 | Spatial explanations in `teach` | A host image-generation tool; unavailable image generation is reported as blocked |
 | Session-history workflows | A Codex CLI on `PATH` with App Server `thread/turns/list` support and access to the thread's Codex state directory |

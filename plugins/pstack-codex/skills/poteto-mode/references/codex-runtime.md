@@ -26,7 +26,9 @@ Apply the [Subagents rules](../SKILL.md#subagents) using the resolved role setti
 
 ## GitHub pull requests
 
-Use GitHub CLI (`gh`) for retained PR workflows and worktree PR audits. Origin CLI integration is outside this port's scope. The audit must not probe or invoke Origin, including when `gh` is unavailable. Missing GitHub PR evidence stays unknown and cannot establish that a worktree is safe to remove. Git remotes named `origin` remain supported.
+To open an authorized PR, use the GitHub connector's `create_pull_request` tool with `draft: false` when it is available for the target repository. If the connector is unavailable or GitHub rejects its authentication or repository permissions, use an authenticated `gh pr create` with the same repository, base, head, title, and body. Pass the body with `--body-file` and omit `--draft`.
+
+Use GitHub CLI (`gh`) for other retained PR workflows and worktree PR audits. Origin CLI integration is outside this port's scope. The audit must not probe or invoke Origin, including when `gh` is unavailable. Missing GitHub PR evidence stays unknown and cannot establish that a worktree is safe to remove. Git remotes named `origin` remain supported.
 
 ## Launch and supervise local subagents
 

@@ -6,4 +6,4 @@ Reuse the current checkout or an attached worktree when it suits the PR. When is
 
 Title: `type(scope): subject`, naming a real symbol when one carries the change. Body: a one-minute briefing under 40 lines with these `##` headings in order, dropping empty ones: `## Why`, `## What changed`, `## Scope`, `## Tradeoffs` (only rejected alternatives a reviewer would otherwise ask about), `## Blast Radius`, `## Verification`.
 
-Stack follow-ups by base branch. Open PRs ready, through the run's PR tool with `draft: false`. Without one, use `gh pr create` without `--draft`. Opening a PR does not start a babysit.
+Stack follow-ups by base branch. Open PRs ready using the [Codex PR creation workflow](../references/codex-runtime.md#github-pull-requests). Opening a PR does not start a babysit.

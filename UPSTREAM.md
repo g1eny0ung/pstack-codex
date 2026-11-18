@@ -32,7 +32,7 @@ Adoption of `statechart` is deferred. Its expected usage does not yet justify th
 
 Adoption of `ketchup-video` is deferred. Its video workflow needs rendering and frame inspection tools that are not bundled with the plugin.
 
-Origin CLI integration is excluded under this port's Codex compatibility standard. Retained PR workflows and worktree PR audits use GitHub CLI (`gh`). During upstream synchronization, remove Origin CLI detection, commands, and workflow branches instead of importing them. Git remote names such as `origin` remain valid and are unrelated to this exclusion.
+Origin CLI integration is excluded under this port's Codex compatibility standard. Follow the [Codex runtime](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#github-pull-requests) for GitHub PR workflows and worktree PR audits. During upstream synchronization, remove Origin CLI detection, commands, and workflow branches instead of importing them. Git remote names such as `origin` remain valid and are unrelated to this exclusion.
 
 ## Adaptation rules to preserve
 

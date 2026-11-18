@@ -1447,21 +1447,21 @@
           "new": "Invoked at the end of every other playbook when PR delivery is authorized.\n",
           "count": 1,
           "kind": "host",
-          "reason": "Use the Codex worktree lifecycle and GitHub CLI within the approved PR scope."
+          "reason": "Require authorization for PR delivery in Codex."
         },
         {
           "old": "Work from a git worktree off trunk, and keep unrelated work out of it. Rebase into small, landable commits. Run `/deslop` from `cursor-team-kit` over the diff before commit.\n",
           "new": "Reuse the current checkout or an attached worktree when it suits the PR. When isolation is needed, create a worktree off trunk, and keep unrelated work out of it. Rebase into small, landable commits. Run the bundled **deslop** skill over the diff before commit.\n",
           "count": 1,
           "kind": "host",
-          "reason": "Use the Codex worktree lifecycle and GitHub CLI within the approved PR scope."
+          "reason": "Use the Codex worktree lifecycle and the bundled deslop skill."
         },
         {
           "old": "Stack follow-ups by base branch. Open PRs ready, through the run's PR tool with `draft: false`. Without one, use `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Opening a PR does not start a babysit.\n",
-          "new": "Stack follow-ups by base branch. Open PRs ready, through the run's PR tool with `draft: false`. Without one, use `gh pr create` without `--draft`. Opening a PR does not start a babysit.\n",
+          "new": "Stack follow-ups by base branch. Open PRs ready using the [Codex PR creation workflow](../references/codex-runtime.md#github-pull-requests). Opening a PR does not start a babysit.\n",
           "count": 1,
           "kind": "host",
-          "reason": "Use the Codex worktree lifecycle and GitHub CLI within the approved PR scope."
+          "reason": "Map the run's PR tool to the GitHub connector and use GitHub CLI when the connector cannot create the PR due to availability or permissions. Exclude Origin CLI."
         }
       ],
       "source_sha256": "a14cf04833cd6a3eb899fb8814759c937294d0faa3da1ef09d568f45002026b4"

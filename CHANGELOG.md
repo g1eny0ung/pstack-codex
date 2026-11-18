@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Open ready PRs through the GitHub connector and fall back to `gh` if the connector is unavailable or lacks permission.
+
 ## [0.9.0] - 2026-11-18
 
 ### Changed
