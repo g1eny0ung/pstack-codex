@@ -10,7 +10,7 @@ This file guides AI agents editing pstack-codex. Read [README.md](README.md) for
 | `plugins/pstack-codex/config/models.defaults.json` | Shipped model and reasoning defaults |
 | `plugins/pstack-codex/.codex-plugin/plugin.json` | Plugin metadata and release version |
 | `.agents/plugins/marketplace.json` | Marketplace registration |
-| `plugins/pstack-codex/skills/poteto-mode/scripts/` | PR helper, history reader, plan checker, and worktree audit |
+| `plugins/pstack-codex/skills/poteto-mode/scripts/` | PR helper, history reader, and worktree audit |
 | `scripts/` | Build, packaging, and upstream maintenance commands |
 | `upstream.lock.json` | Initial and last synchronized upstream commits |
 

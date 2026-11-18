@@ -39,7 +39,7 @@ You can also invoke a focused skill directly:
 | Review a change | `$interrogate Review this diff; report findings without changing code.` |
 | Verify a code property | `$create-formal-verification-skill Check a key property and create a project skill to rerun it.` |
 | Improve writing | `$unslop Rewrite this paragraph in plain language.` |
-| Configure models | `$setup-pstack Show the current role defaults.` |
+| Configure models | `$setup-pstack Configure my subagent models.` |
 
 Skills activate only when explicitly invoked. An invoked workflow can read related skills and delegate work when its instructions call for it. See the [skill directory](plugins/pstack-codex/skills/) for all available skills.
 
@@ -51,16 +51,16 @@ This port includes selected upstream skills and runs workflows locally. PR workf
 
 Subagent roles start with GPT-6.2 Sol for judgment, writing, and conversation retrospectives, and GPT-6.2 Astra for implementation, design, and code review. Workflows adjust reasoning effort for each task from those starting settings. Your account and Codex environment must support the configured models and reasoning effort levels. These settings apply only to subagents and do not change your main chat's model or reasoning effort settings.
 
-Use `$setup-pstack` to inspect or change these settings. For example:
+Use `$setup-pstack` to change these settings. For example:
 
 ```text
 $setup-pstack Set the reasoning budget to medium.
 $setup-pstack Set judgment_and_prose to inherit-parent.
 ```
 
-Personal overrides live in `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` and survive plugin updates. Changes apply to subsequent subagent launches. Use `$setup-pstack` to reset a role or review older overrides.
+Personal overrides live in `${CODEX_HOME:-$HOME/.codex}/pstack-codex/models.json` and survive plugin updates. Changes apply to subsequent subagent launches. Use `$setup-pstack` to reset a role or migrate older overrides.
 
-See [setup-pstack](plugins/pstack-codex/skills/setup-pstack/SKILL.md) for budget choices, [model role rules](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#resolve-model-roles) for configuration behavior, [task effort rules](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#choose-effort-and-speed-for-the-job) for launch adjustments, and [model defaults](plugins/pstack-codex/config/models.defaults.json) for every role's shipped settings.
+See [setup-pstack](plugins/pstack-codex/skills/setup-pstack/SKILL.md) for budget choices, [model role rules](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#resolve-model-roles) for configuration behavior, [task effort rules](plugins/pstack-codex/skills/poteto-mode/references/codex-runtime.md#choose-effort-for-the-job) for launch adjustments, and [model defaults](plugins/pstack-codex/config/models.defaults.json) for every role's shipped settings.
 
 ## Requirements and compatibility
 

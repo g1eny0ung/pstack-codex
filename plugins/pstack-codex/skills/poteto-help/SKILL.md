@@ -48,7 +48,7 @@ This port uses the Agent Skills format and Codex local subagents with GPT models
 
 ## Start a task with `$poteto-mode`
 
-`$poteto-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one. [Guide page 2](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/02-poteto-mode.md) has examples.
+`$poteto-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one. [Guide page 2](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/02-poteto-mode.md) has examples.
 
 `$poteto-mode` applies to the current task. Start each new task with `$poteto-mode`; this port does not install a persistent Custom Mode.
 
@@ -94,7 +94,6 @@ Close calls:
 
 - `$how` explains what the code does. `$why` explains the reasons. `$teach` runs one or both and explains the result plainly.
 - `$arena` gives every worker the same brief and merges the best parts. `$swarm` splits work into slices or a race and returns one report.
-- `$architect` implements right after it settles the design. Add "with checkpoint" to review the design before it writes code.
 - `$interrogate` reviews the diff. `$blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe.
 - `$ketchup` covers only this chat since the user's last message. Resuming one specific chat or branch is the Session pickup playbook.
 - `$figure-it-out` designs one rigorous run. The Autonomous run playbook drives one task to a finish condition.
@@ -103,7 +102,7 @@ Availability in this port:
 
 - `$deslop`, `control-cli`, and `control-ui` come from `cursor-team-kit` and are bundled in this port.
 - `/loop` and `/create-skill` are Cursor built-ins. Use Codex Goals for explicit persistent objectives, native automation for reminders and recurring work, and the host's skill-creator skill for authoring. Follow Codex runtime for Goal tools and lifecycle handling.
-- pstack has no `/orchestrate` skill. Its Orchestrate playbook is excluded from this port, as are Autopilot-full and Autopilot-stack. If a skill menu shows `/orchestrate`, another plugin provides it.
+- The Autopilot-full and Autopilot-stack playbooks are outside this port. If a skill menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles
 
@@ -115,7 +114,7 @@ Playbooks are step lists inside `$poteto-mode`, not skills, so they have no stan
 - "pause safely" runs Pause safely.
 - "run the eval playbook" runs Eval.
 
-Without `$poteto-mode`, a phrase such as "babysit this pr" can start another installed skill for the same job instead. The Playbooks section of [`poteto-mode`](../poteto-mode/SKILL.md) lists every playbook and when it applies. [Guide page 6](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/06-verify-and-ship.md) covers opening, babysitting, and landing a PR.
+Without `$poteto-mode`, a phrase such as "babysit this pr" can start another installed skill for the same job instead. The Playbooks section of [`poteto-mode`](../poteto-mode/SKILL.md) lists every playbook. [Guide page 6](https://github.com/cursor/plugins/blob/ccb5507cec1546dc88135c1139c811e6c59115ba/pstack/docs/guide/06-verify-and-ship.md) covers opening, babysitting, and landing a PR.
 
 pstack has no planning skill. Codex's Plan Mode works alongside it. For work that spans phases or stacked PRs, asking `$poteto-mode` for a plan runs the [Multi-phase plan playbook](../poteto-mode/playbooks/multi-phase-plan.md), which writes the plan and doesn't implement it. For a design question, the Prototype playbook or `$architect` settles it in code first.
 

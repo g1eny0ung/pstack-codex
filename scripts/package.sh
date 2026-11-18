@@ -13,7 +13,7 @@ inputs=(
   "$plugin/.codex-plugin/plugin.json"
   "$plugin/config/models.defaults.json"
   "$plugin/licenses"
-  "$plugin/skills/poteto-mode/scripts/check-plan.mjs"
+  "$plugin/skills/poteto-mode/worker.md"
   "$plugin/skills/poteto-mode/scripts/read-thread.mjs"
   "$plugin/skills/poteto-mode/scripts/worktree-audit.sh"
   "$plugin/skills/poteto-mode/scripts/dist/watch-pr.mjs"

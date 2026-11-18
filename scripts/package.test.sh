@@ -17,6 +17,7 @@ unrelated=(
   plugins/other-plugin/SKILL.md "$plugin/notes.md"
   "$plugin/.codex-plugin/private.json" "$plugin/config/private.json"
   "$skill/notes.md" "$skill/agents/other.yaml" "$skill/scripts/scratch.mjs"
+  "$skill/scripts/check-plan.mjs"
   "$skill/scripts/dist/scratch.mjs" "$skill/scripts/node_modules/example/index.js"
   "$skill/references/.DS_Store" "$skill/references/node_modules/example/index.js"
 )
@@ -39,7 +40,7 @@ const scripts = `${plugin}/skills/poteto-mode/scripts`;
 const required = [
   '.agents/plugins/marketplace.json', 'LICENSE',
   `${plugin}/.codex-plugin/plugin.json`, `${plugin}/config/models.defaults.json`,
-  `${scripts}/check-plan.mjs`, `${scripts}/read-thread.mjs`,
+  `${plugin}/skills/poteto-mode/worker.md`, `${scripts}/read-thread.mjs`,
   `${scripts}/worktree-audit.sh`, `${scripts}/dist/watch-pr.mjs`,
   `${plugin}/skills/show-me-your-work/scripts/log.sh`,
 ];

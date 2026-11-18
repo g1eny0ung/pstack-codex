@@ -4,6 +4,16 @@ Notable changes to pstack-codex are recorded here. The format follows [Keep a Ch
 
 ## [Unreleased]
 
+### Changed
+
+- Synced the selected workflows through Cursor pstack 0.15.43. Architect and Reflect use shorter workflows, local subagent prompts load `worker.md`, and the multi-phase plan no longer uses the plan checker.
+- Retired the `hardest_tasks`, `architect_runners`, `reflect_tooling`, and `reflect_judgment_divergent_synthesizer` model roles. Explicit launches cap reasoning effort at `xhigh`. Run `setup-pstack` to migrate retired keys and the `unlimited` budget in personal overrides.
+
+### Fixed
+
+- Check worktree usage against Codex chats without relying on a bucket the local audit never emits.
+- Show a model configuration prompt in the README.
+
 ## [0.8.0] - 2026-11-18
 
 ### Changed

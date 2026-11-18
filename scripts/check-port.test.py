@@ -19,7 +19,7 @@ with tempfile.TemporaryDirectory(prefix='pstack-port-test-') as temporary:
     assert result.returncode == 0, result.stdout + result.stderr
     skill = plugin / 'skills/poteto-mode/SKILL.md'
     original = skill.read_bytes()
-    skill.write_bytes(original.replace(b"fix it in its own PR", b"fix it as part of the current feature", 1))
+    skill.write_bytes(original.replace(b"Apply this workflow to the current requested task.", b"Apply this workflow to every task.", 1))
     assert skill.read_bytes() != original
     result = subprocess.run(command, text=True, capture_output=True)
     assert result.returncode == 1 and 'Unaccounted difference: skills/poteto-mode/SKILL.md' in result.stdout, result.stdout

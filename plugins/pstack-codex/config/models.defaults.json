@@ -21,18 +21,6 @@
       "model": "gpt-6.2-sol",
       "reasoning_effort": "xhigh"
     },
-    "hardest_tasks": {
-      "model": "gpt-6.2-astra",
-      "reasoning_effort": "xhigh"
-    },
-    "reflect_tooling": {
-      "model": "gpt-6.2-sol",
-      "reasoning_effort": "high"
-    },
-    "reflect_judgment_divergent_synthesizer": {
-      "model": "gpt-6.2-sol",
-      "reasoning_effort": "xhigh"
-    },
     "arena_runners": [
       {
         "model": "gpt-6.2-astra",
@@ -57,16 +45,6 @@
       "model": "gpt-6.2-astra",
       "reasoning_effort": "high"
     },
-    "architect_runners": [
-      {
-        "model": "gpt-6.2-astra",
-        "reasoning_effort": "xhigh"
-      },
-      {
-        "model": "gpt-6.2-astra",
-        "reasoning_effort": "high"
-      }
-    ],
     "interrogate_reviewers": [
       {
         "model": "gpt-6.2-astra",
