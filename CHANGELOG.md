@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-18
+
 ### Changed
 
 - Sync with Cursor pstack 0.15.43. Architect uses Arena for complex designs, Reflect reviews the current chat, and multi-phase plans are shorter.
@@ -170,7 +172,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial Codex port with 42 explicitly invoked skills, 20 local playbooks, and GPT-6 Astra model defaults.
 - GitHub marketplace and local ZIP installation, with a bundled PR helper and a read-only worktree audit.
 
-[Unreleased]: https://github.com/g1eny0ung/pstack-codex/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/g1eny0ung/pstack-codex/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/g1eny0ung/pstack-codex/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/g1eny0ung/pstack-codex/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/g1eny0ung/pstack-codex/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/g1eny0ung/pstack-codex/compare/v0.6.0...v0.6.1
