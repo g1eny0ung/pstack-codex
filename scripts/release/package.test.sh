@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 fixture=$(mktemp -d "${TMPDIR:-/tmp}/pstack-package-test.XXXXXX")
 fixture=$(cd "$fixture" && pwd -P)
 trap 'rm -rf "$fixture"' EXIT
@@ -9,7 +9,7 @@ mkdir -p "$project/scripts"
 tar -C "$root" --exclude=node_modules --exclude=.DS_Store -cf - \
   .agents/plugins/marketplace.json plugins/pstack-codex \
   README.md AGENTS.md UPSTREAM.md upstream.lock.json LICENSE .gitignore \
-  scripts/package.sh | tar -xf - -C "$project"
+  scripts/release/package.sh | tar -xf - -C "$project"
 plugin=plugins/pstack-codex
 skill="$plugin/skills/poteto-mode"
 unrelated=(
@@ -27,10 +27,10 @@ for path in "${unrelated[@]}"; do
 done
 mkdir -p "$project/$skill/assets"
 printf 'runtime asset\n' > "$project/$skill/assets/example.txt"
-archive=$(bash "$project/scripts/package.sh")
+archive=$(bash "$project/scripts/release/package.sh")
 unzip -q "$archive" -d "$fixture/extracted"
 unzip -Z1 "$archive" > "$fixture/entries.txt"
-node - "$project" "$fixture/extracted/pstack-codex" "$fixture/entries.txt" "$archive" <<'NODE'
+bun - "$project" "$fixture/extracted/pstack-codex" "$fixture/entries.txt" "$archive" <<'NODE'
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -55,10 +55,12 @@ const resourceFiles = (relative) => {
 };
 resourceFiles(`${plugin}/licenses`);
 const skills = fs.readdirSync(path.join(source, plugin, 'skills'));
-assert.equal(skills.length, 54, 'fixture contains all 54 shipped skills');
 for (const skill of skills) {
   const dir = `${plugin}/skills/${skill}`;
-  expectedFiles.push(`${dir}/SKILL.md`, `${dir}/agents/openai.yaml`);
+  const metadata = `${dir}/agents/openai.yaml`;
+  expectedFiles.push(`${dir}/SKILL.md`, metadata);
+  const config = Bun.YAML.parse(fs.readFileSync(path.join(extracted, metadata), 'utf8'));
+  assert.equal(config.policy?.allow_implicit_invocation, false, metadata);
   for (const resource of ['references', 'playbooks', 'assets']) {
     if (fs.existsSync(path.join(source, dir, resource))) resourceFiles(`${dir}/${resource}`);
   }
@@ -69,19 +71,20 @@ const actualFiles = fs.readFileSync(entriesFile, 'utf8').trim().split('\n')
     assert.ok(entry.startsWith('pstack-codex/'), `archive root: ${entry}`);
     return entry.slice('pstack-codex/'.length);
   });
-const expected = new Set(expectedFiles);
-const unexpected = actualFiles.filter(file => !expected.has(file));
-assert.deepEqual(unexpected, [], 'ZIP must exclude repository, development, and unrelated files');
-assert.deepEqual(actualFiles.sort(), expectedFiles.sort(), 'ZIP contains every runtime file');
+assert.deepEqual(actualFiles.sort(), expectedFiles.sort(), 'ZIP contains exactly the expected runtime files');
 for (const file of expectedFiles) {
   assert.deepEqual(fs.readFileSync(path.join(extracted, file)), fs.readFileSync(path.join(source, file)), file);
 }
+assert.deepEqual(
+  fs.readFileSync(path.join(extracted, plugin, 'licenses/pstack-codex-MIT.txt')),
+  fs.readFileSync(path.join(extracted, 'LICENSE')),
+);
 const marketplace = JSON.parse(fs.readFileSync(path.join(extracted, '.agents/plugins/marketplace.json')));
 assert.equal(marketplace.plugins[0].source.path, './plugins/pstack-codex');
 const manifest = JSON.parse(fs.readFileSync(path.join(extracted, marketplace.plugins[0].source.path, '.codex-plugin/plugin.json')));
 assert.equal(manifest.name, 'pstack-codex');
 assert.equal(path.basename(archive), `pstack-codex-${manifest.version}.zip`);
-console.log('PASS: ZIP preserves marketplace, licenses, all 54 skills, resources, and runtime scripts; excludes unrelated files.');
+console.log('PASS: ZIP preserves marketplace, licenses, explicit skill invocation, and runtime files. Unrelated files are excluded.');
 NODE
 node "$fixture/extracted/pstack-codex/$skill/scripts/dist/watch-pr.mjs" --help > "$fixture/watch-pr-help.txt"
 grep -q 'Usage: watch-pr' "$fixture/watch-pr-help.txt"

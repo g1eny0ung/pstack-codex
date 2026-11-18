@@ -11,7 +11,10 @@ This file guides AI agents editing pstack-codex. Read [README.md](README.md) for
 | `plugins/pstack-codex/.codex-plugin/plugin.json` | Plugin metadata and release version |
 | `.agents/plugins/marketplace.json` | Marketplace registration |
 | `plugins/pstack-codex/skills/poteto-mode/scripts/` | PR helper, history reader, and worktree audit |
-| `scripts/` | Build, packaging, and upstream maintenance commands |
+| `scripts/upstream/` | Upstream comparison and synchronization |
+| `scripts/port/` | Adaptation manifest and port checks |
+| `scripts/release/` | Build and packaging commands |
+| `tests/` | Plugin runtime regression tests |
 | `upstream.lock.json` | Initial and last synchronized upstream commits |
 
 Edit source files in this checkout. Keep personal configuration and task artifacts outside the installed plugin cache.
@@ -32,7 +35,8 @@ Edit source files in this checkout. Keep personal configuration and task artifac
 - Keep upstream mappings and synchronization rules in `UPSTREAM.md`. Link to existing rules instead of duplicating them.
 - Add documentation under `docs/` only for durable information needed to use or maintain the project. Put temporary plans, debug logs, and task validation records in ignored `.work/` or the task's external runtime directory.
 - Remove obsolete content from `.work/` after each release.
-- Record notable changes under `Unreleased` in [CHANGELOG.md](CHANGELOG.md) as they land. When preparing a release, move those entries into a dated version section, add its comparison link, and update the `Unreleased` link to start at the new tag.
+- Follow [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/). In [CHANGELOG.md](CHANGELOG.md), group notable user-visible changes by type under `Unreleased`. Keep each entry short and combine related fixes. Describe the user-visible effect and any required upgrade steps. Use `Fixed` for bug fixes. Omit internal work and routine documentation edits.
+- When preparing a release, move the entries into a dated version section, add its comparison link, and update the `Unreleased` link to start at the new tag.
 - After each release, update the local pstack-codex installation to the released version using [install.md](install.md). Preserve the current marketplace source and confirm that the installed version is enabled.
 - Do not include validation steps or a Validation section in release descriptions. Report actual verification results in the chat.
 - Update documentation when behavior changes. Do not describe planned checks as completed or old validation results as current guarantees.
@@ -52,11 +56,11 @@ bun test
 bun run typecheck
 ```
 
-Upstream maintenance commands require Python 3, Bash, and Git. For upstream tracker changes, run `bash scripts/upstream.test.sh`.
+Upstream maintenance commands require Python 3, Bash, and Git. For upstream tracker changes, run `bash scripts/upstream/upstream.test.sh`.
 
-When PR helper source or dependencies change, run `bash scripts/build.sh` and include the generated `plugins/pstack-codex/skills/poteto-mode/scripts/dist/watch-pr.mjs` and any changed dependency license notice. Do not edit the generated bundle by hand.
+When PR helper source or dependencies change, run `bash scripts/release/build.sh` and include the generated `plugins/pstack-codex/skills/poteto-mode/scripts/dist/watch-pr.mjs` and any changed dependency license notice. Do not edit the generated bundle by hand.
 
-For packaging changes, run `bash scripts/package.test.sh`, then run `bash scripts/package.sh` and inspect the ZIP contents. The script packages the existing bundle into `dist/pstack-codex-<version>.zip`; build first if the bundle is missing or stale. When adding or removing packaged files, update the input list in `scripts/package.sh`.
+For packaging changes, run `bash scripts/release/package.test.sh`, then run `bash scripts/release/package.sh` and inspect the ZIP contents. The script packages the existing bundle into `dist/pstack-codex-<version>.zip`; build first if the bundle is missing or stale. When adding or removing packaged files, update the input list in `scripts/release/package.sh`.
 
 For upstream synchronization or port-fidelity changes, follow the [upstream process](UPSTREAM.md#check-and-prepare), including its user-decision gate, and the [copy and adaptation checks](UPSTREAM.md#verify-the-copy-and-adaptations).
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 fixture=$(mktemp -d "${TMPDIR:-/tmp}/pstack-upstream-test.XXXXXX")
 trap 'rm -rf "$fixture"' EXIT
 upstream="$fixture/upstream"
 project="$fixture/project with spaces"
-mkdir -p "$upstream" "$project/scripts" "$project/plugins/pstack-codex/skills/poteto-mode"
-cp "$root/scripts/upstream.sh" "$project/scripts/"
-cp "$root/scripts/check-adaptation-impact.py" "$project/scripts/"
+mkdir -p "$upstream" "$project/scripts/upstream" "$project/scripts/port" "$project/plugins/pstack-codex/skills/poteto-mode"
+cp "$root/scripts/upstream/upstream.sh" "$project/scripts/upstream/"
+cp "$root/scripts/port/check-adaptation-impact.py" "$root/scripts/port/port_adaptations.py" "$project/scripts/port/"
 expect_status() {
   local expected=$1 output=$2 actual=0
   shift 2
@@ -35,6 +35,7 @@ printf 'rename\n' > "$upstream/pstack/skills/poteto-mode/old name.md"
 mkdir -p "$upstream/pstack/skills/benchmark-checklist"
 printf 'benchmark original\nunchanged advice\n' > "$upstream/pstack/skills/benchmark-checklist/SKILL.md"
 printf '#!/bin/bash\naudit original\n' > "$upstream/pstack/skills/poteto-mode/scripts/worktree-audit.sh"
+printf 'bootstrap original\n' > "$upstream/pstack/skills/poteto-mode/scripts/bootstrap.ts"
 commit_changes baseline
 base=$(git -C "$upstream" rev-parse HEAD)
 cat > "$project/upstream.lock.json" <<EOF
@@ -62,60 +63,88 @@ for name, reason in (
     files.append(dict(source=source, target='skills/' + name,
                       source_sha256=hashlib.sha256((upstream / source).read_bytes()).hexdigest(),
                       edits=[] if reason is None else [dict(old='original', new='adapted', count=1, kind='host', reason=reason)]))
-(project / 'scripts/port-adaptations.json').write_text(json.dumps(dict(version=1, upstream_commit=sys.argv[3], files=files)))
+omitted = {'pstack/skills/poteto-mode/scripts/bootstrap.ts': dict(kind='host', reason='Bundle dependencies.')}
+(project / 'scripts/port/port-adaptations.json').write_text(json.dumps(dict(version=1, upstream_commit=sys.argv[3], files=files, omitted=omitted)))
 PYTHON
-cp "$project/scripts/port-adaptations.json" "$fixture/original.manifest"
+cp "$project/scripts/port/port-adaptations.json" "$fixture/original.manifest"
 cp -R "$project/plugins" "$fixture/original-plugins"
 printf 'after\n' > "$upstream/pstack/skills/poteto-mode/SKILL.md"
 rm "$upstream/pstack/skills/poteto-mode/delete.md"
 mv "$upstream/pstack/skills/poteto-mode/old name.md" "$upstream/pstack/skills/poteto-mode/new name.md"
 printf 'excluded\n' > "$upstream/pstack/skills/poteto-mode/scripts/orch/new.ts"
+printf 'bootstrap changed\n' > "$upstream/pstack/skills/poteto-mode/scripts/bootstrap.ts"
 mkdir -p "$upstream/pstack/skills/new-skill"
 printf 'new\n' > "$upstream/pstack/skills/new-skill/SKILL.md"
 git -C "$upstream" add .
 git -C "$upstream" commit -qm changes
 target=$(git -C "$upstream" rev-parse HEAD)
 export PSTACK_UPSTREAM_REPOSITORY="$upstream" PSTACK_UPSTREAM_WORKDIR="$fixture/cache with spaces"
-expect_status 0 "$fixture/report" bash "$project/scripts/upstream.sh" check
-grep -q 'No recorded adaptations affected' "$fixture/report"
+expect_status 0 "$fixture/report" bash "$project/scripts/upstream/upstream.sh" check
+grep -q 'No recorded adaptations require manual review' "$fixture/report"
 grep -q 'migrated.*M.*SKILL.md' "$fixture/report"
 grep -q 'migrated.*D.*delete.md' "$fixture/report"
 grep -q 'R100.*old.*new' "$fixture/report"
 grep -q 'excluded-cloud.*orch/new.ts' "$fixture/report"
+grep -q 'new-or-out-of-scope.*bootstrap.ts' "$fixture/report"
 grep -q 'new-or-out-of-scope.*new-skill' "$fixture/report"
 cmp "$project/upstream.lock.json" "$fixture/original.lock"
-bash "$project/scripts/upstream.sh" prepare --commit "$target" > "$fixture/prepare-report"
+bash "$project/scripts/upstream/upstream.sh" prepare --commit "$target" > "$fixture/prepare-report"
 material=$(sed -n 's/^Prepared: //p' "$fixture/prepare-report")
 test -f "$material/base-upstream/pstack/skills/poteto-mode/delete.md"
 test ! -f "$material/target-upstream/pstack/skills/poteto-mode/delete.md"
 test -f "$material/target-upstream/pstack/skills/poteto-mode/new name.md"
 test -f "$material/local-codex/pstack-codex/skills/poteto-mode/SKILL.md"
 cmp "$project/upstream.lock.json" "$fixture/original.lock"
-if bash "$project/scripts/upstream.sh" prepare --commit invalid >/dev/null 2>&1; then
+(
+  unset PSTACK_UPSTREAM_REPOSITORY
+  export PSTACK_UPSTREAM_WORKDIR="$fixture/rewritten-url-cache"
+  export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.$upstream.insteadOf"
+  export GIT_CONFIG_VALUE_0=https://github.com/cursor/plugins.git
+  expect_status 0 "$fixture/rewritten-url-first-check" bash "$project/scripts/upstream/upstream.sh" check
+  expect_status 0 "$fixture/rewritten-url-repeat-check" bash "$project/scripts/upstream/upstream.sh" check
+)
+if bash "$project/scripts/upstream/upstream.sh" prepare --commit invalid >/dev/null 2>&1; then
   printf 'Invalid commit unexpectedly accepted\n' >&2; exit 1
 fi
 cmp "$project/upstream.lock.json" "$fixture/original.lock"
 reset_upstream
-expect_status 0 "$fixture/unchanged" bash "$project/scripts/upstream.sh" check
-grep -q 'No recorded adaptations affected' "$fixture/unchanged"
+expect_status 0 "$fixture/unchanged" bash "$project/scripts/upstream/upstream.sh" check
+grep -q 'No recorded adaptations require manual review' "$fixture/unchanged"
+
+python3 - "$project/upstream.lock.json" <<'PYTHON'
+import json
+from pathlib import Path
+import sys
+path = Path(sys.argv[1])
+lock = json.loads(path.read_text())
+del lock['initial_commit']
+path.write_text(json.dumps(lock, separators=(',', ':')))
+PYTHON
+expect_status 0 "$fixture/compact-lock" bash "$project/scripts/upstream/upstream.sh" check
+cp "$fixture/original.lock" "$project/upstream.lock.json"
 
 printf 'upstream advice changed\n' >> "$upstream/pstack/skills/benchmark-checklist/SKILL.md"
 commit_changes 'adapted modification outside replacement'
-expect_status 2 "$fixture/adapted-modification" bash "$project/scripts/upstream.sh" check
-grep -q 'ADAPTATION_REVIEW_REQUIRED' "$fixture/adapted-modification"
-grep -q 'pstack/skills/benchmark-checklist/SKILL.md' "$fixture/adapted-modification"
-grep -q 'plugins/pstack-codex/skills/benchmark-checklist/SKILL.md' "$fixture/adapted-modification"
-grep -q 'Preserve benchmark evidence for Codex.' "$fixture/adapted-modification"
+expect_status 0 "$fixture/adapted-modification" bash "$project/scripts/upstream/upstream.sh" check
+grep -q 'Existing adaptations still apply:.*pstack/skills/benchmark-checklist/SKILL.md.*plugins/pstack-codex/skills/benchmark-checklist/SKILL.md' "$fixture/adapted-modification"
 target=$(git -C "$upstream" rev-parse HEAD)
-expect_status 2 "$fixture/adapted-prepare" bash "$project/scripts/upstream.sh" prepare --commit "$target"
+expect_status 0 "$fixture/adapted-prepare" bash "$project/scripts/upstream/upstream.sh" prepare --commit "$target"
 material=$(sed -n 's/^Prepared: //p' "$fixture/adapted-prepare")
 test -f "$material/base-upstream/pstack/skills/benchmark-checklist/SKILL.md"
 grep -q 'upstream advice changed' "$material/target-upstream/pstack/skills/benchmark-checklist/SKILL.md"
 test -f "$material/local-codex/pstack-codex/skills/poteto-mode/SKILL.md"
 grep -q 'Changes (category, status, path)' "$material/changes.txt"
+grep -q 'Existing adaptations still apply:' "$material/changes.txt"
+
+printf 'benchmark replacement changed\n' > "$upstream/pstack/skills/benchmark-checklist/SKILL.md"
+commit_changes 'adapted modification inside replacement'
+expect_status 2 "$fixture/adapted-conflict" bash "$project/scripts/upstream/upstream.sh" check
+target=$(git -C "$upstream" rev-parse HEAD)
+expect_status 2 "$fixture/conflict-prepare" bash "$project/scripts/upstream/upstream.sh" prepare --commit "$target"
+material=$(sed -n 's/^Prepared: //p' "$fixture/conflict-prepare")
 grep -q 'ADAPTATION_REVIEW_REQUIRED' "$material/changes.txt"
 grep -q 'Preserve benchmark evidence for Codex.' "$material/changes.txt"
-python3 - "$fixture/adapted-modification" "$material/changes.txt" <<'PYTHON'
+python3 - "$fixture/adapted-conflict" "$material/changes.txt" <<'PYTHON'
 import sys
 from pathlib import Path
 report = Path(sys.argv[1]).read_text()
@@ -126,7 +155,7 @@ PYTHON
 reset_upstream
 rm "$upstream/pstack/skills/poteto-mode/scripts/worktree-audit.sh"
 commit_changes 'adapted deletion'
-expect_status 2 "$fixture/adapted-deletion" bash "$project/scripts/upstream.sh" check
+expect_status 2 "$fixture/adapted-deletion" bash "$project/scripts/upstream/upstream.sh" check
 grep -q 'Preserve portable Bash worktree audit.' "$fixture/adapted-deletion"
 grep -q 'D.*pstack/skills/poteto-mode/scripts/worktree-audit.sh' "$fixture/adapted-deletion"
 
@@ -134,7 +163,7 @@ reset_upstream
 mkdir -p "$upstream/outside watched roots"
 mv "$upstream/pstack/skills/poteto-mode/scripts/worktree-audit.sh" "$upstream/outside watched roots/audit renamed.sh"
 commit_changes 'adapted rename outside watched roots'
-expect_status 2 "$fixture/adapted-rename" bash "$project/scripts/upstream.sh" check
+expect_status 2 "$fixture/adapted-rename" bash "$project/scripts/upstream/upstream.sh" check
 grep -q 'R100.*pstack/skills/poteto-mode/scripts/worktree-audit.sh.*outside watched roots/audit renamed.sh' "$fixture/adapted-rename"
 grep -q 'Preserve portable Bash worktree audit.' "$fixture/adapted-rename"
 
@@ -142,19 +171,19 @@ reset_upstream
 chmod +x "$upstream/pstack/skills/poteto-mode/scripts/worktree-audit.sh"
 git -C "$upstream" update-index --chmod=+x pstack/skills/poteto-mode/scripts/worktree-audit.sh
 commit_changes 'adapted mode change'
-expect_status 2 "$fixture/adapted-mode" bash "$project/scripts/upstream.sh" check
+expect_status 2 "$fixture/adapted-mode" bash "$project/scripts/upstream/upstream.sh" check
 
 reset_upstream
 rm "$upstream/pstack/skills/poteto-mode/scripts/worktree-audit.sh"
 ln -s ../SKILL.md "$upstream/pstack/skills/poteto-mode/scripts/worktree-audit.sh"
 commit_changes 'adapted type change'
-expect_status 2 "$fixture/adapted-type" bash "$project/scripts/upstream.sh" check
+expect_status 2 "$fixture/adapted-type" bash "$project/scripts/upstream/upstream.sh" check
 grep -q 'T.*pstack/skills/poteto-mode/scripts/worktree-audit.sh' "$fixture/adapted-type"
 reset_upstream
 
 for problem in missing malformed version baseline hash reason files empty edits source target duplicate; do
-  cp "$fixture/original.manifest" "$project/scripts/port-adaptations.json"
-  python3 - "$project/scripts/port-adaptations.json" "$problem" <<'PYTHON'
+  cp "$fixture/original.manifest" "$project/scripts/port/port-adaptations.json"
+  python3 - "$project/scripts/port/port-adaptations.json" "$problem" <<'PYTHON'
 import json
 import sys
 from pathlib import Path
@@ -177,18 +206,19 @@ else:
     elif problem == 'duplicate': manifest['files'].append(manifest['files'][0])
     path.write_text(json.dumps(manifest))
 PYTHON
-  expect_status 1 "$fixture/invalid-$problem" bash "$project/scripts/upstream.sh" check
+  expect_status 1 "$fixture/invalid-$problem" bash "$project/scripts/upstream/upstream.sh" check
   grep -q 'Error:' "$fixture/invalid-$problem"
-  expect_status 1 "$fixture/invalid-prepare-$problem" bash "$project/scripts/upstream.sh" prepare --commit "$base"
 done
-cp "$fixture/original.manifest" "$project/scripts/port-adaptations.json"
+printf '{' > "$project/scripts/port/port-adaptations.json"
+expect_status 1 "$fixture/invalid-prepare-malformed" bash "$project/scripts/upstream/upstream.sh" prepare --commit "$base"
+cp "$fixture/original.manifest" "$project/scripts/port/port-adaptations.json"
 
-mv "$project/scripts/check-adaptation-impact.py" "$fixture/saved-impact-checker.py"
-expect_status 1 "$fixture/missing-checker" bash "$project/scripts/upstream.sh" check
-expect_status 1 "$fixture/missing-prepare-checker" bash "$project/scripts/upstream.sh" prepare --commit "$base"
+mv "$project/scripts/port/check-adaptation-impact.py" "$fixture/saved-impact-checker.py"
+expect_status 1 "$fixture/missing-checker" bash "$project/scripts/upstream/upstream.sh" check
+expect_status 1 "$fixture/missing-prepare-checker" bash "$project/scripts/upstream/upstream.sh" prepare --commit "$base"
 grep -q 'Missing or unreadable adaptation impact checker' "$fixture/missing-checker"
 grep -q 'Missing or unreadable adaptation impact checker' "$fixture/missing-prepare-checker"
-mv "$fixture/saved-impact-checker.py" "$project/scripts/check-adaptation-impact.py"
+mv "$fixture/saved-impact-checker.py" "$project/scripts/port/check-adaptation-impact.py"
 
 mkdir -p "$fixture/bin"
 real_git=$(command -v git)
@@ -204,11 +234,11 @@ exec "$REAL_GIT" "$@"
 EOF_GIT
 chmod +x "$fixture/bin/git"
 for failure in diff log ls-tree archive; do
-  expect_status 1 "$fixture/git-$failure" env PATH="$fixture/bin:$PATH" REAL_GIT="$real_git" FAIL_GIT_COMMAND="$failure" bash "$project/scripts/upstream.sh" prepare --commit "$base"
+  expect_status 1 "$fixture/git-$failure" env PATH="$fixture/bin:$PATH" REAL_GIT="$real_git" FAIL_GIT_COMMAND="$failure" bash "$project/scripts/upstream/upstream.sh" prepare --commit "$base"
   grep -q 'injected Git failure' "$fixture/git-$failure"
 done
 cmp "$project/upstream.lock.json" "$fixture/original.lock"
-expect_status 1 "$fixture/git-archive-pending-review" env PATH="$fixture/bin:$PATH" REAL_GIT="$real_git" FAIL_GIT_COMMAND=archive bash "$project/scripts/upstream.sh" prepare --commit "$target"
-cmp "$project/scripts/port-adaptations.json" "$fixture/original.manifest"
+expect_status 1 "$fixture/git-archive-pending-review" env PATH="$fixture/bin:$PATH" REAL_GIT="$real_git" FAIL_GIT_COMMAND=archive bash "$project/scripts/upstream/upstream.sh" prepare --commit "$target"
+cmp "$project/scripts/port/port-adaptations.json" "$fixture/original.manifest"
 diff -r "$project/plugins" "$fixture/original-plugins"
 printf 'Upstream classification, adaptation review, preparation, invalid-input and Git-failure checks passed.\n'

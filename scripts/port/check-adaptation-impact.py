@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Report changed upstream files with recorded Codex adaptations (exit 2 for review)."""
+"""Report how recorded Codex adaptations carry forward to changed upstream files."""
 import argparse
 import hashlib
 import json
@@ -7,6 +7,8 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+
+from port_adaptations import replay_edits
 
 
 def relative_path(value):
@@ -91,10 +93,28 @@ def main():
         if hashlib.sha256(git(args.git_dir, 'cat-file', 'blob', blob)).hexdigest() != row['source_sha256']:
             raise ValueError(f'Upstream source differs from recorded baseline: {source}')
     raw = git(args.git_dir, 'diff', '--no-ext-diff', '--name-status', '-z', '--find-renames', args.base, args.target, '--')
-    impacts = [(status, paths, adapted[source]) for status, paths in changes(raw)
-               for source in dict.fromkeys(paths) if source in adapted]
+    impacts = []
+    for status, paths in changes(raw):
+        for source in dict.fromkeys(paths):
+            if source not in adapted:
+                continue
+            row = adapted[source]
+            if status == 'M':
+                base_mode = git(args.git_dir, 'ls-tree', args.base, '--', source).split()[0]
+                target_mode = git(args.git_dir, 'ls-tree', args.target, '--', source).split()[0]
+                if base_mode == target_mode:
+                    target = git(args.git_dir, 'cat-file', 'blob', f'{args.target}:{source}')
+                    try:
+                        replay_edits(target.decode('utf-8'), row['edits'])
+                    except ValueError:
+                        pass
+                    else:
+                        print(f'Existing adaptations still apply: {json.dumps(source)} -> '
+                              f'{json.dumps("plugins/pstack-codex/" + row["target"])}')
+                        continue
+            impacts.append((status, paths, row))
     if not impacts:
-        print('No recorded adaptations affected. This does not approve synchronization.')
+        print('No recorded adaptations require manual review. Inspect the upstream diff before synchronizing.')
         return 0
     print('ADAPTATION_REVIEW_REQUIRED')
     print(f'Baseline: {args.base}\nTarget: {args.target}')

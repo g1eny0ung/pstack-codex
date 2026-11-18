@@ -111,4 +111,4 @@ See [AGENTS.md](AGENTS.md) for repository editing rules and development checks. 
 
 ## License
 
-MIT. Original pstack is copyright Lauren Tan. The three reused cursor-team-kit skills are copyright Cursor. Their notices and the bundled commander's MIT license are preserved in [plugin licenses](plugins/pstack-codex/licenses/). This is an independent Codex port.
+The original contributions to pstack-codex are copyright Yue Yang and licensed under the [MIT License](LICENSE). Original pstack is copyright Lauren Tan. The three reused cursor-team-kit skills are copyright Cursor. Their notices and the bundled commander's MIT license are preserved in [plugin licenses](plugins/pstack-codex/licenses/). This is an independent Codex port.

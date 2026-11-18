@@ -1,18 +1,29 @@
 # Changelog
 
-Notable changes to pstack-codex are recorded here. The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Changed
 
-- Synced the selected workflows through Cursor pstack 0.15.43. Architect and Reflect use shorter workflows, local subagent prompts load `worker.md`, and the multi-phase plan no longer uses the plan checker.
-- Retired the `hardest_tasks`, `architect_runners`, `reflect_tooling`, and `reflect_judgment_divergent_synthesizer` model roles. Explicit launches cap reasoning effort at `xhigh`. Run `setup-pstack` to migrate retired keys and the `unlimited` budget in personal overrides.
+- Sync with Cursor pstack 0.15.43. Architect uses Arena for complex designs, Reflect reviews the current chat, and multi-phase plans are shorter.
+- Arena and `show-me-your-work` support independent reviews with a single model and effort setting.
+
+### Removed
+
+- Remove the `unlimited` budget and four model roles. Run [`$setup-pstack`](plugins/pstack-codex/skills/setup-pstack/SKILL.md#2-load-current-state) to migrate overrides. Explicit subagent launches cap effort at `xhigh`.
+- Remove Babysit's `background` mode. Use `drive` until merge-ready, `threads-only` for review threads, or `check` for status.
 
 ### Fixed
 
-- Check worktree usage against Codex chats without relying on a bucket the local audit never emits.
-- Show a model configuration prompt in the README.
+- Worktree audits honor `gh repo set-default`, match merged PRs by commit and target branch, and recognize fork pushes without `-u`.
+- Reuse the upstream cache with Git `insteadOf` URL rewrites.
+- Eval's blind judge uses a different model or effort from the agent running the eval.
+- History export handles symlinks, silent commands, and final pages without cursors. It warns about possible truncation.
+- Reflect preserves plugin links by editing dependent skills in their source checkout.
 
 ## [0.8.0] - 2026-11-18
 

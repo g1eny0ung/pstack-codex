@@ -18,7 +18,7 @@ A sibling skill named `how` means `skills/how/SKILL.md` in this plugin. Resolve 
 
 The role keys correspond one-to-one to upstream role labels, with punctuation and spaces represented as underscores. `judgment_and_prose` remains one shared role. Do not add a `comment_review` or `audit_reviewer` role. Comment Sicko also omits both launch fields. `show-me-your-work` selects its reviewer without a dedicated role. The `arena_cross_judge_pool` array preserves upstream's `arena cross-judge pool`.
 
-This port maps cross-vendor review to GPT-6.2 Astra in Arena and GPT-6.2 Sol in `show-me-your-work`. The Codex judge and reviewer rules use effort differences. Apply the judge eligibility and fallback rules in [Arena](../../arena/SKILL.md) and the reviewer rules in [show-me-your-work](../../show-me-your-work/SKILL.md). If the work agent's effort is unknown, report that the required difference cannot be verified.
+For independent review, follow the selection rules in [Arena](../../arena/SKILL.md) and [show-me-your-work](../../show-me-your-work/SKILL.md).
 
 ## Choose effort for the job
 
@@ -34,7 +34,7 @@ Use the host’s native subagent API, such as `collaboration.spawn_agent`, `send
 
 Start the message with `Read <absolute path>/worker.md before anything else.` Resolve [worker.md](../worker.md) from the same loaded poteto-mode directory. Follow with the user’s objective, bounded scope, working directory, required skill and role paths, inputs, output path, and success criteria. Explicit configurations pass both fields. `auto` and `inherit-parent` omit both fields. Role names are workflow settings. To use the poteto role, point the worker at `poteto-mode/references/poteto-agent.md`. To use Comment Sicko, point the worker at `no-comments/references/comment-sicko.md`. Require the worker to read the named file.
 
-Review-only assignments keep the reviewed checkout and external records read-only and use independent contexts. When a workflow requires running repros, give each reviewer its own isolated worktree and allow repro scripts, tests, and their outputs only there. Copy the scoped staged and unstaged changes and any necessary untracked inputs into each worktree, preserving the code being reviewed. Reuse shared dependency caches. Do not apply fixes to the reviewed code. Use a read-only sandbox option for purely read-only assignments if the host supports it, but do not invent unsupported API fields. Repro execution stays within the user's authorized scope and does not authorize destructive actions or external writes.
+Review-only assignments use independent contexts and keep the reviewed checkout and external records read-only. Run read-only commands in the current checkout and self-contained probes in a temporary directory. If a repro writes repository files, Git state, or project runtime state, use an isolated worktree or runtime as appropriate. Copy the scoped inputs needed to reproduce the result and reuse shared dependency caches. Reviewers report findings without fixing the reviewed code.
 
 Comment Sicko is an editing role. It may delete scoped comments, but must not edit application code. Give parallel writers separate worktrees or output paths. Native desktop worktree tools manage Codex-owned checkouts; inspect existing artifacts before creating a checkout and archive through the native tool. Ordinary Git worktrees use Git’s own lifecycle.
 

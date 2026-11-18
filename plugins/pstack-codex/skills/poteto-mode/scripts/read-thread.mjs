@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { spawn } from "node:child_process";
+import { existsSync, realpathSync } from "node:fs";
 import { createInterface } from "node:readline";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 const HISTORY_METHOD = "thread/turns/list";
 const TOOL_OUTPUT_TRUNCATION = /\.\.\. command output truncated for persistence \.\.\.|…\d+ (?:tokens|chars) truncated…|Warning: truncated output \(original token count: \d+\)/;
@@ -19,8 +20,13 @@ export async function readThreadHistory(request, {
   const warnings = [];
   let cursor;
   let pages = 0;
-  let complete = false;
+  let complete = true;
   let error;
+
+  function reportGap(message) {
+    complete = false;
+    warnings.push(message);
+  }
 
   while (pages < maxPages) {
     let page;
@@ -35,68 +41,66 @@ export async function readThreadHistory(request, {
       if (!page || !Array.isArray(page.data)) {
         throw new Error("Invalid history response: expected a data array.");
       }
-      if (!(page.nextCursor === null || typeof page.nextCursor === "string")) {
-        throw new Error("Invalid history response: nextCursor is missing or invalid.");
+      if (page.nextCursor != null && typeof page.nextCursor !== "string") {
+        throw new Error("Invalid history response: nextCursor is invalid.");
       }
     } catch (cause) {
       error = `${HISTORY_METHOD}: ${cause instanceof Error ? cause.message : String(cause)}`;
-      warnings.push("History is incomplete because a page could not be read.");
+      reportGap("History is incomplete because a page could not be read.");
       break;
     }
     pages += 1;
     for (const turn of page.data) {
       if (!turn || typeof turn.id !== "string" || !Array.isArray(turn.items)) {
         error = "Invalid turn: expected an id and an items array.";
-        warnings.push("History is incomplete because a turn could not be decoded.");
+        reportGap("History is incomplete because a turn could not be decoded.");
         break;
       }
       if (turn.itemsView !== undefined && turn.itemsView !== "full") {
-        warnings.push(`Turn ${turn.id} returned ${turn.itemsView} items; full history is unavailable for this turn.`);
+        reportGap(`Turn ${turn.id} returned ${turn.itemsView} items; full history is unavailable for this turn.`);
       }
       if (turn.items.length === 0) {
-        warnings.push(`Turn ${turn.id} has no persisted items; no messages or tool evidence are available for it.`);
+        reportGap(`Turn ${turn.id} has no persisted items; no messages or tool evidence are available for it.`);
       }
       if (turn.status === "inProgress") {
         warnings.push(`Turn ${turn.id} is still in progress; this is a snapshot of persisted items.`);
       }
       for (const item of turn.items) {
         if (!item || typeof item !== "object") {
-          warnings.push(`Turn ${turn.id} contains an invalid item; it is preserved without interpretation.`);
+          reportGap(`Turn ${turn.id} contains an invalid item; it is preserved without interpretation.`);
           continue;
         }
-        const missingOutput =
-          (item.type === "commandExecution" && item.aggregatedOutput == null) ||
+        const missingCommandOutput = item.type === "commandExecution" && item.aggregatedOutput == null &&
+          !(item.aggregatedOutput === null && Number.isInteger(item.exitCode));
+        const missingOutput = missingCommandOutput ||
           (item.type === "dynamicToolCall" && item.contentItems == null) ||
           (item.type === "mcpToolCall" && item.result == null && item.error == null);
-        if (missingOutput) warnings.push(`Turn ${turn.id}, item ${item.id ?? "unknown"} has no persisted tool output.`);
+        const location = `Turn ${turn.id}, item ${item.id ?? "unknown"}`;
+        if (missingOutput) reportGap(`${location} has no persisted tool output.`);
         const output = item.type === "functionCallOutput"
           ? item.output
           : item.aggregatedOutput ?? item.result ?? item.contentItems;
         if (TOOL_OUTPUT_TRUNCATION.test(JSON.stringify(output ?? ""))) {
-          warnings.push(`Turn ${turn.id}, item ${item.id ?? "unknown"} reports truncated tool output; the saved text is preserved.`);
+          warnings.push(`${location} may contain truncated tool output; the saved text is preserved.`);
         }
       }
       turns.set(turn.id, turn);
     }
     if (error) break;
-    cursor = page.nextCursor;
-    if (cursor === null) {
-      complete = warnings.length === 0;
-      break;
-    }
+    cursor = page.nextCursor ?? null;
+    if (cursor === null) break;
     if (seenCursors.has(cursor)) {
       error = "History pagination returned a repeated cursor.";
-      warnings.push("History is incomplete; pagination stopped to avoid repeating pages.");
+      reportGap("History is incomplete; pagination stopped to avoid repeating pages.");
       break;
     }
     seenCursors.add(cursor);
   }
   if (cursor !== null && pages === maxPages && !error) {
-    warnings.push(`History is truncated at the ${maxPages}-page limit; use a larger --max-pages value.`);
+    reportGap(`History is truncated at the ${maxPages}-page limit; use a larger --max-pages value.`);
   }
   if (turns.size === 0 && !error) {
-    warnings.push("No persisted turns were returned for this thread.");
-    complete = false;
+    reportGap("No persisted turns were returned for this thread.");
   }
   return {
     threadId,
@@ -246,6 +250,7 @@ export async function main(argv = process.argv.slice(2)) {
   }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+const entryPath = process.argv[1];
+if (entryPath && existsSync(entryPath) && realpathSync(entryPath) === realpathSync(fileURLToPath(import.meta.url))) {
   process.exitCode = await main();
 }

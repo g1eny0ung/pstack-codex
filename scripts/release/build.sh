@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 tool_dir="$root/plugins/pstack-codex/skills/poteto-mode/scripts"
 command -v bun >/dev/null || { printf 'Bun is required to build; release users only need Node.js.\n' >&2; exit 1; }
 cd "$tool_dir"

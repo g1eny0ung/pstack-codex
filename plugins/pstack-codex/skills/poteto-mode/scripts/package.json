@@ -5,7 +5,7 @@
   "scripts": {
     "test": "bun test watch-pr read-thread.test.ts",
     "typecheck": "tsc --project watch-pr/tsconfig.json --noEmit --strict",
-    "build": "bash ../../../../../scripts/build.sh"
+    "build": "bash ../../../../../scripts/release/build.sh"
   },
   "dependencies": {
     "commander": "14.0.0"

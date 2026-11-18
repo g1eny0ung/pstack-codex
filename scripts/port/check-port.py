@@ -5,13 +5,15 @@ import hashlib
 import json
 from pathlib import Path
 
+from port_adaptations import replay_edits
+
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--upstream', type=Path, required=True, help='Extracted upstream repository at upstream.lock.json baseline')
 parser.add_argument('--plugin', type=Path, help='Plugin tree to verify, defaults to this checkout')
 args = parser.parse_args()
-root = Path(__file__).resolve().parents[1]
+root = Path(__file__).resolve().parents[2]
 plugin = args.plugin or root / 'plugins/pstack-codex'
-manifest = json.loads((root / 'scripts/port-adaptations.json').read_text())
+manifest = json.loads(Path(__file__).resolve().with_name('port-adaptations.json').read_text())
 lock = json.loads((root / 'upstream.lock.json').read_text())
 problems = []
 if manifest['version'] != 1 or manifest['upstream_commit'] != lock['last_synced_commit']:
@@ -33,17 +35,18 @@ for row in manifest['files']:
     if hashlib.sha256(raw).hexdigest() != row['source_sha256']:
         problems.append(f'Upstream source differs from recorded baseline: {source}')
         continue
-    expected = raw.decode('utf-8')
     for edit in row['edits']:
         if edit['kind'] not in ('host', 'model', 'scope', 'metadata') or not edit['reason'].strip():
             problems.append(f"Unjustified adaptation: {row['target']}")
-        if not edit['old'] or expected.count(edit['old']) != edit['count']:
-            problems.append(f"Adaptation no longer matches its source: {row['target']}")
-            break
-        expected = expected.replace(edit['old'], edit['new'])
+    try:
+        expected = replay_edits(raw.decode('utf-8'), row['edits'])
+    except ValueError as error:
+        problems.append(f"{error}: {row['target']}")
+        continue
     if not target.is_file() or target.read_bytes() != expected.encode('utf-8'):
         problems.append(f"Unaccounted difference: {row['target']}")
     identical += not row['edits']
+metadata = set()
 for skill in sorted((plugin / 'skills').iterdir()):
     if not (skill / 'SKILL.md').is_file():
         continue
@@ -56,20 +59,16 @@ for skill in sorted((plugin / 'skills').iterdir()):
             relative = source.relative_to(args.upstream).as_posix()
             if relative not in sources and relative not in manifest['omitted']:
                 problems.append(f'Unaccounted upstream file: {relative}')
-    if not (skill / 'agents/openai.yaml').is_file():
+    metadata_path = skill / 'agents/openai.yaml'
+    if not metadata_path.is_file():
         problems.append(f'Missing Codex invocation metadata: {skill.name}')
+    metadata.add(metadata_path.relative_to(plugin).as_posix())
 for local in plugin.rglob('*'):
     if not local.is_file() or 'node_modules' in local.parts or '__pycache__' in local.parts or local.name == '.DS_Store':
         continue
     relative = local.relative_to(plugin).as_posix()
-    if relative in manifest['codex_metadata']:
-        if hashlib.sha256(local.read_bytes()).hexdigest() != manifest['codex_metadata'][relative]:
-            problems.append(f'Unaccounted Codex metadata change: {relative}')
-    elif relative not in targets and relative not in manifest['local_only']:
+    if relative not in metadata and relative not in targets and relative not in manifest['local_only']:
         problems.append(f'Unaccounted local file: {relative}')
-for relative in manifest['codex_metadata']:
-    if not (plugin / relative).is_file():
-        problems.append(f'Missing Codex metadata: {relative}')
 for relative, omission in manifest['omitted'].items():
     if omission['kind'] not in ('host', 'scope') or not omission['reason'].strip():
         problems.append(f'Unjustified omission: {relative}')

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 version=$(node -p 'JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8")).version' "$root/plugins/pstack-codex/.codex-plugin/plugin.json")
-[[ -f "$root/plugins/pstack-codex/skills/poteto-mode/scripts/dist/watch-pr.mjs" ]] || { printf 'Run bash scripts/build.sh first.\n' >&2; exit 1; }
+[[ -f "$root/plugins/pstack-codex/skills/poteto-mode/scripts/dist/watch-pr.mjs" ]] || { printf 'Run bash scripts/release/build.sh first.\n' >&2; exit 1; }
 staging=$(mktemp -d "${TMPDIR:-/tmp}/pstack-package.XXXXXX")
 trap 'rm -rf "$staging"' EXIT
 mkdir -p "$staging/pstack-codex" "$root/dist"

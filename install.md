@@ -6,24 +6,16 @@ Install through Codex's plugin marketplace commands. Do not copy individual skil
 
 ## Check the environment
 
-Run these commands before changing the installation:
-
-```bash
-codex --version
-codex plugin --help
-codex plugin marketplace --help
-```
-
-If `codex` is missing or lacks the plugin commands, report the blocker. Direct the user to the [Codex CLI installation instructions](https://developers.openai.com/codex/cli). Resume once a compatible CLI is available.
-
-Use macOS, Linux, or Windows through WSL. Native Windows is outside this project's target. Confirm that the Codex host provides local subagents before promising delegated workflows.
-
-Check the current registration and installation:
+Check the current registration and installation before changing them:
 
 ```bash
 codex plugin marketplace list --json
 codex plugin list --marketplace pstack-codex --json
 ```
+
+If `codex` is missing or lacks the plugin commands, report the blocker. Direct the user to the [Codex CLI installation instructions](https://developers.openai.com/codex/cli). Resume once a compatible CLI is available.
+
+Use macOS, Linux, or Windows through WSL. Native Windows is outside this project's target. Confirm that the Codex host provides local subagents before promising delegated workflows.
 
 Inspect the `pstack-codex` marketplace source and the `pstack-codex@pstack-codex` plugin entry. If the plugin is already installed and enabled from the requested source, report its version. Skip reinstallation unless the user requests an update or a different version.
 
